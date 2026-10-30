@@ -316,7 +316,7 @@ def start(b: StartIn):
     u = USERS[b.user]
     sid = uuid.uuid4().hex[:8]
     SESSIONS[sid] = dict(
-        user=b.user, lang=b.lang, stage="idle", amount=None, tenure=36, consent=None,
+        user=b.user, lang=b.lang, created_at_ns=time.time_ns(), stage="idle", amount=None, tenure=36, consent=None,
         decision=None, unknown=0, transcript=[], audit=[], handoff=False, agent_connected=False,
         plan=None, product=None, review_type=None,
     )
@@ -642,6 +642,7 @@ def list_sessions_data():
         u = USERS[s["user"]]
         out.append({
             "sid": sid,
+            "created_at_ns": s["created_at_ns"],
             "name": u["name"],
             "stage": s["stage"],
             "review_type": s.get("review_type"),
@@ -650,7 +651,7 @@ def list_sessions_data():
             "status": "connected" if s["agent_connected"] else "waiting" if s["handoff"] else "active",
             "turns": len(s["transcript"]),
         })
-    return sorted(out, key=lambda session: (not session["handoff"], session["agent_connected"], session["sid"]))
+    return sorted(out, key=lambda session: session["created_at_ns"], reverse=True)
 
 
 @app.get("/api/admin/session/{sid}")

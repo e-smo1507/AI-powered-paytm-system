@@ -187,6 +187,19 @@ def test_admin_login_and_waiting_queue():
     assert poll["agent_connected"] is True
 
 
+def test_admin_queue_shows_newest_chat_first():
+    SESSIONS.clear()
+    first = c.post("/api/start", json={"user": "sunita", "lang": "en"}).json()
+    second = c.post("/api/start", json={"user": "rahul", "lang": "en"}).json()
+    assert c.post("/api/admin/login", json={"username": "admin", "password": "saytm-demo"}).status_code == 200
+
+    queue = c.get("/api/admin/sessions")
+    assert queue.status_code == 200
+    sessions = queue.json()
+    assert [session["sid"] for session in sessions] == [second["sid"], first["sid"]]
+    assert sessions[0]["created_at_ns"] > sessions[1]["created_at_ns"]
+
+
 def test_admin_page_is_available():
     assert c.get("/admin").status_code == 200
 

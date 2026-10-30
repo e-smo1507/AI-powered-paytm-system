@@ -709,6 +709,19 @@ html.dark-theme body.zen .agent-m .message-meta{color:#c0ddc8}
 }
 @media(prefers-reduced-motion:reduce){.workspace form#f .mic.rec{animation:none}}
 html.dark-theme body:not(.zen) .eyebrow{color:#c1c5c8}
+html.dark-theme body.zen .profile-option[aria-current="true"]{
+  background:#294a36;
+  color:#f1f8f3;
+  outline:1px solid #41684f
+}
+html.dark-theme body.zen .profile-option[aria-current="true"]:hover{
+  background:#355a41;
+  color:#fff
+}
+html.dark-theme body.zen .profile-option[aria-current="true"] .profile-option-mark{
+  background:#41684f;
+  color:#f1f8f3
+}
 </style>
 </head>
 <body>
@@ -1005,7 +1018,7 @@ function setTheme(theme){
 }
 
 function speakWelcome(){
-  const text=lang==='hi'?'नमस्ते, Say, tee-em में आपका स्वागत है।':'Hello, welcome to Say, tee-em.';
+  const text=lang==='hi'?'नमस्ते! आप Say, tee-em से बात कर रहे हैं।':'Hello, welcome to Say, tee-em.';
   say(text,true,lang);
 }
 
@@ -1334,6 +1347,7 @@ function setLanguage(next){
 ['hi','en'].forEach(l=>$(l).onclick=()=>setLanguage(l));
 $('zen').onclick=()=>setZen(!zen);
 $('theme-toggle').onclick=()=>{
+  if(activeUtterance&&!activeSpeechButton)stopSpeech();
   setTheme(document.documentElement.classList.contains('dark-theme')?'light':'dark');
 };
 $('voice-mute').onclick=toggleVoiceMute;
@@ -1383,7 +1397,6 @@ setTheme(themeSaved);
 setZen(zenSaved);
 updateVoiceControls();
 updateProfileMenu();
-if(window.speechSynthesis)speakWelcome();
 </script>
 </body>
 </html>
