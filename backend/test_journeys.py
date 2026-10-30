@@ -146,7 +146,7 @@ def test_two_way_agent_message():
 
 
 def test_agent_can_intervene_before_handoff_and_pause_ai():
-    sid, _ = start("sunita", "en")
+    sid, _ = start("sunita", "hi")
     assert c.post("/api/admin/login", json={"username": "admin", "password": "saytm-demo"}).status_code == 200
     assert c.get("/api/admin/sessions").json()[0]["status"] == "active"
     premature = c.post("/api/agent/message", json={"sid": sid, "text": "Hello", "agent_name": "Support"})
@@ -157,6 +157,10 @@ def test_agent_can_intervene_before_handoff_and_pause_ai():
     details = c.get(f"/api/admin/session/{sid}").json()
     assert details["handoff"] is True
     assert details["agent_connected"] is True
+    takeover = details["transcript"][-1]
+    assert takeover["text"] == "एक मानव एजेंट ने बातचीत संभाल ली है। AI सहायक अभी रुका हुआ है।"
+    assert takeover["lang"] == "hi"
+    assert takeover["system_event"] == "agent_takeover"
 
     before = len(details["transcript"])
     customer_message = c.post("/api/chat", json={"sid": sid, "text": "I still need help", "lang": "en"}).json()

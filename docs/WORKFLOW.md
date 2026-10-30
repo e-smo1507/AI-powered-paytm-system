@@ -275,14 +275,14 @@ The customer app and staff inbox share a persistent light/dark theme preference.
 3. Backend produces official disclosure payload: effective APR, 6-month amortization preview, 3-day cooling-off declarations, and nodal officer contacts.
 4. Native `<dialog id="kfs_dlg">` displays the formatted KFS with a **"🖨️ Print / Save PDF"** button invoking `window.print()`.
 
-### 4.6 Staff Inbox & Human Handoff Workflow
+### 4.7 Staff Inbox & Human Handoff Workflow
 1. A customer requests a human or a guarded answer triggers `handoff()`. The customer sees a waiting state and stays on the current chat page.
 2. Staff opens `/admin`, signs in, and selects a waiting chat from the live queue.
 3. Staff clicks **Join conversation** for a requested handoff or **Intervene in AI chat** for an active AI session; the backend records the connection and the customer chat updates its waiting status.
 4. Staff replies through `POST /api/agent/message`; this endpoint and the inbox/session endpoints require the admin session cookie.
 5. The customer mini-app polls `/api/poll/{sid}`, renders the staff message, and does not read human-authored text automatically. Each message has an on-demand speaker/stop control. The takeover notice is spoken once to announce that AI has paused.
 
-### 4.7 Voice Input and Output Controls
+### 4.8 Voice Input and Output Controls
 1. The microphone uses the browser Speech Recognition API; unsupported browsers and permission or network errors receive an on-screen explanation.
 2. The welcome has a clearly shaped volume/speaker button; each message speaker control toggles playback and can stop its current utterance.
 3. The **Read aloud** toggle controls automatic assistant narration. Human-authored messages remain manual-only.

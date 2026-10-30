@@ -920,10 +920,8 @@ function say(t,manual=false,voiceLang=lang,button=null){
     return;
   }
   stopSpeech();
-  const spokenText=t.replace(/\bSaytm\b/gi,'Say, tee-em').replace(
-    'A human agent has taken over the conversation. The AI assistant is paused.',
-    voiceLang==='hi'?'एक मानव एजेंट ने बातचीत संभाल ली है। AI सहायक अभी रुका हुआ है.':'A human agent has taken over the conversation. The AI assistant is paused.'
-  );
+  const pronunciationText=t.replace(/\bSaytm\b/gi,'Say, tee-em');
+  const spokenText=voiceLang==='hi'?pronunciationText.replace(/\bAI\b/gi,'एआई'):pronunciationText;
   const u=new SpeechSynthesisUtterance(spokenText);
   u.lang=L[voiceLang].loc;u.rate=zen?.88:.95;u.volume=voiceVolume;
   const voices=speechSynthesis.getVoices();
@@ -1375,7 +1373,7 @@ setInterval(async()=>{
     (poll.new_turns||[]).forEach(turn=>{
       if(turn.role==='agent'){
         const message=addMessage('m agent-m',turn.text,`${turn.agent_name||'Human Agent'} · ${turn.ts||''}`,turn.lang||lang);
-        if(turn.text==='A human agent has taken over the conversation. The AI assistant is paused.'){
+        if(turn.system_event==='agent_takeover'){
           say(turn.text,true,turn.lang||lang,message.querySelector('.message-speak'));
         }
       }

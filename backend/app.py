@@ -704,12 +704,18 @@ def admin_intervene(sid: str, request: Request):
         s["handoff"] = True
         s["agent_connected"] = True
         s["stage"] = "handoff"
+        language = s.get("lang", "en")
         s["transcript"].append({
             "role": "agent",
             "agent_name": "Saytm Support",
-            "text": "A human agent has taken over the conversation. The AI assistant is paused.",
+            "text": (
+                "एक मानव एजेंट ने बातचीत संभाल ली है। AI सहायक अभी रुका हुआ है।"
+                if language == "hi"
+                else "A human agent has taken over the conversation. The AI assistant is paused."
+            ),
             "ts": time.strftime("%H:%M:%S"),
-            "lang": s.get("lang", "en"),
+            "lang": language,
+            "system_event": "agent_takeover",
         })
         audit(sid, "agent_intervened")
     return {"ok": True, "agent_connected": True}

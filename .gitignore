@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local server output
+server.log
+server.err
+err.txt
+out.txt
+out_err.txt

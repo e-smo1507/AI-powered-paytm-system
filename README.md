@@ -63,6 +63,7 @@ Staff can inspect active conversations, but the reply composer remains hidden un
 | [`backend/test_journeys.py`](./backend/test_journeys.py) | Customer and staff API journey tests |
 | [`docs/`](./docs/) | Product, architecture, workflow, feature, and technology documentation |
 | [`design.md`](./design.md) | Detailed, reusable UI/UX design brief and implementation guide |
+| [`VOICE_DESIGN_COMPARISON_BRIEF.md`](./VOICE_DESIGN_COMPARISON_BRIEF.md) | Finalized voice/design requirements and a side-by-side demo comparison scorecard |
 
 ## Tests
 

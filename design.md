@@ -110,6 +110,7 @@ On the customer page:
 
 - **Quick query:** Label preset prompts “Quick query” (not “Quick voice”). Use short, horizontally scrollable examples for common loan, insurance, and human-support intents.
 - **Consent:** State what data is requested and why before the choice. Use a clear primary grant action and a visually secondary decline action. Make revocation discoverable in the profile menu and require confirmation before resetting a session.
+- **Audit visibility:** Keep the raw operational audit log out of the customer-facing controls; retain server-side event recording for the demo. Customers need clear consent and conversation status, not backend event tooling.
 - **Loan offer/KFS:** Separate the amount, tenure, EMI, rate, fees/tax, net proceeds, repayment total, and source/basis into a scannable grid. Tenure repricing controls sit beside the offer they affect.
 - **Insurance clause:** Identify plan and clause, show the retrieved wording and plain-language context, and visually distinguish the citation from chat.
 - **Comparison:** Use a semantic, responsive comparison table; preserve row labels and avoid forcing a wide table beyond the viewport.
@@ -255,6 +256,7 @@ These are intentional requirements from the design iteration and should be treat
 10. Both customer and staff apps have persistent light/dark controls. Standard light mode is neutral white/gray with charcoal actions; dark mode uses refined charcoal with a restrained teal accent.
 11. Staff transcript colors distinguish customer, assistant, and human replies without abandoning the shared neutral palette.
 12. The interface must be purpose-designed for desktop and phone rather than a phone-only layout enlarged to desktop.
+13. Keep consent revocation available with confirmation, but do not expose the raw audit log as a customer-facing button.
 
 ## 12. Design QA checklist
 
