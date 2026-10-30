@@ -1,4 +1,4 @@
-"""Paytm Voice Assistant orchestrator. Run: uvicorn backend.app:app --reload"""
+"""Saytm Voice Assistant orchestrator. Run: uvicorn backend.app:app --reload"""
 import json
 import time
 import uuid
@@ -6,7 +6,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -20,7 +20,7 @@ FRONT = ROOT.parent / "frontend"
 AUDIT_FILE = ROOT / "audit.jsonl"
 SESSIONS: dict = {}
 
-app = FastAPI(title="Paytm Voice Assistant")
+app = FastAPI(title="Saytm Voice Assistant")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 
@@ -47,28 +47,28 @@ def audit(sid, event, **data):
 
 C = {
     "greet": {
-        "hi": "नमस्ते {n} जी! मैं Paytm Assistant हूँ। लोन चाहिए या स्वास्थ्य बीमा समझना है? बोलिए।",
-        "en": "Hello {n}! I'm Paytm Assistant. Need a loan, or want a health plan explained? Just say it.",
+        "hi": "नमस्ते {n} जी! मैं Saytm Assistant हूँ। लोन चाहिए या स्वास्थ्य बीमा समझना है? बोलिए।",
+        "en": "Hello {n}! I'm Saytm Assistant. Need a loan, or want a health plan explained? Just say it.",
     },
     "guide": {
-        "hi": " आपका Paytm इतिहास देखकर लग रहा है: {h}। क्या अभी इसी पर बात करें?",
-        "en": " From your Paytm history it looks like: {h}. Shall we talk about that now?",
+        "hi": " आपका Saytm इतिहास देखकर लग रहा है: {h}। क्या अभी इसी पर बात करें?",
+        "en": " From your Saytm history it looks like: {h}. Shall we talk about that now?",
     },
     "ask_amt": {
         "hi": "कितने रुपये का लोन चाहिए? जैसे: \"2 लाख\"।",
         "en": "How much would you like to borrow? For example: \"2 lakh\".",
     },
     "consent": {
-        "hi": "{a} के लोन की पात्रता जाँचने के लिए मुझे आपका KYC और Paytm लेन-देन डेटा देखना होगा। सिर्फ़ इसी काम के लिए, और आप कभी भी मंज़ूरी वापस ले सकते हैं। क्या आप सहमत हैं?",
-        "en": "To check eligibility for {a}, I need to read your KYC and Paytm transaction data, only for this purpose, and you can revoke consent anytime. Do you agree?",
+        "hi": "{a} के लोन की पात्रता जाँचने के लिए मुझे आपका KYC और Saytm लेन-देन डेटा देखना होगा। सिर्फ़ इसी काम के लिए, और आप कभी भी मंज़ूरी वापस ले सकते हैं। क्या आप सहमत हैं?",
+        "en": "To check eligibility for {a}, I need to read your KYC and Saytm transaction data, only for this purpose, and you can revoke consent anytime. Do you agree?",
     },
     "declined": {
         "hi": "ठीक है, मैंने आपका कोई डेटा नहीं देखा। आप चाहें तो फ़ॉर्म से आवेदन कर सकते हैं या किसी एजेंट से बात कर सकते हैं।",
         "en": "No problem. I haven't accessed any of your data. You can apply via the form or talk to an agent.",
     },
     "checking": {
-        "hi": "आपके Paytm बिज़नेस डेटा से पात्रता जाँच रहा हूँ…",
-        "en": "Checking eligibility from your Paytm business data…",
+        "hi": "आपके Saytm बिज़नेस डेटा से पात्रता जाँच रहा हूँ…",
+        "en": "Checking eligibility from your Saytm business data…",
     },
     "offer": {
         "hi": "आप {a} तक के लिए पात्र हैं। {t} महीने में EMI लगभग {e} (ब्याज {r}% सालाना)। फ़ीस और ब्याज सरल शब्दों में समझाऊँ?",
@@ -155,6 +155,13 @@ class SidIn(BaseModel):
     sid: str
 
 
+class AgentMsgIn(BaseModel):
+    sid: str
+    text: str
+    agent_name: str = "Neha (Saytm Agent)"
+    action: str | None = None
+
+
 def S(sid):
     if sid not in SESSIONS:
         raise HTTPException(404, "unknown session")
@@ -189,7 +196,7 @@ def reply(s, sid, lang, text, cards=None, chip_key=None):
 
 
 def offer_card(s):
-    return {"type": "offer", **s["decision"], "inflow_basis": "12-month Paytm inflows"}
+    return {"type": "offer", **s["decision"], "inflow_basis": "12-month Saytm inflows"}
 
 
 def offer_text(s, lang):
@@ -238,7 +245,7 @@ def begin_loan(s, sid, lang):
     s["stage"] = "consent"
     return reply(
         s, sid, lang, T("consent", lang, a=inr(s["amount"])),
-        [{"type": "consent", "scope": ["KYC status", "12-month Paytm inflows", "Credit bureau score"]}],
+        [{"type": "consent", "scope": ["KYC status", "12-month Saytm inflows", "Credit bureau score"]}],
     )
 
 
@@ -323,7 +330,7 @@ def chat(b: ChatIn):
             return reply(s, sid, lang, T("declined", lang))
         if yes:
             return grant(s, sid, lang)
-        return reply(s, sid, lang, T("repeat_consent", lang), [{"type": "consent", "scope": ["KYC status", "12-month Paytm inflows", "Credit bureau score"]}])
+        return reply(s, sid, lang, T("repeat_consent", lang), [{"type": "consent", "scope": ["KYC status", "12-month Saytm inflows", "Credit bureau score"]}])
 
     if st == "ins_consent":
         if no and not yes:
@@ -444,7 +451,7 @@ def revoke(b: SidIn):
 def sign(b: SidIn):
     s = S(b.sid)
     lang = s.get("lang") or "hi"
-    if s["stage"] not in ("esign", "ins_quote", "ins_esign"):
+    if s["stage"] not in ("offer", "fees", "esign", "ins_quote", "ins_esign"):
         raise HTTPException(409, "nothing to sign")
     kind = "insurance" if s["stage"] in ("ins_quote", "ins_esign") else "loan"
     return do_sign(s, b.sid, lang, kind)
@@ -487,9 +494,129 @@ def list_sessions():
     return list(reversed(out))
 
 
+@app.post("/api/agent/message")
+def agent_message(b: AgentMsgIn):
+    s = S(b.sid)
+    t = (b.text or "").strip()
+    if not t:
+        raise HTTPException(400, "Message cannot be empty")
+    turn = {
+        "role": "agent",
+        "agent_name": b.agent_name,
+        "text": t,
+        "ts": time.strftime("%H:%M:%S"),
+    }
+    s["transcript"].append(turn)
+    audit(b.sid, "agent_turn", agent=b.agent_name, text=t, action=b.action)
+
+    if b.action == "special_rate" and s.get("decision"):
+        d = s["decision"]
+        amt = d["amount"]
+        ten = d["tenure"]
+        d["rate"] = 12.0
+        from .rules import emi
+        new_emi = round(emi(amt, 12.0, ten))
+        tp = round(new_emi * ten)
+        d["emi"] = new_emi
+        d["total_payable"] = tp
+        d["total_interest"] = tp - amt
+        s["decision"] = d
+        turn["text"] += f" (Special Approved Rate: 12.0% p.a., New EMI: {inr(new_emi)})"
+        audit(b.sid, "special_rate_applied", new_rate=12.0, emi=new_emi)
+
+    return {"ok": True, "turn": turn, "stage": s["stage"], "decision": s["decision"]}
+
+
+@app.get("/api/kfs/{sid}")
+def get_kfs(sid: str):
+    import hashlib
+    s = S(sid)
+    u = USERS[s["user"]]
+    d = s.get("decision")
+    if not d or not d.get("eligible"):
+        raise HTTPException(404, "No active loan decision found for this session")
+
+    amt = d["amount"]
+    rate = d["rate"]
+    ten = d["tenure"]
+    monthly_rate = rate / 12 / 100
+    emi_val = d["emi"]
+    schedule = []
+    bal = float(amt)
+    for m in range(1, min(ten + 1, 7)):
+        interest_comp = round(bal * monthly_rate)
+        princ_comp = emi_val - interest_comp
+        bal = max(0.0, bal - princ_comp)
+        schedule.append({
+            "month": m,
+            "emi": emi_val,
+            "principal": princ_comp,
+            "interest": interest_comp,
+            "balance": round(bal),
+        })
+
+    kfs_hash = hashlib.sha256(f"{sid}-{amt}-{ten}-{rate}-{d.get('disbursed')}".encode()).hexdigest()[:16].upper()
+
+    return {
+        "kfs_reference": f"KFS-PTM-{sid.upper()}-{int(time.time()) % 10000}",
+        "kfs_hash": kfs_hash,
+        "sanction_date": time.strftime("%d %b %Y"),
+        "borrower": {
+            "name": u["name"],
+            "city": u["city"],
+            "kind": u["kind"],
+            "kyc_status": "Verified (Aadhaar / CKYC)",
+            "credit_score": u["bureau"],
+        },
+        "lender": {
+            "name": "Saytm Payments Bank / Partner NBFC",
+            "registration": "RBI CoR: B-14.00281",
+            "grievance_officer": "Ramesh Kumar Sharma (nodal.officer@saytm.com / 1800-120-130)",
+        },
+        "loan_terms": {
+            "sanctioned_amount": d["amount"],
+            "tenure_months": d["tenure"],
+            "interest_rate_pct": d["rate"],
+            "interest_type": "Reducing Balance (Fixed)",
+            "apr_effective": round(d["rate"] + (d["fee"] / max(d["amount"], 1) * 12 / max(d["tenure"], 1) * 100), 2),
+            "emi_monthly": d["emi"],
+            "processing_fee": d["fee"],
+            "gst": d["gst"],
+            "net_disbursed": d["disbursed"],
+            "total_interest": d["total_interest"],
+            "total_payable": d["total_payable"],
+            "foreclosure_charges": "NIL (Zero prepayment penalty)",
+            "cooling_off_period": "3 Business Days (Full cancellation with zero penalty per RBI Digital Lending Norms)",
+        },
+        "amortization_preview": schedule,
+    }
+
+
+@app.get("/api/poll/{sid}")
+def poll_session(sid: str, turns: int = 0):
+    s = S(sid)
+    transcript = s.get("transcript", [])
+    new_turns = transcript[turns:] if turns < len(transcript) else []
+    return {
+        "sid": sid,
+        "stage": s["stage"],
+        "handoff": s["handoff"],
+        "total_turns": len(transcript),
+        "new_turns": new_turns,
+        "decision": s.get("decision"),
+        "ref": s.get("ref"),
+    }
+
+
 @app.get("/api/health")
 def health():
     return {"ok": True}
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#00baf2"/><text x="50" y="68" font-size="52" text-anchor="middle" fill="#002e6e" font-family="sans-serif" font-weight="bold">₹</text></svg>'
+    return Response(content=svg, media_type="image/svg+xml")
 
 
 app.mount("/static", StaticFiles(directory=FRONT), name="static")

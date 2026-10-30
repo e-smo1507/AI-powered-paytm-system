@@ -1,6 +1,6 @@
 """End-to-end demo journeys. Run: python -m backend.test_journeys"""
 from fastapi.testclient import TestClient
-from .app import app, SESSIONS
+from backend.app import app, SESSIONS
 
 c = TestClient(app)
 
@@ -50,7 +50,7 @@ def test_do_lakh_hindi():
     sid, _ = start()
     r = say(sid, "do lakh ka loan chahiye")
     assert r["stage"] == "consent"
-    assert "2,00,000" in r["reply"] or "₹2" in r["reply"]
+    assert "2,00,000" in r["reply"] or "Rs 2" in r["reply"]
 
 
 def test_insurance_clause_and_buy():
@@ -98,20 +98,46 @@ def test_low_confidence():
     assert r1["handoff"] or r2["handoff"]
 
 
-def run():
-    tests = [v for k, v in globals().items() if k.startswith("test_")]
-    failed = 0
-    for t in tests:
-        try:
-            t()
-            print("OK", t.__name__)
-        except Exception as e:
-            failed += 1
-            print("FAIL", t.__name__, type(e).__name__, e)
-    if failed:
-        raise SystemExit(1)
-    print(f"{len(tests)} journeys passed")
+def test_kfs_generation():
+    sid, _ = start("sunita", "en")
+    say(sid, "I need a 2 lakh loan", "en")
+    say(sid, "yes", "en")
+    r = c.get(f"/api/kfs/{sid}")
+    assert r.status_code == 200, r.text
+    kfs = r.json()
+    assert kfs["borrower"]["name"] == "Sunita"
+    assert kfs["loan_terms"]["sanctioned_amount"] == 200000
+    assert kfs["loan_terms"]["interest_rate_pct"] == 17.0
+    assert len(kfs["amortization_preview"]) > 0
+    assert "cooling_off_period" in kfs["loan_terms"]
 
 
-if __name__ == "__main__":
-    run()
+def test_two_way_agent_message():
+    sid, _ = start("sunita", "en")
+    say(sid, "I need a 2 lakh loan", "en")
+    say(sid, "yes", "en")
+    say(sid, "talk to an agent", "en")
+    # Agent sends message and special rate override
+    r = c.post(
+        "/api/agent/message",
+        json={
+            "sid": sid,
+            "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.",
+            "action": "special_rate",
+        },
+    )
+    assert r.status_code == 200, r.text
+    assert r.json()["decision"]["rate"] == 12.0
+    # Customer polls and receives agent message
+    poll = c.get(f"/api/poll/{sid}?turns=0").json()
+    assert any(turn.get("role") == "agent" for turn in poll["new_turns"])
+
+
+def test_empty_request_does_not_create_handoff():
+    sid, r = start()
+    r = c.post("/api/chat", json={"sid":sid,'text':"","lang":"hi"})
+    assert r.json()["stage"] == "idle"
+
+def test_invalid_user_start():
+    r = c.post("/api/start", json={"user":"unknown","lang":"hi"})
+    assert r.status_code == 400

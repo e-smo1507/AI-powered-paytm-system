@@ -3,45 +3,164 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Paytm Assistant · Agent desk</title>
-<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Saytm - Just say to pay</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%2300baf2'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%23002e6e' font-family='sans-serif' font-weight='bold'>₹</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:Hind,system-ui,sans-serif;background:#0b1522;color:#e6eef8;display:grid;grid-template-columns:280px 1fr;min-height:100vh}
-h1{font-size:16px;margin:0} aside{border-right:1px solid #223a57;padding:16px}
-main{padding:20px;max-width:720px}
-.item{display:block;width:100%;text-align:left;background:#12233a;border:1px solid #223a57;color:#e6eef8;border-radius:8px;padding:10px;margin:8px 0;cursor:pointer}
-.item.on,.item:hover{border-color:#00baf2}
-.flag{color:#fbbf24;font-size:12px}
-.m{padding:8px 10px;border-radius:10px;margin:8px 0;max-width:90%}
-.user{background:#002e6e} .assistant{background:#12233a;border:1px solid #223a57}
-pre{white-space:pre-wrap;font-size:12px;background:#12233a;padding:12px;border-radius:8px}
-a{color:#00baf2}
+body{margin:0;font-family:Hind,system-ui,sans-serif;background:#0b1522;color:#e6eef8;display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+h1{font-size:17px;margin:0 0 4px} h2{font-size:14px;color:#92a5bd;margin:14px 0 6px}
+aside{border-right:1px solid #223a57;padding:16px;background:#0e1b2b;overflow-y:auto}
+main{padding:20px;max-width:820px;overflow-y:auto}
+.badge{display:inline-block;padding:2px 7px;border-radius:999px;font-size:11px;font-weight:600;text-transform:uppercase}
+.badge-live{background:#0a7d4f;color:#fff}
+.flag{background:#b45309;color:#fff;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:600}
+.item{display:block;width:100%;text-align:left;background:#12233a;border:1px solid #223a57;color:#e6eef8;border-radius:8px;padding:12px;margin:8px 0;cursor:pointer;transition:all .2s ease}
+.item.on,.item:hover{border-color:#00baf2;background:#162c4a}
+.m{padding:10px 12px;border-radius:12px;margin:8px 0;max-width:88%;line-height:1.45;font-size:14.5px}
+.user{background:#002e6e;align-self:flex-end;margin-left:auto;border-bottom-right-radius:2px}
+.assistant{background:#12233a;border:1px solid #223a57;border-bottom-left-radius:2px}
+.agent{background:#0d4d42;border:1px solid #2f7d5c;border-left:4px solid #4ade80}
+.chatbox{display:flex;flex-direction:column;gap:6px;max-height:420px;overflow-y:auto;background:#08101a;padding:14px;border-radius:10px;border:1px solid #223a57}
+pre{white-space:pre-wrap;font-size:11.5px;background:#12233a;padding:12px;border-radius:8px;border:1px solid #223a57}
+a{color:#00baf2;text-decoration:none} a:hover{text-decoration:underline}
+.composer{display:flex;gap:8px;margin-top:14px;background:#12233a;padding:10px;border-radius:10px;border:1px solid #223a57}
+.composer input{flex:1;background:#08101a;border:1px solid #223a57;border-radius:6px;color:#fff;padding:10px 12px;font:14px Hind}
+.btn{background:#00baf2;color:#04213a;border:0;border-radius:6px;padding:9px 14px;font:600 13.5px Hind;cursor:pointer}
+.btn.ghost{background:transparent;color:#00baf2;border:1px solid #00baf2}
+.btn.warn{background:#f59e0b;color:#000}
+.btn:hover{filter:brightness(1.1)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.stat-pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;background:#12233a;padding:3px 9px;border-radius:6px;border:1px solid #223a57}
 </style>
 </head>
 <body>
 <aside>
-  <h1>Agent desk</h1>
-  <p style="color:#92a5bd;font-size:13px">Handoffs land here with the full transcript. Customer does not repeat themselves.</p>
-  <a href="/">← Customer mini-app</a>
-  <div id="list"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <h1>Agent Desk</h1>
+    <span class="badge badge-live">● Live</span>
+  </div>
+  <p style="color:#92a5bd;font-size:12.5px;margin:0 0 12px">Two-way human intervention. Customer never repeats themselves.</p>
+  <a href="/">← Open Customer Mini-App</a>
+  <div style="margin-top:14px" id="list"></div>
 </aside>
-<main id="main"><p style="color:#92a5bd">Select a session.</p></main>
+<main id="main">
+  <div style="text-align:center;padding:60px 20px;color:#92a5bd">
+    <h3>Select an active customer session from the left sidebar</h3>
+    <p style="font-size:13px">Handoffs, ungrounded inquiries, and active chats appear in real time.</p>
+  </div>
+</main>
 <script>
+let currentSid = null;
 async function loadList(){
-  const rows=await (await fetch('/api/sessions')).json();
-  document.getElementById('list').innerHTML=rows.map(s=>`<button class="item" data-id="${s.sid}">${s.name} · ${s.stage}${s.handoff?' <span class="flag">HANDOFF</span>':''}<br><small>${s.sid} · ${s.turns} turns</small></button>`).join('')||'<p>No sessions yet. Start a chat first.</p>';
-  document.querySelectorAll('.item').forEach(b=>b.onclick=()=>open(b.dataset.id));
+  try{
+    const rows = await (await fetch('/api/sessions')).json();
+    document.getElementById('list').innerHTML = rows.map(s=>`
+      <button class="item ${s.sid===currentSid?'on':''}" data-id="${s.sid}">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <b>${s.name}</b>
+          ${s.handoff?'<span class="flag">HANDOFF</span>':`<span class="stat-pill">${s.stage}</span>`}
+        </div>
+        <small style="color:#92a5bd;display:block;margin-top:4px">${s.sid} · ${s.turns} turns</small>
+      </button>`).join('') || '<p style="color:#92a5bd;font-size:13px">No sessions yet. Start a chat on the mini-app.</p>';
+    document.querySelectorAll('.item').forEach(b=>b.onclick=()=>openSession(b.dataset.id));
+  }catch(e){}
 }
-async function open(sid){
-  const s=await (await fetch('/api/session/'+sid)).json();
-  document.getElementById('main').innerHTML=`<h1>${s.profile.name} · ${s.profile.kind}, ${s.profile.city}</h1>
-    <p>Stage: ${s.stage} · Consent: ${s.consent?JSON.stringify(s.consent.scope):'none'}</p>
-    ${(s.transcript||[]).map(m=>`<div class="m ${m.role}"><b>${m.role}</b> ${m.ts||''}<br>${m.text}</div>`).join('')}
-    <h1>Decision</h1><pre>${JSON.stringify(s.decision,null,2)}</pre>
-    <h1>Audit</h1><pre>${(s.audit||[]).map(a=>JSON.stringify(a)).join('\n')}</pre>`;
+
+async function openSession(sid){
+  currentSid = sid;
+  loadList();
+  const s = await (await fetch('/api/session/'+sid)).json();
+  const main = document.getElementById('main');
+  main.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #223a57;padding-bottom:12px;margin-bottom:14px">
+      <div>
+        <h1>${s.profile.name} · <span style="font-weight:400;color:#92a5bd">${s.profile.kind}, ${s.profile.city}</span></h1>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <span class="stat-pill">Stage: <b>${s.stage}</b></span>
+          <span class="stat-pill">Consent: <b>${s.consent?s.consent.scope.join(', '):'None'}</b></span>
+          ${s.handoff?'<span class="flag">Escalated to Human</span>':''}
+        </div>
+      </div>
+      <button class="btn ghost" onclick="openSession('${sid}')">↻ Refresh</button>
+    </div>
+
+    <h2>Live Conversation Transcript</h2>
+    <div class="chatbox" id="cb">
+      ${(s.transcript||[]).map(m=>`
+        <div class="m ${m.role}">
+          <div style="font-size:11px;opacity:.7;margin-bottom:2px">
+            <b>${m.role==='agent'?(m.agent_name||'Human Agent'):(m.role==='user'?s.profile.name:'Saypatm Assistant')}</b> · ${m.ts||''}
+          </div>
+          ${m.text}
+        </div>`).join('')}
+    </div>
+
+    <form class="composer" id="cf" onsubmit="event.preventDefault();sendAgentMsg();">
+      <input id="agent_input" placeholder="Type message directly to customer..." autocomplete="off">
+      <button type="submit" class="btn">Send to Customer</button>
+    </form>
+
+    <div class="actions">
+      <button type="button" class="btn warn" onclick="sendAgentSpecialRate()">⚡ Offer 12% Special Partner APR</button>
+      <button type="button" class="btn ghost" onclick="sendAgentTemplate('Hello, this is Neha from Saypatm. How can I help clarify your query?')">👋 Quick Greeting</button>
+      <button type="button" class="btn ghost" onclick="sendAgentTemplate('I have reviewed your account inflows; you qualify for expedited disbursement within 15 minutes of e-signing.')">⚡ Expedite Note</button>
+    </div>
+
+    <h2>Deterministic Decision Engine Output</h2>
+    <pre>${JSON.stringify(s.decision,null,2)||'No active decision yet'}</pre>
+
+    <h2>Session Audit Trail (Immutable Log)</h2>
+    <pre>${(s.audit||[]).map(a=>JSON.stringify(a)).join('\n')}</pre>
+  `;
+  const cb = document.getElementById('cb');
+  if(cb) cb.scrollTop = cb.scrollHeight;
 }
+
+async function sendAgentMsg(){
+  const inp = document.getElementById('agent_input');
+  const txt = inp.value.trim();
+  if(!txt || !currentSid) return;
+  inp.value = '';
+  await fetch('/api/agent/message', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({sid: currentSid, text: txt, agent_name: 'Neha (Saypatm Agent)'})
+  });
+  openSession(currentSid);
+}
+
+async function sendAgentSpecialRate(){
+  if(!currentSid) return;
+  await fetch('/api/agent/message', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      sid: currentSid,
+      text: "Special Priority Offer: I have authorized an exclusive rate reduction to 12.0% p.a. for your loan!",
+      action: "special_rate",
+      agent_name: 'Neha (Saypatm Priority Desk)'
+    })
+  });
+  openSession(currentSid);
+}
+
+async function sendAgentTemplate(t){
+  const inp = document.getElementById('agent_input');
+  if(inp){ inp.value = t; inp.focus(); }
+}
+
 loadList();
-setInterval(loadList,4000);
+setInterval(()=>{
+  loadList();
+  if(currentSid) {
+    fetch('/api/poll/'+currentSid).then(r=>r.json()).then(poll=>{
+      const cb = document.getElementById('cb');
+      if(cb && poll.total_turns > cb.children.length){
+        openSession(currentSid);
+      }
+    }).catch(()=>{});
+  }
+}, 3000);
 </script>
 </body>
 </html>

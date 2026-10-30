@@ -279,3 +279,1356 @@
 {"t": "10:35:31", "sid": "9f8cdbf8", "event": "handoff", "reason": "no_supporting_clause"}
 {"t": "10:35:31", "sid": "9f8cdbf8", "event": "user_turn", "text": "what about unicorn fever treatment"}
 {"t": "10:35:31", "sid": "9f8cdbf8", "event": "handoff", "reason": "user_request"}
+{"t": "17:37:18", "sid": "3c7a559b", "event": "session_start", "user": "sunita"}
+{"t": "17:37:18", "sid": "3c7a559b", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "17:37:18", "sid": "3c7a559b", "event": "user_turn", "text": "haan"}
+{"t": "17:37:18", "sid": "3c7a559b", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:37:18"}
+{"t": "17:37:18", "sid": "3c7a559b", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:37:18", "sid": "3c7a559b", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "17:37:18", "sid": "3c7a559b", "event": "fees_explained"}
+{"t": "17:37:18", "sid": "3c7a559b", "event": "user_turn", "text": "haan aage badho"}
+{"t": "17:37:18", "sid": "3c7a559b", "event": "esign_requested"}
+{"t": "17:37:18", "sid": "3c7a559b", "event": "esigned", "kind": "loan", "ref": "PTM-L-C451D9CF-2038", "amount": 200000, "emi": 7131}
+{"t": "17:37:18", "sid": "0b000242", "event": "session_start", "user": "sunita"}
+{"t": "17:37:18", "sid": "0b000242", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:37:18", "sid": "0b000242", "event": "user_turn", "text": "yes"}
+{"t": "17:37:18", "sid": "0b000242", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:37:18"}
+{"t": "17:37:18", "sid": "0b000242", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:37:18", "sid": "0b000242", "event": "user_turn", "text": "24 months"}
+{"t": "17:37:18", "sid": "0b000242", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "17:37:18", "sid": "67371fad", "event": "session_start", "user": "sunita"}
+{"t": "17:37:18", "sid": "67371fad", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "17:37:18", "sid": "6a940a76", "event": "session_start", "user": "sunita"}
+{"t": "17:37:18", "sid": "6a940a76", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "17:37:18", "sid": "6a940a76", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "17:37:18", "sid": "6a940a76", "event": "user_turn", "text": "compare both plans"}
+{"t": "17:37:18", "sid": "6a940a76", "event": "compare_plans"}
+{"t": "17:37:18", "sid": "6a940a76", "event": "user_turn", "text": "take Plus"}
+{"t": "17:37:18", "sid": "6a940a76", "event": "user_turn", "text": "yes"}
+{"t": "17:37:18", "sid": "6a940a76", "event": "ins_consent_granted"}
+{"t": "17:37:18", "sid": "6a940a76", "event": "esigned", "kind": "insurance", "ref": "PTM-H-E18715FF-2038", "plan": "SecureHealth Plus"}
+{"t": "17:37:18", "sid": "5dbe42b2", "event": "session_start", "user": "rahul"}
+{"t": "17:37:18", "sid": "5dbe42b2", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:37:18", "sid": "5dbe42b2", "event": "user_turn", "text": "yes"}
+{"t": "17:37:18", "sid": "5dbe42b2", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:37:18"}
+{"t": "17:37:18", "sid": "5dbe42b2", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "17:37:18", "sid": "baefa3ce", "event": "session_start", "user": "meena"}
+{"t": "17:37:18", "sid": "baefa3ce", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "17:37:18", "sid": "baefa3ce", "event": "user_turn", "text": "yes"}
+{"t": "17:37:18", "sid": "baefa3ce", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:37:18"}
+{"t": "17:37:18", "sid": "baefa3ce", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "17:37:18", "sid": "5ea4585b", "event": "session_start", "user": "sunita"}
+{"t": "17:37:18", "sid": "5ea4585b", "event": "user_turn", "text": "talk to an agent"}
+{"t": "17:37:18", "sid": "5ea4585b", "event": "handoff", "reason": "user_request"}
+{"t": "17:37:18", "sid": "1ec399ac", "event": "session_start", "user": "sunita"}
+{"t": "17:37:18", "sid": "1ec399ac", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "17:37:18", "sid": "1ec399ac", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "17:37:18", "sid": "1ec399ac", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "17:37:18", "sid": "1ec399ac", "event": "handoff", "reason": "user_request"}
+{"t": "17:44:37", "sid": "35144104", "event": "session_start", "user": "sunita"}
+{"t": "17:44:37", "sid": "35144104", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "17:44:37", "sid": "35144104", "event": "user_turn", "text": "haan"}
+{"t": "17:44:37", "sid": "35144104", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:44:37"}
+{"t": "17:44:37", "sid": "35144104", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:44:37", "sid": "35144104", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "17:44:37", "sid": "35144104", "event": "fees_explained"}
+{"t": "17:44:37", "sid": "35144104", "event": "user_turn", "text": "haan aage badho"}
+{"t": "17:44:37", "sid": "35144104", "event": "esign_requested"}
+{"t": "17:44:37", "sid": "35144104", "event": "esigned", "kind": "loan", "ref": "PTM-L-E1A6CE85-2477", "amount": 200000, "emi": 7131}
+{"t": "17:44:37", "sid": "067b758f", "event": "session_start", "user": "sunita"}
+{"t": "17:44:37", "sid": "067b758f", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:44:37", "sid": "067b758f", "event": "user_turn", "text": "yes"}
+{"t": "17:44:37", "sid": "067b758f", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:44:37"}
+{"t": "17:44:37", "sid": "067b758f", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:44:37", "sid": "067b758f", "event": "user_turn", "text": "24 months"}
+{"t": "17:44:37", "sid": "067b758f", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "17:44:37", "sid": "2136b818", "event": "session_start", "user": "sunita"}
+{"t": "17:44:37", "sid": "2136b818", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "17:44:37", "sid": "647de738", "event": "session_start", "user": "sunita"}
+{"t": "17:44:37", "sid": "647de738", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "17:44:37", "sid": "647de738", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "17:44:37", "sid": "647de738", "event": "user_turn", "text": "compare both plans"}
+{"t": "17:44:37", "sid": "647de738", "event": "compare_plans"}
+{"t": "17:44:37", "sid": "647de738", "event": "user_turn", "text": "take Plus"}
+{"t": "17:44:37", "sid": "647de738", "event": "user_turn", "text": "yes"}
+{"t": "17:44:37", "sid": "647de738", "event": "ins_consent_granted"}
+{"t": "17:44:37", "sid": "647de738", "event": "esigned", "kind": "insurance", "ref": "PTM-H-2F675BDF-2477", "plan": "SecureHealth Plus"}
+{"t": "17:44:37", "sid": "57292eae", "event": "session_start", "user": "rahul"}
+{"t": "17:44:37", "sid": "57292eae", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:44:37", "sid": "57292eae", "event": "user_turn", "text": "yes"}
+{"t": "17:44:37", "sid": "57292eae", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:44:37"}
+{"t": "17:44:37", "sid": "57292eae", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "17:44:37", "sid": "300f0176", "event": "session_start", "user": "meena"}
+{"t": "17:44:37", "sid": "300f0176", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "17:44:37", "sid": "300f0176", "event": "user_turn", "text": "yes"}
+{"t": "17:44:37", "sid": "300f0176", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:44:37"}
+{"t": "17:44:37", "sid": "300f0176", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "17:44:37", "sid": "1c84c4bd", "event": "session_start", "user": "sunita"}
+{"t": "17:44:37", "sid": "1c84c4bd", "event": "user_turn", "text": "talk to an agent"}
+{"t": "17:44:37", "sid": "1c84c4bd", "event": "handoff", "reason": "user_request"}
+{"t": "17:44:37", "sid": "7f76b6ab", "event": "session_start", "user": "sunita"}
+{"t": "17:44:37", "sid": "7f76b6ab", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "17:44:37", "sid": "7f76b6ab", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "17:44:37", "sid": "7f76b6ab", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "17:44:37", "sid": "7f76b6ab", "event": "handoff", "reason": "user_request"}
+{"t": "17:45:48", "sid": "87a3c6ef", "event": "session_start", "user": "sunita"}
+{"t": "17:45:48", "sid": "87a3c6ef", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "17:45:48", "sid": "87a3c6ef", "event": "user_turn", "text": "haan"}
+{"t": "17:45:48", "sid": "87a3c6ef", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:45:48"}
+{"t": "17:45:48", "sid": "87a3c6ef", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:45:48", "sid": "87a3c6ef", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "17:45:48", "sid": "87a3c6ef", "event": "fees_explained"}
+{"t": "17:45:48", "sid": "87a3c6ef", "event": "user_turn", "text": "haan aage badho"}
+{"t": "17:45:48", "sid": "87a3c6ef", "event": "esign_requested"}
+{"t": "17:45:48", "sid": "87a3c6ef", "event": "esigned", "kind": "loan", "ref": "PTM-L-88E5DA52-2548", "amount": 200000, "emi": 7131}
+{"t": "17:45:48", "sid": "113da49f", "event": "session_start", "user": "sunita"}
+{"t": "17:45:48", "sid": "113da49f", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:45:48", "sid": "113da49f", "event": "user_turn", "text": "yes"}
+{"t": "17:45:48", "sid": "113da49f", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:45:48"}
+{"t": "17:45:48", "sid": "113da49f", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:45:48", "sid": "113da49f", "event": "user_turn", "text": "24 months"}
+{"t": "17:45:48", "sid": "113da49f", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "17:45:48", "sid": "b7b670f1", "event": "session_start", "user": "sunita"}
+{"t": "17:45:48", "sid": "b7b670f1", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "17:45:48", "sid": "53ed8c2c", "event": "session_start", "user": "sunita"}
+{"t": "17:45:48", "sid": "53ed8c2c", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "17:45:48", "sid": "53ed8c2c", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "17:45:48", "sid": "53ed8c2c", "event": "user_turn", "text": "compare both plans"}
+{"t": "17:45:48", "sid": "53ed8c2c", "event": "compare_plans"}
+{"t": "17:45:48", "sid": "53ed8c2c", "event": "user_turn", "text": "take Plus"}
+{"t": "17:45:48", "sid": "53ed8c2c", "event": "user_turn", "text": "yes"}
+{"t": "17:45:48", "sid": "53ed8c2c", "event": "ins_consent_granted"}
+{"t": "17:45:48", "sid": "53ed8c2c", "event": "esigned", "kind": "insurance", "ref": "PTM-H-E1D3851A-2548", "plan": "SecureHealth Plus"}
+{"t": "17:45:48", "sid": "dcdb1cbb", "event": "session_start", "user": "rahul"}
+{"t": "17:45:48", "sid": "dcdb1cbb", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:45:48", "sid": "dcdb1cbb", "event": "user_turn", "text": "yes"}
+{"t": "17:45:48", "sid": "dcdb1cbb", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:45:48"}
+{"t": "17:45:48", "sid": "dcdb1cbb", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "17:45:48", "sid": "24d0744d", "event": "session_start", "user": "meena"}
+{"t": "17:45:48", "sid": "24d0744d", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "17:45:48", "sid": "24d0744d", "event": "user_turn", "text": "yes"}
+{"t": "17:45:48", "sid": "24d0744d", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:45:48"}
+{"t": "17:45:48", "sid": "24d0744d", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "17:45:48", "sid": "699ef0e7", "event": "session_start", "user": "sunita"}
+{"t": "17:45:48", "sid": "699ef0e7", "event": "user_turn", "text": "talk to an agent"}
+{"t": "17:45:48", "sid": "699ef0e7", "event": "handoff", "reason": "user_request"}
+{"t": "17:45:48", "sid": "82bd8d23", "event": "session_start", "user": "sunita"}
+{"t": "17:45:48", "sid": "82bd8d23", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "17:45:48", "sid": "82bd8d23", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "17:45:48", "sid": "82bd8d23", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "17:45:48", "sid": "82bd8d23", "event": "handoff", "reason": "user_request"}
+{"t": "17:45:48", "sid": "1c7848fa", "event": "session_start", "user": "sunita"}
+{"t": "17:45:48", "sid": "1c7848fa", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:45:48", "sid": "1c7848fa", "event": "user_turn", "text": "yes"}
+{"t": "17:45:48", "sid": "1c7848fa", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:45:48"}
+{"t": "17:45:48", "sid": "1c7848fa", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:45:48", "sid": "e09a5367", "event": "session_start", "user": "sunita"}
+{"t": "17:45:48", "sid": "e09a5367", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:45:48", "sid": "e09a5367", "event": "user_turn", "text": "yes"}
+{"t": "17:45:48", "sid": "e09a5367", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:45:48"}
+{"t": "17:45:48", "sid": "e09a5367", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:45:48", "sid": "e09a5367", "event": "user_turn", "text": "talk to an agent"}
+{"t": "17:45:48", "sid": "e09a5367", "event": "handoff", "reason": "user_request"}
+{"t": "17:45:48", "sid": "e09a5367", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "17:45:48", "sid": "e09a5367", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "17:49:24", "sid": "222de78c", "event": "session_start", "user": "sunita"}
+{"t": "17:49:24", "sid": "222de78c", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "17:49:24", "sid": "222de78c", "event": "user_turn", "text": "haan"}
+{"t": "17:49:24", "sid": "222de78c", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:49:24"}
+{"t": "17:49:24", "sid": "222de78c", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:49:24", "sid": "222de78c", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "17:49:24", "sid": "222de78c", "event": "fees_explained"}
+{"t": "17:49:24", "sid": "222de78c", "event": "user_turn", "text": "haan aage badho"}
+{"t": "17:49:24", "sid": "222de78c", "event": "esign_requested"}
+{"t": "17:49:24", "sid": "222de78c", "event": "esigned", "kind": "loan", "ref": "PTM-L-958962D3-2764", "amount": 200000, "emi": 7131}
+{"t": "17:49:24", "sid": "321d5245", "event": "session_start", "user": "sunita"}
+{"t": "17:49:24", "sid": "321d5245", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:49:24", "sid": "321d5245", "event": "user_turn", "text": "yes"}
+{"t": "17:49:24", "sid": "321d5245", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:49:24"}
+{"t": "17:49:24", "sid": "321d5245", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:49:24", "sid": "321d5245", "event": "user_turn", "text": "24 months"}
+{"t": "17:49:24", "sid": "321d5245", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "17:49:24", "sid": "a8ab541d", "event": "session_start", "user": "sunita"}
+{"t": "17:49:24", "sid": "a8ab541d", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "17:49:24", "sid": "5fbd72c0", "event": "session_start", "user": "sunita"}
+{"t": "17:49:24", "sid": "5fbd72c0", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "17:49:24", "sid": "5fbd72c0", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "17:49:24", "sid": "5fbd72c0", "event": "user_turn", "text": "compare both plans"}
+{"t": "17:49:24", "sid": "5fbd72c0", "event": "compare_plans"}
+{"t": "17:49:24", "sid": "5fbd72c0", "event": "user_turn", "text": "take Plus"}
+{"t": "17:49:24", "sid": "5fbd72c0", "event": "user_turn", "text": "yes"}
+{"t": "17:49:24", "sid": "5fbd72c0", "event": "ins_consent_granted"}
+{"t": "17:49:24", "sid": "5fbd72c0", "event": "esigned", "kind": "insurance", "ref": "PTM-H-460D39D1-2764", "plan": "SecureHealth Plus"}
+{"t": "17:49:24", "sid": "240f59a2", "event": "session_start", "user": "rahul"}
+{"t": "17:49:24", "sid": "240f59a2", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:49:24", "sid": "240f59a2", "event": "user_turn", "text": "yes"}
+{"t": "17:49:24", "sid": "240f59a2", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:49:24"}
+{"t": "17:49:24", "sid": "240f59a2", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "17:49:24", "sid": "80cc3e87", "event": "session_start", "user": "meena"}
+{"t": "17:49:24", "sid": "80cc3e87", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "17:49:24", "sid": "80cc3e87", "event": "user_turn", "text": "yes"}
+{"t": "17:49:24", "sid": "80cc3e87", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:49:24"}
+{"t": "17:49:24", "sid": "80cc3e87", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "17:49:24", "sid": "bb88652e", "event": "session_start", "user": "sunita"}
+{"t": "17:49:24", "sid": "bb88652e", "event": "user_turn", "text": "talk to an agent"}
+{"t": "17:49:24", "sid": "bb88652e", "event": "handoff", "reason": "user_request"}
+{"t": "17:49:24", "sid": "5ac79548", "event": "session_start", "user": "sunita"}
+{"t": "17:49:24", "sid": "5ac79548", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "17:49:24", "sid": "5ac79548", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "17:49:24", "sid": "5ac79548", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "17:49:24", "sid": "5ac79548", "event": "handoff", "reason": "user_request"}
+{"t": "17:49:24", "sid": "751872b6", "event": "session_start", "user": "sunita"}
+{"t": "17:49:24", "sid": "751872b6", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:49:24", "sid": "751872b6", "event": "user_turn", "text": "yes"}
+{"t": "17:49:24", "sid": "751872b6", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:49:24"}
+{"t": "17:49:24", "sid": "751872b6", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:49:24", "sid": "82587713", "event": "session_start", "user": "sunita"}
+{"t": "17:49:24", "sid": "82587713", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:49:24", "sid": "82587713", "event": "user_turn", "text": "yes"}
+{"t": "17:49:24", "sid": "82587713", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:49:24"}
+{"t": "17:49:24", "sid": "82587713", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:49:24", "sid": "82587713", "event": "user_turn", "text": "talk to an agent"}
+{"t": "17:49:24", "sid": "82587713", "event": "handoff", "reason": "user_request"}
+{"t": "17:49:24", "sid": "82587713", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "17:49:24", "sid": "82587713", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "17:50:19", "sid": "c8a50b73", "event": "session_start", "user": "sunita"}
+{"t": "17:51:11", "sid": "0950502a", "event": "session_start", "user": "sunita"}
+{"t": "17:51:11", "sid": "0950502a", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "17:51:11", "sid": "0950502a", "event": "user_turn", "text": "haan"}
+{"t": "17:51:11", "sid": "0950502a", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:51:11"}
+{"t": "17:51:11", "sid": "0950502a", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:51:11", "sid": "0950502a", "event": "user_turn", "text": "24 mahine mein"}
+{"t": "17:51:11", "sid": "0950502a", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "17:51:11", "sid": "0950502a", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Special rate reduction approved", "action": "special_rate"}
+{"t": "17:51:11", "sid": "0950502a", "event": "special_rate_applied", "new_rate": 12.0, "emi": 9415}
+{"t": "17:52:07", "sid": "9dc7a184", "event": "session_start", "user": "sunita"}
+{"t": "17:52:07", "sid": "9dc7a184", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "17:52:07", "sid": "9dc7a184", "event": "user_turn", "text": "haan"}
+{"t": "17:52:07", "sid": "9dc7a184", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:52:07"}
+{"t": "17:52:07", "sid": "9dc7a184", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:52:07", "sid": "9dc7a184", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "17:52:07", "sid": "9dc7a184", "event": "fees_explained"}
+{"t": "17:52:07", "sid": "9dc7a184", "event": "user_turn", "text": "haan aage badho"}
+{"t": "17:52:07", "sid": "9dc7a184", "event": "esign_requested"}
+{"t": "17:52:07", "sid": "9dc7a184", "event": "esigned", "kind": "loan", "ref": "PTM-L-1D11812A-2927", "amount": 200000, "emi": 7131}
+{"t": "17:53:14", "sid": "fb586f15", "event": "session_start", "user": "sunita"}
+{"t": "17:53:14", "sid": "fb586f15", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "17:53:14", "sid": "fb586f15", "event": "user_turn", "text": "haan"}
+{"t": "17:53:14", "sid": "fb586f15", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:53:14"}
+{"t": "17:53:14", "sid": "fb586f15", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:53:14", "sid": "fb586f15", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "17:53:14", "sid": "fb586f15", "event": "fees_explained"}
+{"t": "17:53:14", "sid": "fb586f15", "event": "user_turn", "text": "haan aage badho"}
+{"t": "17:53:14", "sid": "fb586f15", "event": "esign_requested"}
+{"t": "17:53:14", "sid": "fb586f15", "event": "esigned", "kind": "loan", "ref": "PTM-L-3329806A-2994", "amount": 200000, "emi": 7131}
+{"t": "17:53:14", "sid": "9e2708cd", "event": "session_start", "user": "sunita"}
+{"t": "17:53:14", "sid": "9e2708cd", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:53:14", "sid": "9e2708cd", "event": "user_turn", "text": "yes"}
+{"t": "17:53:14", "sid": "9e2708cd", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:53:14"}
+{"t": "17:53:14", "sid": "9e2708cd", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:53:14", "sid": "9e2708cd", "event": "user_turn", "text": "24 months"}
+{"t": "17:53:14", "sid": "9e2708cd", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "17:53:14", "sid": "21b489a5", "event": "session_start", "user": "sunita"}
+{"t": "17:53:14", "sid": "21b489a5", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "17:53:14", "sid": "75271f8a", "event": "session_start", "user": "sunita"}
+{"t": "17:53:14", "sid": "75271f8a", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "17:53:14", "sid": "75271f8a", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "17:53:14", "sid": "75271f8a", "event": "user_turn", "text": "compare both plans"}
+{"t": "17:53:14", "sid": "75271f8a", "event": "compare_plans"}
+{"t": "17:53:14", "sid": "75271f8a", "event": "user_turn", "text": "take Plus"}
+{"t": "17:53:14", "sid": "75271f8a", "event": "user_turn", "text": "yes"}
+{"t": "17:53:14", "sid": "75271f8a", "event": "ins_consent_granted"}
+{"t": "17:53:14", "sid": "75271f8a", "event": "esigned", "kind": "insurance", "ref": "PTM-H-6A51E5DC-2994", "plan": "SecureHealth Plus"}
+{"t": "17:53:14", "sid": "91b22d89", "event": "session_start", "user": "rahul"}
+{"t": "17:53:14", "sid": "91b22d89", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:53:14", "sid": "91b22d89", "event": "user_turn", "text": "yes"}
+{"t": "17:53:14", "sid": "91b22d89", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:53:14"}
+{"t": "17:53:14", "sid": "91b22d89", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "17:53:14", "sid": "d7e01919", "event": "session_start", "user": "meena"}
+{"t": "17:53:14", "sid": "d7e01919", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "17:53:14", "sid": "d7e01919", "event": "user_turn", "text": "yes"}
+{"t": "17:53:14", "sid": "d7e01919", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:53:14"}
+{"t": "17:53:14", "sid": "d7e01919", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "17:53:14", "sid": "3c208fed", "event": "session_start", "user": "sunita"}
+{"t": "17:53:14", "sid": "3c208fed", "event": "user_turn", "text": "talk to an agent"}
+{"t": "17:53:14", "sid": "3c208fed", "event": "handoff", "reason": "user_request"}
+{"t": "17:53:14", "sid": "bfd10a79", "event": "session_start", "user": "sunita"}
+{"t": "17:53:14", "sid": "bfd10a79", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "17:53:14", "sid": "bfd10a79", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "17:53:14", "sid": "bfd10a79", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "17:53:14", "sid": "bfd10a79", "event": "handoff", "reason": "user_request"}
+{"t": "17:53:14", "sid": "da04d25f", "event": "session_start", "user": "sunita"}
+{"t": "17:53:14", "sid": "da04d25f", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:53:14", "sid": "da04d25f", "event": "user_turn", "text": "yes"}
+{"t": "17:53:14", "sid": "da04d25f", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:53:14"}
+{"t": "17:53:14", "sid": "da04d25f", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:53:14", "sid": "b789831d", "event": "session_start", "user": "sunita"}
+{"t": "17:53:14", "sid": "b789831d", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:53:14", "sid": "b789831d", "event": "user_turn", "text": "yes"}
+{"t": "17:53:14", "sid": "b789831d", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:53:14"}
+{"t": "17:53:14", "sid": "b789831d", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:53:14", "sid": "b789831d", "event": "user_turn", "text": "talk to an agent"}
+{"t": "17:53:14", "sid": "b789831d", "event": "handoff", "reason": "user_request"}
+{"t": "17:53:14", "sid": "b789831d", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "17:53:14", "sid": "b789831d", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "17:56:25", "sid": "414084ae", "event": "session_start", "user": "sunita"}
+{"t": "17:56:25", "sid": "414084ae", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "17:56:25", "sid": "414084ae", "event": "user_turn", "text": "haan"}
+{"t": "17:56:25", "sid": "414084ae", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:56:25"}
+{"t": "17:56:25", "sid": "414084ae", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:56:25", "sid": "414084ae", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "17:56:25", "sid": "414084ae", "event": "fees_explained"}
+{"t": "17:56:25", "sid": "414084ae", "event": "user_turn", "text": "haan aage badho"}
+{"t": "17:56:25", "sid": "414084ae", "event": "esign_requested"}
+{"t": "17:56:25", "sid": "414084ae", "event": "esigned", "kind": "loan", "ref": "PTM-L-492FA74F-3185", "amount": 200000, "emi": 7131}
+{"t": "17:56:25", "sid": "11dd26e8", "event": "session_start", "user": "sunita"}
+{"t": "17:56:25", "sid": "11dd26e8", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:56:25", "sid": "11dd26e8", "event": "user_turn", "text": "yes"}
+{"t": "17:56:25", "sid": "11dd26e8", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:56:25"}
+{"t": "17:56:25", "sid": "11dd26e8", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:56:25", "sid": "11dd26e8", "event": "user_turn", "text": "24 months"}
+{"t": "17:56:25", "sid": "11dd26e8", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "17:56:25", "sid": "f655fea5", "event": "session_start", "user": "sunita"}
+{"t": "17:56:25", "sid": "f655fea5", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "17:56:25", "sid": "530b6d76", "event": "session_start", "user": "sunita"}
+{"t": "17:56:25", "sid": "530b6d76", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "17:56:25", "sid": "530b6d76", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "17:56:25", "sid": "530b6d76", "event": "user_turn", "text": "compare both plans"}
+{"t": "17:56:25", "sid": "530b6d76", "event": "compare_plans"}
+{"t": "17:56:25", "sid": "530b6d76", "event": "user_turn", "text": "take Plus"}
+{"t": "17:56:25", "sid": "530b6d76", "event": "user_turn", "text": "yes"}
+{"t": "17:56:25", "sid": "530b6d76", "event": "ins_consent_granted"}
+{"t": "17:56:25", "sid": "530b6d76", "event": "esigned", "kind": "insurance", "ref": "PTM-H-36CA7511-3185", "plan": "SecureHealth Plus"}
+{"t": "17:56:25", "sid": "d5f04846", "event": "session_start", "user": "rahul"}
+{"t": "17:56:25", "sid": "d5f04846", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:56:25", "sid": "d5f04846", "event": "user_turn", "text": "yes"}
+{"t": "17:56:25", "sid": "d5f04846", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:56:25"}
+{"t": "17:56:25", "sid": "d5f04846", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "17:56:25", "sid": "2f3378c0", "event": "session_start", "user": "meena"}
+{"t": "17:56:25", "sid": "2f3378c0", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "17:56:25", "sid": "2f3378c0", "event": "user_turn", "text": "yes"}
+{"t": "17:56:25", "sid": "2f3378c0", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:56:25"}
+{"t": "17:56:25", "sid": "2f3378c0", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "17:56:25", "sid": "8772d5d0", "event": "session_start", "user": "sunita"}
+{"t": "17:56:25", "sid": "8772d5d0", "event": "user_turn", "text": "talk to an agent"}
+{"t": "17:56:25", "sid": "8772d5d0", "event": "handoff", "reason": "user_request"}
+{"t": "17:56:25", "sid": "0210ccca", "event": "session_start", "user": "sunita"}
+{"t": "17:56:25", "sid": "0210ccca", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "17:56:25", "sid": "0210ccca", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "17:56:25", "sid": "0210ccca", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "17:56:25", "sid": "0210ccca", "event": "handoff", "reason": "user_request"}
+{"t": "17:56:25", "sid": "192489de", "event": "session_start", "user": "sunita"}
+{"t": "17:56:25", "sid": "192489de", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:56:25", "sid": "192489de", "event": "user_turn", "text": "yes"}
+{"t": "17:56:25", "sid": "192489de", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:56:25"}
+{"t": "17:56:25", "sid": "192489de", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:56:25", "sid": "e6e1247f", "event": "session_start", "user": "sunita"}
+{"t": "17:56:25", "sid": "e6e1247f", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "17:56:25", "sid": "e6e1247f", "event": "user_turn", "text": "yes"}
+{"t": "17:56:25", "sid": "e6e1247f", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:56:25"}
+{"t": "17:56:25", "sid": "e6e1247f", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:56:25", "sid": "e6e1247f", "event": "user_turn", "text": "talk to an agent"}
+{"t": "17:56:25", "sid": "e6e1247f", "event": "handoff", "reason": "user_request"}
+{"t": "17:56:25", "sid": "e6e1247f", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "17:56:25", "sid": "e6e1247f", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "17:58:56", "sid": "bfca52cd", "event": "session_start", "user": "sunita"}
+{"t": "17:58:57", "sid": "bfca52cd", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "17:58:57", "sid": "bfca52cd", "event": "user_turn", "text": "haan"}
+{"t": "17:58:57", "sid": "bfca52cd", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 17:58:57"}
+{"t": "17:58:57", "sid": "bfca52cd", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "17:58:57", "sid": "bfca52cd", "event": "user_turn", "text": "24 mahine mein"}
+{"t": "17:58:57", "sid": "bfca52cd", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "17:58:57", "sid": "bfca52cd", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Sunita ji, as a premium Paytm Soundbox merchant, I am approving an exclusive rate cut to 12.0% APR.", "action": "special_rate"}
+{"t": "17:58:57", "sid": "bfca52cd", "event": "special_rate_applied", "new_rate": 12.0, "emi": 9415}
+{"t": "17:58:57", "sid": "bfca52cd", "event": "esigned", "kind": "loan", "ref": "PTM-L-61867F14-3337", "amount": 200000, "emi": 9415}
+{"t": "18:03:22", "sid": "0d430c92", "event": "session_start", "user": "sunita"}
+{"t": "18:03:22", "sid": "3713756b", "event": "session_start", "user": "sunita"}
+{"t": "18:06:09", "sid": "3713756b", "event": "user_turn", "text": "मुझे 2 लाख का लोन चाहिए"}
+{"t": "18:06:12", "sid": "3713756b", "event": "user_turn", "text": "हाँ"}
+{"t": "18:06:12", "sid": "3713756b", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:06:12"}
+{"t": "18:06:12", "sid": "3713756b", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:06:16", "sid": "3713756b", "event": "user_turn", "text": "हाँ, समझाओ"}
+{"t": "18:06:16", "sid": "3713756b", "event": "fees_explained"}
+{"t": "18:06:18", "sid": "3713756b", "event": "user_turn", "text": "हाँ, आगे बढ़ो"}
+{"t": "18:06:18", "sid": "3713756b", "event": "esign_requested"}
+{"t": "18:06:19", "sid": "3713756b", "event": "esigned", "kind": "loan", "ref": "PTM-L-60B46C4B-3779", "amount": 200000, "emi": 7131}
+{"t": "18:10:22", "sid": "59c0f5c1", "event": "session_start", "user": "sunita"}
+{"t": "18:10:22", "sid": "59c0f5c1", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "18:10:22", "sid": "59c0f5c1", "event": "user_turn", "text": "haan"}
+{"t": "18:10:22", "sid": "59c0f5c1", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:10:22"}
+{"t": "18:10:22", "sid": "59c0f5c1", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:10:22", "sid": "59c0f5c1", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "18:10:22", "sid": "59c0f5c1", "event": "fees_explained"}
+{"t": "18:10:22", "sid": "59c0f5c1", "event": "user_turn", "text": "haan aage badho"}
+{"t": "18:10:22", "sid": "59c0f5c1", "event": "esign_requested"}
+{"t": "18:10:22", "sid": "59c0f5c1", "event": "esigned", "kind": "loan", "ref": "PTM-L-C38C9690-4022", "amount": 200000, "emi": 7131}
+{"t": "18:10:22", "sid": "c4ec85f9", "event": "session_start", "user": "sunita"}
+{"t": "18:10:22", "sid": "c4ec85f9", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:10:22", "sid": "c4ec85f9", "event": "user_turn", "text": "yes"}
+{"t": "18:10:22", "sid": "c4ec85f9", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:10:22"}
+{"t": "18:10:22", "sid": "c4ec85f9", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:10:22", "sid": "c4ec85f9", "event": "user_turn", "text": "24 months"}
+{"t": "18:10:22", "sid": "c4ec85f9", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "18:10:22", "sid": "f9e94b2b", "event": "session_start", "user": "sunita"}
+{"t": "18:10:22", "sid": "f9e94b2b", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "18:10:22", "sid": "4033439a", "event": "session_start", "user": "sunita"}
+{"t": "18:10:22", "sid": "4033439a", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "18:10:22", "sid": "4033439a", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "18:10:22", "sid": "4033439a", "event": "user_turn", "text": "compare both plans"}
+{"t": "18:10:22", "sid": "4033439a", "event": "compare_plans"}
+{"t": "18:10:22", "sid": "4033439a", "event": "user_turn", "text": "take Plus"}
+{"t": "18:10:22", "sid": "4033439a", "event": "user_turn", "text": "yes"}
+{"t": "18:10:22", "sid": "4033439a", "event": "ins_consent_granted"}
+{"t": "18:10:22", "sid": "4033439a", "event": "esigned", "kind": "insurance", "ref": "PTM-H-F7FB27D9-4022", "plan": "SecureHealth Plus"}
+{"t": "18:10:22", "sid": "23ffec0d", "event": "session_start", "user": "rahul"}
+{"t": "18:10:22", "sid": "23ffec0d", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:10:22", "sid": "23ffec0d", "event": "user_turn", "text": "yes"}
+{"t": "18:10:22", "sid": "23ffec0d", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:10:22"}
+{"t": "18:10:22", "sid": "23ffec0d", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "18:10:22", "sid": "6e008873", "event": "session_start", "user": "meena"}
+{"t": "18:10:22", "sid": "6e008873", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "18:10:22", "sid": "6e008873", "event": "user_turn", "text": "yes"}
+{"t": "18:10:22", "sid": "6e008873", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:10:22"}
+{"t": "18:10:22", "sid": "6e008873", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "18:10:22", "sid": "cb4a1e2b", "event": "session_start", "user": "sunita"}
+{"t": "18:10:22", "sid": "cb4a1e2b", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:10:22", "sid": "cb4a1e2b", "event": "handoff", "reason": "user_request"}
+{"t": "18:10:22", "sid": "c1125733", "event": "session_start", "user": "sunita"}
+{"t": "18:10:22", "sid": "c1125733", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "18:10:22", "sid": "c1125733", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "18:10:22", "sid": "c1125733", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "18:10:22", "sid": "c1125733", "event": "handoff", "reason": "user_request"}
+{"t": "18:10:22", "sid": "cfa30d20", "event": "session_start", "user": "sunita"}
+{"t": "18:10:22", "sid": "cfa30d20", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:10:22", "sid": "cfa30d20", "event": "user_turn", "text": "yes"}
+{"t": "18:10:22", "sid": "cfa30d20", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:10:22"}
+{"t": "18:10:22", "sid": "cfa30d20", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:10:22", "sid": "b6a271c8", "event": "session_start", "user": "sunita"}
+{"t": "18:10:22", "sid": "b6a271c8", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:10:22", "sid": "b6a271c8", "event": "user_turn", "text": "yes"}
+{"t": "18:10:22", "sid": "b6a271c8", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:10:22"}
+{"t": "18:10:22", "sid": "b6a271c8", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:10:22", "sid": "b6a271c8", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:10:22", "sid": "b6a271c8", "event": "handoff", "reason": "user_request"}
+{"t": "18:10:22", "sid": "b6a271c8", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "18:10:22", "sid": "b6a271c8", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "18:10:41", "sid": "4b45fb40", "event": "session_start", "user": "sunita"}
+{"t": "18:37:16", "sid": "b9978fa2", "event": "session_start", "user": "sunita"}
+{"t": "18:37:16", "sid": "b9978fa2", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "18:37:16", "sid": "b9978fa2", "event": "user_turn", "text": "haan"}
+{"t": "18:37:16", "sid": "b9978fa2", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:37:16"}
+{"t": "18:37:16", "sid": "b9978fa2", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:37:16", "sid": "b9978fa2", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "18:37:16", "sid": "b9978fa2", "event": "fees_explained"}
+{"t": "18:37:16", "sid": "b9978fa2", "event": "user_turn", "text": "haan aage badho"}
+{"t": "18:37:16", "sid": "b9978fa2", "event": "esign_requested"}
+{"t": "18:37:16", "sid": "b9978fa2", "event": "esigned", "kind": "loan", "ref": "PTM-L-C82FF3C8-5636", "amount": 200000, "emi": 7131}
+{"t": "18:37:16", "sid": "17d14214", "event": "session_start", "user": "sunita"}
+{"t": "18:37:16", "sid": "17d14214", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:37:16", "sid": "17d14214", "event": "user_turn", "text": "yes"}
+{"t": "18:37:16", "sid": "17d14214", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:37:16"}
+{"t": "18:37:16", "sid": "17d14214", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:37:16", "sid": "17d14214", "event": "user_turn", "text": "24 months"}
+{"t": "18:37:16", "sid": "17d14214", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "18:37:16", "sid": "276d24f4", "event": "session_start", "user": "sunita"}
+{"t": "18:37:16", "sid": "276d24f4", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "18:37:16", "sid": "eee0fd40", "event": "session_start", "user": "sunita"}
+{"t": "18:37:16", "sid": "eee0fd40", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "18:37:16", "sid": "eee0fd40", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "18:37:16", "sid": "eee0fd40", "event": "user_turn", "text": "compare both plans"}
+{"t": "18:37:16", "sid": "eee0fd40", "event": "compare_plans"}
+{"t": "18:37:17", "sid": "eee0fd40", "event": "user_turn", "text": "take Plus"}
+{"t": "18:37:17", "sid": "eee0fd40", "event": "user_turn", "text": "yes"}
+{"t": "18:37:17", "sid": "eee0fd40", "event": "ins_consent_granted"}
+{"t": "18:37:17", "sid": "eee0fd40", "event": "esigned", "kind": "insurance", "ref": "PTM-H-0D1ACB98-5637", "plan": "SecureHealth Plus"}
+{"t": "18:37:17", "sid": "2526d188", "event": "session_start", "user": "rahul"}
+{"t": "18:37:17", "sid": "2526d188", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:37:17", "sid": "2526d188", "event": "user_turn", "text": "yes"}
+{"t": "18:37:17", "sid": "2526d188", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:37:17"}
+{"t": "18:37:17", "sid": "2526d188", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "18:37:17", "sid": "b9eba5b5", "event": "session_start", "user": "meena"}
+{"t": "18:37:17", "sid": "b9eba5b5", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "18:37:17", "sid": "b9eba5b5", "event": "user_turn", "text": "yes"}
+{"t": "18:37:17", "sid": "b9eba5b5", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:37:17"}
+{"t": "18:37:17", "sid": "b9eba5b5", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "18:37:17", "sid": "617467d7", "event": "session_start", "user": "sunita"}
+{"t": "18:37:17", "sid": "617467d7", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:37:17", "sid": "617467d7", "event": "handoff", "reason": "user_request"}
+{"t": "18:37:17", "sid": "d7af817b", "event": "session_start", "user": "sunita"}
+{"t": "18:37:17", "sid": "d7af817b", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "18:37:17", "sid": "d7af817b", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "18:37:17", "sid": "d7af817b", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "18:37:17", "sid": "d7af817b", "event": "handoff", "reason": "user_request"}
+{"t": "18:37:17", "sid": "68b9d600", "event": "session_start", "user": "sunita"}
+{"t": "18:37:17", "sid": "68b9d600", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:37:17", "sid": "68b9d600", "event": "user_turn", "text": "yes"}
+{"t": "18:37:17", "sid": "68b9d600", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:37:17"}
+{"t": "18:37:17", "sid": "68b9d600", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:37:17", "sid": "5c2bad1d", "event": "session_start", "user": "sunita"}
+{"t": "18:37:17", "sid": "5c2bad1d", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:37:17", "sid": "5c2bad1d", "event": "user_turn", "text": "yes"}
+{"t": "18:37:17", "sid": "5c2bad1d", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:37:17"}
+{"t": "18:37:17", "sid": "5c2bad1d", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:37:17", "sid": "5c2bad1d", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:37:17", "sid": "5c2bad1d", "event": "handoff", "reason": "user_request"}
+{"t": "18:37:17", "sid": "5c2bad1d", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "18:37:17", "sid": "5c2bad1d", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "18:37:47", "sid": "0ae9e678", "event": "session_start", "user": "sunita"}
+{"t": "18:37:49", "sid": "fbd0f14f", "event": "session_start", "user": "sunita"}
+{"t": "18:37:51", "sid": "49c12506", "event": "session_start", "user": "sunita"}
+{"t": "18:37:54", "sid": "7c46fa0e", "event": "session_start", "user": "sunita"}
+{"t": "18:37:59", "sid": "6c0ffec1", "event": "session_start", "user": "sunita"}
+{"t": "18:38:01", "sid": "cef99bc5", "event": "session_start", "user": "sunita"}
+{"t": "18:38:01", "sid": "cef99bc5", "event": "user_turn", "text": "Haan"}
+{"t": "18:38:04", "sid": "b35ec555", "event": "session_start", "user": "sunita"}
+{"t": "18:38:04", "sid": "b35ec555", "event": "user_turn", "text": "Haan"}
+{"t": "18:38:09", "sid": "6dffdb1c", "event": "session_start", "user": "sunita"}
+{"t": "18:38:09", "sid": "6dffdb1c", "event": "user_turn", "text": "Haan"}
+{"t": "18:38:12", "sid": "45c96461", "event": "session_start", "user": "sunita"}
+{"t": "18:38:12", "sid": "45c96461", "event": "user_turn", "text": "Haan"}
+{"t": "18:38:15", "sid": "37867aa8", "event": "session_start", "user": "sunita"}
+{"t": "18:38:15", "sid": "37867aa8", "event": "user_turn", "text": "Haan"}
+{"t": "18:38:46", "sid": "a6c2c271", "event": "session_start", "user": "sunita"}
+{"t": "18:38:46", "sid": "a6c2c271", "event": "user_turn", "text": "Haan"}
+{"t": "18:38:46", "sid": "a6c2c271", "event": "user_turn", "text": "Aage badho"}
+{"t": "18:38:46", "sid": "a6c2c271", "event": "handoff", "reason": "repeated_misunderstanding"}
+{"t": "18:38:50", "sid": "2e6c5f43", "event": "session_start", "user": "sunita"}
+{"t": "18:38:50", "sid": "2e6c5f43", "event": "user_turn", "text": "Haan"}
+{"t": "18:38:50", "sid": "2e6c5f43", "event": "user_turn", "text": "Aage badho"}
+{"t": "18:38:50", "sid": "2e6c5f43", "event": "handoff", "reason": "repeated_misunderstanding"}
+{"t": "18:39:21", "sid": "cf9b0e4a", "event": "session_start", "user": "sunita"}
+{"t": "18:39:21", "sid": "cf9b0e4a", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "18:39:21", "sid": "cf9b0e4a", "event": "user_turn", "text": "haan"}
+{"t": "18:39:21", "sid": "cf9b0e4a", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:39:21"}
+{"t": "18:39:21", "sid": "cf9b0e4a", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:39:21", "sid": "cf9b0e4a", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "18:39:21", "sid": "cf9b0e4a", "event": "fees_explained"}
+{"t": "18:39:21", "sid": "cf9b0e4a", "event": "user_turn", "text": "haan aage badho"}
+{"t": "18:39:21", "sid": "cf9b0e4a", "event": "esign_requested"}
+{"t": "18:39:21", "sid": "cf9b0e4a", "event": "esigned", "kind": "loan", "ref": "PTM-L-57031C4B-5761", "amount": 200000, "emi": 7131}
+{"t": "18:39:21", "sid": "30dee265", "event": "session_start", "user": "sunita"}
+{"t": "18:39:21", "sid": "30dee265", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:39:21", "sid": "30dee265", "event": "user_turn", "text": "yes"}
+{"t": "18:39:21", "sid": "30dee265", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:39:21"}
+{"t": "18:39:21", "sid": "30dee265", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:39:21", "sid": "30dee265", "event": "user_turn", "text": "24 months"}
+{"t": "18:39:21", "sid": "30dee265", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "18:39:21", "sid": "292672a6", "event": "session_start", "user": "sunita"}
+{"t": "18:39:21", "sid": "292672a6", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "18:39:21", "sid": "a1ed77ae", "event": "session_start", "user": "sunita"}
+{"t": "18:39:22", "sid": "a1ed77ae", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "18:39:22", "sid": "a1ed77ae", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "18:39:22", "sid": "a1ed77ae", "event": "user_turn", "text": "compare both plans"}
+{"t": "18:39:22", "sid": "a1ed77ae", "event": "compare_plans"}
+{"t": "18:39:22", "sid": "a1ed77ae", "event": "user_turn", "text": "take Plus"}
+{"t": "18:39:22", "sid": "a1ed77ae", "event": "user_turn", "text": "yes"}
+{"t": "18:39:22", "sid": "a1ed77ae", "event": "ins_consent_granted"}
+{"t": "18:39:22", "sid": "a1ed77ae", "event": "esigned", "kind": "insurance", "ref": "PTM-H-5DB42F9C-5762", "plan": "SecureHealth Plus"}
+{"t": "18:39:22", "sid": "f8a3d226", "event": "session_start", "user": "rahul"}
+{"t": "18:39:22", "sid": "f8a3d226", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:39:22", "sid": "f8a3d226", "event": "user_turn", "text": "yes"}
+{"t": "18:39:22", "sid": "f8a3d226", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:39:22"}
+{"t": "18:39:22", "sid": "f8a3d226", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "18:39:22", "sid": "22f83ae2", "event": "session_start", "user": "meena"}
+{"t": "18:39:22", "sid": "22f83ae2", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "18:39:22", "sid": "22f83ae2", "event": "user_turn", "text": "yes"}
+{"t": "18:39:22", "sid": "22f83ae2", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:39:22"}
+{"t": "18:39:22", "sid": "22f83ae2", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "18:39:22", "sid": "e10ff144", "event": "session_start", "user": "sunita"}
+{"t": "18:39:22", "sid": "e10ff144", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:39:22", "sid": "e10ff144", "event": "handoff", "reason": "user_request"}
+{"t": "18:39:22", "sid": "7735113b", "event": "session_start", "user": "sunita"}
+{"t": "18:39:22", "sid": "7735113b", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "18:39:22", "sid": "7735113b", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "18:39:22", "sid": "7735113b", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "18:39:22", "sid": "7735113b", "event": "handoff", "reason": "user_request"}
+{"t": "18:39:22", "sid": "b950a7ca", "event": "session_start", "user": "sunita"}
+{"t": "18:39:22", "sid": "b950a7ca", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:39:22", "sid": "b950a7ca", "event": "user_turn", "text": "yes"}
+{"t": "18:39:22", "sid": "b950a7ca", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:39:22"}
+{"t": "18:39:22", "sid": "b950a7ca", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:39:22", "sid": "5d045f3e", "event": "session_start", "user": "sunita"}
+{"t": "18:39:22", "sid": "5d045f3e", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:39:22", "sid": "5d045f3e", "event": "user_turn", "text": "yes"}
+{"t": "18:39:22", "sid": "5d045f3e", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:39:22"}
+{"t": "18:39:22", "sid": "5d045f3e", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:39:22", "sid": "5d045f3e", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:39:22", "sid": "5d045f3e", "event": "handoff", "reason": "user_request"}
+{"t": "18:39:22", "sid": "5d045f3e", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "18:39:22", "sid": "5d045f3e", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "18:39:36", "sid": "3e6f0f80", "event": "session_start", "user": "sunita"}
+{"t": "18:39:36", "sid": "3e6f0f80", "event": "user_turn", "text": "lalala"}
+{"t": "18:39:36", "sid": "3e6f0f80", "event": "user_turn", "text": "lalala"}
+{"t": "18:39:36", "sid": "3e6f0f80", "event": "handoff", "reason": "repeated_misunderstanding"}
+{"t": "18:39:36", "sid": "3e6f0f80", "event": "user_turn", "text": "lalala"}
+{"t": "18:39:36", "sid": "3e6f0f80", "event": "handoff", "reason": "user_request"}
+{"t": "18:43:11", "sid": "c6b63253", "event": "session_start", "user": "sunita"}
+{"t": "18:43:11", "sid": "c6b63253", "event": "user_turn", "text": "2 lakh"}
+{"t": "18:50:37", "sid": "695dbfd6", "event": "session_start", "user": "sunita"}
+{"t": "18:50:37", "sid": "695dbfd6", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "18:50:37", "sid": "695dbfd6", "event": "user_turn", "text": "haan"}
+{"t": "18:50:37", "sid": "695dbfd6", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:50:37"}
+{"t": "18:50:37", "sid": "695dbfd6", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:50:37", "sid": "695dbfd6", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "18:50:37", "sid": "695dbfd6", "event": "fees_explained"}
+{"t": "18:50:37", "sid": "695dbfd6", "event": "user_turn", "text": "haan aage badho"}
+{"t": "18:50:37", "sid": "695dbfd6", "event": "esign_requested"}
+{"t": "18:50:37", "sid": "695dbfd6", "event": "esigned", "kind": "loan", "ref": "PTM-L-4BAC6103-6437", "amount": 200000, "emi": 7131}
+{"t": "18:50:38", "sid": "3838588e", "event": "session_start", "user": "sunita"}
+{"t": "18:50:38", "sid": "3838588e", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:50:38", "sid": "3838588e", "event": "user_turn", "text": "yes"}
+{"t": "18:50:38", "sid": "3838588e", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:50:38"}
+{"t": "18:50:38", "sid": "3838588e", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:50:38", "sid": "3838588e", "event": "user_turn", "text": "24 months"}
+{"t": "18:50:38", "sid": "3838588e", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "18:50:38", "sid": "7d13a889", "event": "session_start", "user": "sunita"}
+{"t": "18:50:38", "sid": "7d13a889", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "18:50:38", "sid": "fcf8edd4", "event": "session_start", "user": "sunita"}
+{"t": "18:50:38", "sid": "fcf8edd4", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "18:50:38", "sid": "fcf8edd4", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "18:50:38", "sid": "fcf8edd4", "event": "user_turn", "text": "compare both plans"}
+{"t": "18:50:38", "sid": "fcf8edd4", "event": "compare_plans"}
+{"t": "18:50:38", "sid": "fcf8edd4", "event": "user_turn", "text": "take Plus"}
+{"t": "18:50:38", "sid": "fcf8edd4", "event": "user_turn", "text": "yes"}
+{"t": "18:50:38", "sid": "fcf8edd4", "event": "ins_consent_granted"}
+{"t": "18:50:38", "sid": "fcf8edd4", "event": "esigned", "kind": "insurance", "ref": "PTM-H-5EE941C4-6438", "plan": "SecureHealth Plus"}
+{"t": "18:50:38", "sid": "4788d481", "event": "session_start", "user": "rahul"}
+{"t": "18:50:38", "sid": "4788d481", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:50:38", "sid": "4788d481", "event": "user_turn", "text": "yes"}
+{"t": "18:50:38", "sid": "4788d481", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:50:38"}
+{"t": "18:50:38", "sid": "4788d481", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "18:50:38", "sid": "a1b8f2f5", "event": "session_start", "user": "meena"}
+{"t": "18:50:38", "sid": "a1b8f2f5", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "18:50:38", "sid": "a1b8f2f5", "event": "user_turn", "text": "yes"}
+{"t": "18:50:38", "sid": "a1b8f2f5", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:50:38"}
+{"t": "18:50:38", "sid": "a1b8f2f5", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "18:50:38", "sid": "0cc38516", "event": "session_start", "user": "sunita"}
+{"t": "18:50:38", "sid": "0cc38516", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:50:38", "sid": "0cc38516", "event": "handoff", "reason": "user_request"}
+{"t": "18:50:38", "sid": "3cde5a00", "event": "session_start", "user": "sunita"}
+{"t": "18:50:38", "sid": "3cde5a00", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "18:50:38", "sid": "3cde5a00", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "18:50:38", "sid": "3cde5a00", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "18:50:38", "sid": "3cde5a00", "event": "handoff", "reason": "user_request"}
+{"t": "18:50:38", "sid": "7f8a046c", "event": "session_start", "user": "sunita"}
+{"t": "18:50:38", "sid": "7f8a046c", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:50:38", "sid": "7f8a046c", "event": "user_turn", "text": "yes"}
+{"t": "18:50:38", "sid": "7f8a046c", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:50:38"}
+{"t": "18:50:38", "sid": "7f8a046c", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:50:38", "sid": "be7a8fba", "event": "session_start", "user": "sunita"}
+{"t": "18:50:38", "sid": "be7a8fba", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:50:38", "sid": "be7a8fba", "event": "user_turn", "text": "yes"}
+{"t": "18:50:38", "sid": "be7a8fba", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:50:38"}
+{"t": "18:50:38", "sid": "be7a8fba", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:50:38", "sid": "be7a8fba", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:50:38", "sid": "be7a8fba", "event": "handoff", "reason": "user_request"}
+{"t": "18:50:38", "sid": "be7a8fba", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "18:50:38", "sid": "be7a8fba", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "18:50:38", "sid": "2a817613", "event": "session_start", "user": "sunita"}
+{"t": "18:51:11", "sid": "e055af21", "event": "session_start", "user": "sunita"}
+{"t": "18:51:11", "sid": "e055af21", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "18:51:11", "sid": "e055af21", "event": "user_turn", "text": "haan"}
+{"t": "18:51:11", "sid": "e055af21", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:11"}
+{"t": "18:51:11", "sid": "e055af21", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:51:11", "sid": "e055af21", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "18:51:11", "sid": "e055af21", "event": "fees_explained"}
+{"t": "18:51:11", "sid": "e055af21", "event": "user_turn", "text": "haan aage badho"}
+{"t": "18:51:11", "sid": "e055af21", "event": "esign_requested"}
+{"t": "18:51:11", "sid": "e055af21", "event": "esigned", "kind": "loan", "ref": "PTM-L-9B9464CF-6471", "amount": 200000, "emi": 7131}
+{"t": "18:51:11", "sid": "a2d0e4ca", "event": "session_start", "user": "sunita"}
+{"t": "18:51:11", "sid": "a2d0e4ca", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:51:11", "sid": "a2d0e4ca", "event": "user_turn", "text": "yes"}
+{"t": "18:51:11", "sid": "a2d0e4ca", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:11"}
+{"t": "18:51:11", "sid": "a2d0e4ca", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:51:11", "sid": "a2d0e4ca", "event": "user_turn", "text": "24 months"}
+{"t": "18:51:11", "sid": "a2d0e4ca", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "18:51:11", "sid": "b623b496", "event": "session_start", "user": "sunita"}
+{"t": "18:51:11", "sid": "b623b496", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "18:51:11", "sid": "342fd2ac", "event": "session_start", "user": "sunita"}
+{"t": "18:51:11", "sid": "342fd2ac", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "18:51:11", "sid": "342fd2ac", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "18:51:11", "sid": "342fd2ac", "event": "user_turn", "text": "compare both plans"}
+{"t": "18:51:11", "sid": "342fd2ac", "event": "compare_plans"}
+{"t": "18:51:11", "sid": "342fd2ac", "event": "user_turn", "text": "take Plus"}
+{"t": "18:51:11", "sid": "342fd2ac", "event": "user_turn", "text": "yes"}
+{"t": "18:51:11", "sid": "342fd2ac", "event": "ins_consent_granted"}
+{"t": "18:51:11", "sid": "342fd2ac", "event": "esigned", "kind": "insurance", "ref": "PTM-H-8818C642-6471", "plan": "SecureHealth Plus"}
+{"t": "18:51:11", "sid": "b137654e", "event": "session_start", "user": "rahul"}
+{"t": "18:51:11", "sid": "b137654e", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:51:11", "sid": "b137654e", "event": "user_turn", "text": "yes"}
+{"t": "18:51:11", "sid": "b137654e", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:11"}
+{"t": "18:51:11", "sid": "b137654e", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "18:51:11", "sid": "8774f910", "event": "session_start", "user": "meena"}
+{"t": "18:51:11", "sid": "8774f910", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "18:51:11", "sid": "8774f910", "event": "user_turn", "text": "yes"}
+{"t": "18:51:11", "sid": "8774f910", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:11"}
+{"t": "18:51:11", "sid": "8774f910", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "18:51:11", "sid": "ca6b34c0", "event": "session_start", "user": "sunita"}
+{"t": "18:51:11", "sid": "ca6b34c0", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:51:11", "sid": "ca6b34c0", "event": "handoff", "reason": "user_request"}
+{"t": "18:51:11", "sid": "1c457ae5", "event": "session_start", "user": "sunita"}
+{"t": "18:51:11", "sid": "1c457ae5", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "18:51:11", "sid": "1c457ae5", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "18:51:11", "sid": "1c457ae5", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "18:51:11", "sid": "1c457ae5", "event": "handoff", "reason": "user_request"}
+{"t": "18:51:11", "sid": "1cbb7a87", "event": "session_start", "user": "sunita"}
+{"t": "18:51:11", "sid": "1cbb7a87", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:51:11", "sid": "1cbb7a87", "event": "user_turn", "text": "yes"}
+{"t": "18:51:11", "sid": "1cbb7a87", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:11"}
+{"t": "18:51:11", "sid": "1cbb7a87", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:51:11", "sid": "b64f1f2d", "event": "session_start", "user": "sunita"}
+{"t": "18:51:12", "sid": "b64f1f2d", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:51:12", "sid": "b64f1f2d", "event": "user_turn", "text": "yes"}
+{"t": "18:51:12", "sid": "b64f1f2d", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:12"}
+{"t": "18:51:12", "sid": "b64f1f2d", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:51:12", "sid": "b64f1f2d", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:51:12", "sid": "b64f1f2d", "event": "handoff", "reason": "user_request"}
+{"t": "18:51:12", "sid": "b64f1f2d", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "18:51:12", "sid": "b64f1f2d", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "18:51:12", "sid": "a06b6150", "event": "session_start", "user": "sunita"}
+{"t": "18:51:39", "sid": "c86ac170", "event": "session_start", "user": "sunita"}
+{"t": "18:51:39", "sid": "c86ac170", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "18:51:39", "sid": "c86ac170", "event": "user_turn", "text": "haan"}
+{"t": "18:51:39", "sid": "c86ac170", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:39"}
+{"t": "18:51:39", "sid": "c86ac170", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:51:39", "sid": "c86ac170", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "18:51:39", "sid": "c86ac170", "event": "fees_explained"}
+{"t": "18:51:39", "sid": "c86ac170", "event": "user_turn", "text": "haan aage badho"}
+{"t": "18:51:39", "sid": "c86ac170", "event": "esign_requested"}
+{"t": "18:51:39", "sid": "c86ac170", "event": "esigned", "kind": "loan", "ref": "PTM-L-3D6A7175-6499", "amount": 200000, "emi": 7131}
+{"t": "18:51:39", "sid": "1a6cab38", "event": "session_start", "user": "sunita"}
+{"t": "18:51:39", "sid": "1a6cab38", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:51:39", "sid": "1a6cab38", "event": "user_turn", "text": "yes"}
+{"t": "18:51:39", "sid": "1a6cab38", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:39"}
+{"t": "18:51:39", "sid": "1a6cab38", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:51:39", "sid": "1a6cab38", "event": "user_turn", "text": "24 months"}
+{"t": "18:51:39", "sid": "1a6cab38", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "18:51:39", "sid": "ad95ecc8", "event": "session_start", "user": "sunita"}
+{"t": "18:51:39", "sid": "ad95ecc8", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "18:51:39", "sid": "7b85de41", "event": "session_start", "user": "sunita"}
+{"t": "18:51:39", "sid": "7b85de41", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "18:51:39", "sid": "7b85de41", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "18:51:39", "sid": "7b85de41", "event": "user_turn", "text": "compare both plans"}
+{"t": "18:51:39", "sid": "7b85de41", "event": "compare_plans"}
+{"t": "18:51:39", "sid": "7b85de41", "event": "user_turn", "text": "take Plus"}
+{"t": "18:51:39", "sid": "7b85de41", "event": "user_turn", "text": "yes"}
+{"t": "18:51:39", "sid": "7b85de41", "event": "ins_consent_granted"}
+{"t": "18:51:39", "sid": "7b85de41", "event": "esigned", "kind": "insurance", "ref": "PTM-H-77BCE0BD-6499", "plan": "SecureHealth Plus"}
+{"t": "18:51:39", "sid": "bcdca145", "event": "session_start", "user": "rahul"}
+{"t": "18:51:39", "sid": "bcdca145", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:51:39", "sid": "bcdca145", "event": "user_turn", "text": "yes"}
+{"t": "18:51:39", "sid": "bcdca145", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:39"}
+{"t": "18:51:39", "sid": "bcdca145", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "18:51:39", "sid": "5936e111", "event": "session_start", "user": "meena"}
+{"t": "18:51:39", "sid": "5936e111", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "18:51:39", "sid": "5936e111", "event": "user_turn", "text": "yes"}
+{"t": "18:51:39", "sid": "5936e111", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:39"}
+{"t": "18:51:39", "sid": "5936e111", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "18:51:39", "sid": "93932a1b", "event": "session_start", "user": "sunita"}
+{"t": "18:51:39", "sid": "93932a1b", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:51:39", "sid": "93932a1b", "event": "handoff", "reason": "user_request"}
+{"t": "18:51:39", "sid": "d9ef1a4e", "event": "session_start", "user": "sunita"}
+{"t": "18:51:39", "sid": "d9ef1a4e", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "18:51:39", "sid": "d9ef1a4e", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "18:51:39", "sid": "d9ef1a4e", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "18:51:39", "sid": "d9ef1a4e", "event": "handoff", "reason": "user_request"}
+{"t": "18:51:39", "sid": "d2999f10", "event": "session_start", "user": "sunita"}
+{"t": "18:51:39", "sid": "d2999f10", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:51:39", "sid": "d2999f10", "event": "user_turn", "text": "yes"}
+{"t": "18:51:39", "sid": "d2999f10", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:39"}
+{"t": "18:51:39", "sid": "d2999f10", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:51:39", "sid": "1b2ba350", "event": "session_start", "user": "sunita"}
+{"t": "18:51:39", "sid": "1b2ba350", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:51:39", "sid": "1b2ba350", "event": "user_turn", "text": "yes"}
+{"t": "18:51:39", "sid": "1b2ba350", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:51:39"}
+{"t": "18:51:39", "sid": "1b2ba350", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:51:39", "sid": "1b2ba350", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:51:39", "sid": "1b2ba350", "event": "handoff", "reason": "user_request"}
+{"t": "18:51:39", "sid": "1b2ba350", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "18:51:39", "sid": "1b2ba350", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "18:51:39", "sid": "b84750e4", "event": "session_start", "user": "sunita"}
+{"t": "18:55:52", "sid": "2d658ee0", "event": "session_start", "user": "sunita"}
+{"t": "18:55:52", "sid": "2d658ee0", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "18:55:52", "sid": "2d658ee0", "event": "user_turn", "text": "haan"}
+{"t": "18:55:52", "sid": "2d658ee0", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:55:52"}
+{"t": "18:55:52", "sid": "2d658ee0", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:55:52", "sid": "2d658ee0", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "18:55:52", "sid": "2d658ee0", "event": "fees_explained"}
+{"t": "18:55:52", "sid": "2d658ee0", "event": "user_turn", "text": "haan aage badho"}
+{"t": "18:55:52", "sid": "2d658ee0", "event": "esign_requested"}
+{"t": "18:55:52", "sid": "2d658ee0", "event": "esigned", "kind": "loan", "ref": "PTM-L-DAD1EFD9-6752", "amount": 200000, "emi": 7131}
+{"t": "18:55:52", "sid": "0f0a51fa", "event": "session_start", "user": "sunita"}
+{"t": "18:55:52", "sid": "0f0a51fa", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:55:52", "sid": "0f0a51fa", "event": "user_turn", "text": "yes"}
+{"t": "18:55:52", "sid": "0f0a51fa", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:55:52"}
+{"t": "18:55:52", "sid": "0f0a51fa", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:55:52", "sid": "0f0a51fa", "event": "user_turn", "text": "24 months"}
+{"t": "18:55:52", "sid": "0f0a51fa", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "18:55:52", "sid": "061a63b1", "event": "session_start", "user": "sunita"}
+{"t": "18:55:52", "sid": "061a63b1", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "18:55:52", "sid": "5d434d4b", "event": "session_start", "user": "sunita"}
+{"t": "18:55:52", "sid": "5d434d4b", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "18:55:52", "sid": "5d434d4b", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "18:55:52", "sid": "5d434d4b", "event": "user_turn", "text": "compare both plans"}
+{"t": "18:55:52", "sid": "5d434d4b", "event": "compare_plans"}
+{"t": "18:55:52", "sid": "5d434d4b", "event": "user_turn", "text": "take Plus"}
+{"t": "18:55:52", "sid": "5d434d4b", "event": "user_turn", "text": "yes"}
+{"t": "18:55:52", "sid": "5d434d4b", "event": "ins_consent_granted"}
+{"t": "18:55:52", "sid": "5d434d4b", "event": "esigned", "kind": "insurance", "ref": "PTM-H-87DC1047-6752", "plan": "SecureHealth Plus"}
+{"t": "18:55:52", "sid": "2abdc72e", "event": "session_start", "user": "rahul"}
+{"t": "18:55:52", "sid": "2abdc72e", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:55:52", "sid": "2abdc72e", "event": "user_turn", "text": "yes"}
+{"t": "18:55:52", "sid": "2abdc72e", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:55:52"}
+{"t": "18:55:52", "sid": "2abdc72e", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "18:55:52", "sid": "badda290", "event": "session_start", "user": "meena"}
+{"t": "18:55:52", "sid": "badda290", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "18:55:52", "sid": "badda290", "event": "user_turn", "text": "yes"}
+{"t": "18:55:52", "sid": "badda290", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:55:52"}
+{"t": "18:55:52", "sid": "badda290", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "18:55:52", "sid": "a3eab733", "event": "session_start", "user": "sunita"}
+{"t": "18:55:52", "sid": "a3eab733", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:55:52", "sid": "a3eab733", "event": "handoff", "reason": "user_request"}
+{"t": "18:55:52", "sid": "b5a42a67", "event": "session_start", "user": "sunita"}
+{"t": "18:55:53", "sid": "b5a42a67", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "18:55:53", "sid": "b5a42a67", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "18:55:53", "sid": "b5a42a67", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "18:55:53", "sid": "b5a42a67", "event": "handoff", "reason": "user_request"}
+{"t": "18:55:53", "sid": "0b3c8a8c", "event": "session_start", "user": "sunita"}
+{"t": "18:55:53", "sid": "0b3c8a8c", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:55:53", "sid": "0b3c8a8c", "event": "user_turn", "text": "yes"}
+{"t": "18:55:53", "sid": "0b3c8a8c", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:55:53"}
+{"t": "18:55:53", "sid": "0b3c8a8c", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:55:53", "sid": "ad31729e", "event": "session_start", "user": "sunita"}
+{"t": "18:55:53", "sid": "ad31729e", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:55:53", "sid": "ad31729e", "event": "user_turn", "text": "yes"}
+{"t": "18:55:53", "sid": "ad31729e", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:55:53"}
+{"t": "18:55:53", "sid": "ad31729e", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:55:53", "sid": "ad31729e", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:55:53", "sid": "ad31729e", "event": "handoff", "reason": "user_request"}
+{"t": "18:55:53", "sid": "ad31729e", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "18:55:53", "sid": "ad31729e", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "18:55:53", "sid": "65779464", "event": "session_start", "user": "sunita"}
+{"t": "18:59:54", "sid": "5babf8a1", "event": "session_start", "user": "sunita"}
+{"t": "18:59:54", "sid": "5babf8a1", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "18:59:54", "sid": "5babf8a1", "event": "user_turn", "text": "haan"}
+{"t": "18:59:54", "sid": "5babf8a1", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:59:54"}
+{"t": "18:59:54", "sid": "5babf8a1", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:59:54", "sid": "5babf8a1", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "18:59:54", "sid": "5babf8a1", "event": "fees_explained"}
+{"t": "18:59:54", "sid": "5babf8a1", "event": "user_turn", "text": "haan aage badho"}
+{"t": "18:59:54", "sid": "5babf8a1", "event": "esign_requested"}
+{"t": "18:59:54", "sid": "5babf8a1", "event": "esigned", "kind": "loan", "ref": "PTM-L-9D83C139-6994", "amount": 200000, "emi": 7131}
+{"t": "18:59:54", "sid": "5d869098", "event": "session_start", "user": "sunita"}
+{"t": "18:59:54", "sid": "5d869098", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:59:54", "sid": "5d869098", "event": "user_turn", "text": "yes"}
+{"t": "18:59:54", "sid": "5d869098", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:59:54"}
+{"t": "18:59:54", "sid": "5d869098", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:59:54", "sid": "5d869098", "event": "user_turn", "text": "24 months"}
+{"t": "18:59:54", "sid": "5d869098", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "18:59:54", "sid": "0994c725", "event": "session_start", "user": "sunita"}
+{"t": "18:59:54", "sid": "0994c725", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "18:59:54", "sid": "30083204", "event": "session_start", "user": "sunita"}
+{"t": "18:59:54", "sid": "30083204", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "18:59:54", "sid": "30083204", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "18:59:54", "sid": "30083204", "event": "user_turn", "text": "compare both plans"}
+{"t": "18:59:54", "sid": "30083204", "event": "compare_plans"}
+{"t": "18:59:54", "sid": "30083204", "event": "user_turn", "text": "take Plus"}
+{"t": "18:59:54", "sid": "30083204", "event": "user_turn", "text": "yes"}
+{"t": "18:59:54", "sid": "30083204", "event": "ins_consent_granted"}
+{"t": "18:59:54", "sid": "30083204", "event": "esigned", "kind": "insurance", "ref": "PTM-H-210EE480-6994", "plan": "SecureHealth Plus"}
+{"t": "18:59:54", "sid": "e23ebf0f", "event": "session_start", "user": "rahul"}
+{"t": "18:59:54", "sid": "e23ebf0f", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:59:54", "sid": "e23ebf0f", "event": "user_turn", "text": "yes"}
+{"t": "18:59:54", "sid": "e23ebf0f", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:59:54"}
+{"t": "18:59:54", "sid": "e23ebf0f", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "18:59:54", "sid": "8dd78aed", "event": "session_start", "user": "meena"}
+{"t": "18:59:54", "sid": "8dd78aed", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "18:59:54", "sid": "8dd78aed", "event": "user_turn", "text": "yes"}
+{"t": "18:59:54", "sid": "8dd78aed", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:59:54"}
+{"t": "18:59:54", "sid": "8dd78aed", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "18:59:54", "sid": "57fe4eb0", "event": "session_start", "user": "sunita"}
+{"t": "18:59:54", "sid": "57fe4eb0", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:59:54", "sid": "57fe4eb0", "event": "handoff", "reason": "user_request"}
+{"t": "18:59:54", "sid": "219c5a41", "event": "session_start", "user": "sunita"}
+{"t": "18:59:54", "sid": "219c5a41", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "18:59:54", "sid": "219c5a41", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "18:59:54", "sid": "219c5a41", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "18:59:54", "sid": "219c5a41", "event": "handoff", "reason": "user_request"}
+{"t": "18:59:54", "sid": "6af41b46", "event": "session_start", "user": "sunita"}
+{"t": "18:59:54", "sid": "6af41b46", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:59:54", "sid": "6af41b46", "event": "user_turn", "text": "yes"}
+{"t": "18:59:54", "sid": "6af41b46", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:59:54"}
+{"t": "18:59:54", "sid": "6af41b46", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:59:54", "sid": "7186069e", "event": "session_start", "user": "sunita"}
+{"t": "18:59:54", "sid": "7186069e", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "18:59:54", "sid": "7186069e", "event": "user_turn", "text": "yes"}
+{"t": "18:59:54", "sid": "7186069e", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 18:59:54"}
+{"t": "18:59:54", "sid": "7186069e", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "18:59:54", "sid": "7186069e", "event": "user_turn", "text": "talk to an agent"}
+{"t": "18:59:54", "sid": "7186069e", "event": "handoff", "reason": "user_request"}
+{"t": "18:59:54", "sid": "7186069e", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "18:59:54", "sid": "7186069e", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "18:59:54", "sid": "10ed7da7", "event": "session_start", "user": "sunita"}
+{"t": "19:09:07", "sid": "e907dda9", "event": "session_start", "user": "sunita"}
+{"t": "19:09:07", "sid": "e907dda9", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "19:09:07", "sid": "e907dda9", "event": "user_turn", "text": "haan"}
+{"t": "19:09:07", "sid": "e907dda9", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:07"}
+{"t": "19:09:07", "sid": "e907dda9", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:09:07", "sid": "e907dda9", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "19:09:07", "sid": "e907dda9", "event": "fees_explained"}
+{"t": "19:09:07", "sid": "e907dda9", "event": "user_turn", "text": "haan aage badho"}
+{"t": "19:09:07", "sid": "e907dda9", "event": "esign_requested"}
+{"t": "19:09:07", "sid": "e907dda9", "event": "esigned", "kind": "loan", "ref": "PTM-L-908F7C03-7547", "amount": 200000, "emi": 7131}
+{"t": "19:09:07", "sid": "59b830e2", "event": "session_start", "user": "sunita"}
+{"t": "19:09:07", "sid": "59b830e2", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:09:07", "sid": "59b830e2", "event": "user_turn", "text": "yes"}
+{"t": "19:09:07", "sid": "59b830e2", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:07"}
+{"t": "19:09:07", "sid": "59b830e2", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:09:07", "sid": "59b830e2", "event": "user_turn", "text": "24 months"}
+{"t": "19:09:07", "sid": "59b830e2", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "19:09:07", "sid": "0767d6c6", "event": "session_start", "user": "sunita"}
+{"t": "19:09:07", "sid": "0767d6c6", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "19:09:07", "sid": "643b0d07", "event": "session_start", "user": "sunita"}
+{"t": "19:09:07", "sid": "643b0d07", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "19:09:07", "sid": "643b0d07", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "19:09:07", "sid": "643b0d07", "event": "user_turn", "text": "compare both plans"}
+{"t": "19:09:07", "sid": "643b0d07", "event": "compare_plans"}
+{"t": "19:09:07", "sid": "643b0d07", "event": "user_turn", "text": "take Plus"}
+{"t": "19:09:07", "sid": "643b0d07", "event": "user_turn", "text": "yes"}
+{"t": "19:09:07", "sid": "643b0d07", "event": "ins_consent_granted"}
+{"t": "19:09:07", "sid": "643b0d07", "event": "esigned", "kind": "insurance", "ref": "PTM-H-9A5E2806-7547", "plan": "SecureHealth Plus"}
+{"t": "19:09:07", "sid": "f7192f7e", "event": "session_start", "user": "rahul"}
+{"t": "19:09:07", "sid": "f7192f7e", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:09:07", "sid": "f7192f7e", "event": "user_turn", "text": "yes"}
+{"t": "19:09:07", "sid": "f7192f7e", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:07"}
+{"t": "19:09:07", "sid": "f7192f7e", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "19:09:07", "sid": "1151cd3c", "event": "session_start", "user": "meena"}
+{"t": "19:09:07", "sid": "1151cd3c", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "19:09:07", "sid": "1151cd3c", "event": "user_turn", "text": "yes"}
+{"t": "19:09:07", "sid": "1151cd3c", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:07"}
+{"t": "19:09:07", "sid": "1151cd3c", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "19:09:07", "sid": "95e57240", "event": "session_start", "user": "sunita"}
+{"t": "19:09:07", "sid": "95e57240", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:09:07", "sid": "95e57240", "event": "handoff", "reason": "user_request"}
+{"t": "19:09:07", "sid": "9f95dd83", "event": "session_start", "user": "sunita"}
+{"t": "19:09:07", "sid": "9f95dd83", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "19:09:07", "sid": "9f95dd83", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "19:09:07", "sid": "9f95dd83", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "19:09:07", "sid": "9f95dd83", "event": "handoff", "reason": "user_request"}
+{"t": "19:09:07", "sid": "b61b216d", "event": "session_start", "user": "sunita"}
+{"t": "19:09:07", "sid": "b61b216d", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:09:07", "sid": "b61b216d", "event": "user_turn", "text": "yes"}
+{"t": "19:09:07", "sid": "b61b216d", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:07"}
+{"t": "19:09:07", "sid": "b61b216d", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:09:07", "sid": "1b36064b", "event": "session_start", "user": "sunita"}
+{"t": "19:09:07", "sid": "1b36064b", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:09:07", "sid": "1b36064b", "event": "user_turn", "text": "yes"}
+{"t": "19:09:07", "sid": "1b36064b", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:07"}
+{"t": "19:09:07", "sid": "1b36064b", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:09:07", "sid": "1b36064b", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:09:07", "sid": "1b36064b", "event": "handoff", "reason": "user_request"}
+{"t": "19:09:07", "sid": "1b36064b", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "19:09:07", "sid": "1b36064b", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "19:09:07", "sid": "a7c135c2", "event": "session_start", "user": "sunita"}
+{"t": "19:09:47", "sid": "77444917", "event": "session_start", "user": "sunita"}
+{"t": "19:09:47", "sid": "77444917", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "19:09:47", "sid": "77444917", "event": "user_turn", "text": "haan"}
+{"t": "19:09:47", "sid": "77444917", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:47"}
+{"t": "19:09:47", "sid": "77444917", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:09:47", "sid": "77444917", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "19:09:47", "sid": "77444917", "event": "fees_explained"}
+{"t": "19:09:47", "sid": "77444917", "event": "user_turn", "text": "haan aage badho"}
+{"t": "19:09:47", "sid": "77444917", "event": "esign_requested"}
+{"t": "19:09:47", "sid": "77444917", "event": "esigned", "kind": "loan", "ref": "PTM-L-25351698-7587", "amount": 200000, "emi": 7131}
+{"t": "19:09:47", "sid": "7ad422f6", "event": "session_start", "user": "sunita"}
+{"t": "19:09:47", "sid": "7ad422f6", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:09:47", "sid": "7ad422f6", "event": "user_turn", "text": "yes"}
+{"t": "19:09:47", "sid": "7ad422f6", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:47"}
+{"t": "19:09:47", "sid": "7ad422f6", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:09:47", "sid": "7ad422f6", "event": "user_turn", "text": "24 months"}
+{"t": "19:09:47", "sid": "7ad422f6", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "19:09:47", "sid": "1acfcd28", "event": "session_start", "user": "sunita"}
+{"t": "19:09:47", "sid": "1acfcd28", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "19:09:47", "sid": "574ad0a8", "event": "session_start", "user": "sunita"}
+{"t": "19:09:47", "sid": "574ad0a8", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "19:09:47", "sid": "574ad0a8", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "19:09:47", "sid": "574ad0a8", "event": "user_turn", "text": "compare both plans"}
+{"t": "19:09:47", "sid": "574ad0a8", "event": "compare_plans"}
+{"t": "19:09:47", "sid": "574ad0a8", "event": "user_turn", "text": "take Plus"}
+{"t": "19:09:47", "sid": "574ad0a8", "event": "user_turn", "text": "yes"}
+{"t": "19:09:47", "sid": "574ad0a8", "event": "ins_consent_granted"}
+{"t": "19:09:47", "sid": "574ad0a8", "event": "esigned", "kind": "insurance", "ref": "PTM-H-B094D10A-7587", "plan": "SecureHealth Plus"}
+{"t": "19:09:47", "sid": "4b477957", "event": "session_start", "user": "rahul"}
+{"t": "19:09:47", "sid": "4b477957", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:09:47", "sid": "4b477957", "event": "user_turn", "text": "yes"}
+{"t": "19:09:47", "sid": "4b477957", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:47"}
+{"t": "19:09:47", "sid": "4b477957", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "19:09:47", "sid": "8ad716f7", "event": "session_start", "user": "meena"}
+{"t": "19:09:47", "sid": "8ad716f7", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "19:09:47", "sid": "8ad716f7", "event": "user_turn", "text": "yes"}
+{"t": "19:09:47", "sid": "8ad716f7", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:47"}
+{"t": "19:09:47", "sid": "8ad716f7", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "19:09:47", "sid": "18931d93", "event": "session_start", "user": "sunita"}
+{"t": "19:09:47", "sid": "18931d93", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:09:47", "sid": "18931d93", "event": "handoff", "reason": "user_request"}
+{"t": "19:09:47", "sid": "be58b79f", "event": "session_start", "user": "sunita"}
+{"t": "19:09:47", "sid": "be58b79f", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "19:09:47", "sid": "be58b79f", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "19:09:47", "sid": "be58b79f", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "19:09:47", "sid": "be58b79f", "event": "handoff", "reason": "user_request"}
+{"t": "19:09:47", "sid": "9545b780", "event": "session_start", "user": "sunita"}
+{"t": "19:09:47", "sid": "9545b780", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:09:47", "sid": "9545b780", "event": "user_turn", "text": "yes"}
+{"t": "19:09:47", "sid": "9545b780", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:47"}
+{"t": "19:09:47", "sid": "9545b780", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:09:47", "sid": "a305168a", "event": "session_start", "user": "sunita"}
+{"t": "19:09:47", "sid": "a305168a", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:09:47", "sid": "a305168a", "event": "user_turn", "text": "yes"}
+{"t": "19:09:47", "sid": "a305168a", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:09:47"}
+{"t": "19:09:47", "sid": "a305168a", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:09:47", "sid": "a305168a", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:09:47", "sid": "a305168a", "event": "handoff", "reason": "user_request"}
+{"t": "19:09:47", "sid": "a305168a", "event": "agent_turn", "agent": "Neha (Paytm Credit Specialist)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "19:09:47", "sid": "a305168a", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "19:09:47", "sid": "8606de04", "event": "session_start", "user": "sunita"}
+{"t": "19:35:32", "sid": "3cfeb75b", "event": "session_start", "user": "sunita"}
+{"t": "19:35:32", "sid": "3cfeb75b", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "19:35:32", "sid": "3cfeb75b", "event": "user_turn", "text": "haan"}
+{"t": "19:35:32", "sid": "3cfeb75b", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:35:32"}
+{"t": "19:35:32", "sid": "3cfeb75b", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:35:32", "sid": "3cfeb75b", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "19:35:32", "sid": "3cfeb75b", "event": "fees_explained"}
+{"t": "19:35:32", "sid": "3cfeb75b", "event": "user_turn", "text": "haan aage badho"}
+{"t": "19:35:32", "sid": "3cfeb75b", "event": "esign_requested"}
+{"t": "19:35:32", "sid": "3cfeb75b", "event": "esigned", "kind": "loan", "ref": "PTM-L-3E1FF8B8-9132", "amount": 200000, "emi": 7131}
+{"t": "19:35:32", "sid": "d23e64bd", "event": "session_start", "user": "sunita"}
+{"t": "19:35:32", "sid": "d23e64bd", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:35:32", "sid": "d23e64bd", "event": "user_turn", "text": "yes"}
+{"t": "19:35:32", "sid": "d23e64bd", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:35:32"}
+{"t": "19:35:32", "sid": "d23e64bd", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:35:32", "sid": "d23e64bd", "event": "user_turn", "text": "24 months"}
+{"t": "19:35:32", "sid": "d23e64bd", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "19:35:32", "sid": "dedd8bec", "event": "session_start", "user": "sunita"}
+{"t": "19:35:32", "sid": "dedd8bec", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "19:35:32", "sid": "2cccd478", "event": "session_start", "user": "sunita"}
+{"t": "19:35:32", "sid": "2cccd478", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "19:35:32", "sid": "2cccd478", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "19:35:32", "sid": "2cccd478", "event": "user_turn", "text": "compare both plans"}
+{"t": "19:35:32", "sid": "2cccd478", "event": "compare_plans"}
+{"t": "19:35:32", "sid": "2cccd478", "event": "user_turn", "text": "take Plus"}
+{"t": "19:35:32", "sid": "2cccd478", "event": "user_turn", "text": "yes"}
+{"t": "19:35:32", "sid": "2cccd478", "event": "ins_consent_granted"}
+{"t": "19:35:33", "sid": "2cccd478", "event": "esigned", "kind": "insurance", "ref": "PTM-H-850F2C47-9133", "plan": "SecureHealth Plus"}
+{"t": "19:35:33", "sid": "8844004e", "event": "session_start", "user": "rahul"}
+{"t": "19:35:33", "sid": "8844004e", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:35:33", "sid": "8844004e", "event": "user_turn", "text": "yes"}
+{"t": "19:35:33", "sid": "8844004e", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:35:33"}
+{"t": "19:35:33", "sid": "8844004e", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "19:35:33", "sid": "6e3cc22d", "event": "session_start", "user": "meena"}
+{"t": "19:35:33", "sid": "6e3cc22d", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "19:35:33", "sid": "6e3cc22d", "event": "user_turn", "text": "yes"}
+{"t": "19:35:33", "sid": "6e3cc22d", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:35:33"}
+{"t": "19:35:33", "sid": "6e3cc22d", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "19:35:33", "sid": "a319a4a3", "event": "session_start", "user": "sunita"}
+{"t": "19:35:33", "sid": "a319a4a3", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:35:33", "sid": "a319a4a3", "event": "handoff", "reason": "user_request"}
+{"t": "19:35:33", "sid": "f3dd2bc7", "event": "session_start", "user": "sunita"}
+{"t": "19:35:33", "sid": "f3dd2bc7", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "19:35:33", "sid": "f3dd2bc7", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "19:35:33", "sid": "f3dd2bc7", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "19:35:33", "sid": "f3dd2bc7", "event": "handoff", "reason": "user_request"}
+{"t": "19:35:33", "sid": "20e34f56", "event": "session_start", "user": "sunita"}
+{"t": "19:35:33", "sid": "20e34f56", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:35:33", "sid": "20e34f56", "event": "user_turn", "text": "yes"}
+{"t": "19:35:33", "sid": "20e34f56", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:35:33"}
+{"t": "19:35:33", "sid": "20e34f56", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:35:33", "sid": "bc773a24", "event": "session_start", "user": "sunita"}
+{"t": "19:35:33", "sid": "bc773a24", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:35:33", "sid": "bc773a24", "event": "user_turn", "text": "yes"}
+{"t": "19:35:33", "sid": "bc773a24", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:35:33"}
+{"t": "19:35:33", "sid": "bc773a24", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:35:33", "sid": "bc773a24", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:35:33", "sid": "bc773a24", "event": "handoff", "reason": "user_request"}
+{"t": "19:35:33", "sid": "bc773a24", "event": "agent_turn", "agent": "Neha (Saytm Agent)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "19:35:33", "sid": "bc773a24", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "19:35:33", "sid": "1ec793e8", "event": "session_start", "user": "sunita"}
+{"t": "19:37:38", "sid": "8719370a", "event": "session_start", "user": "sunita"}
+{"t": "19:37:38", "sid": "8719370a", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "19:37:38", "sid": "8719370a", "event": "user_turn", "text": "haan"}
+{"t": "19:37:38", "sid": "8719370a", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:37:38"}
+{"t": "19:37:38", "sid": "8719370a", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:37:38", "sid": "8719370a", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "19:37:38", "sid": "8719370a", "event": "fees_explained"}
+{"t": "19:37:38", "sid": "8719370a", "event": "user_turn", "text": "haan aage badho"}
+{"t": "19:37:38", "sid": "8719370a", "event": "esign_requested"}
+{"t": "19:37:38", "sid": "8719370a", "event": "esigned", "kind": "loan", "ref": "PTM-L-97590FA8-9258", "amount": 200000, "emi": 7131}
+{"t": "19:37:38", "sid": "188aa606", "event": "session_start", "user": "sunita"}
+{"t": "19:37:38", "sid": "188aa606", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:37:38", "sid": "188aa606", "event": "user_turn", "text": "yes"}
+{"t": "19:37:38", "sid": "188aa606", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:37:38"}
+{"t": "19:37:38", "sid": "188aa606", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:37:38", "sid": "188aa606", "event": "user_turn", "text": "24 months"}
+{"t": "19:37:38", "sid": "188aa606", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "19:37:38", "sid": "0df6820d", "event": "session_start", "user": "sunita"}
+{"t": "19:37:38", "sid": "0df6820d", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "19:37:38", "sid": "a6f478df", "event": "session_start", "user": "sunita"}
+{"t": "19:37:38", "sid": "a6f478df", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "19:37:38", "sid": "a6f478df", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "19:37:38", "sid": "a6f478df", "event": "user_turn", "text": "compare both plans"}
+{"t": "19:37:38", "sid": "a6f478df", "event": "compare_plans"}
+{"t": "19:37:38", "sid": "a6f478df", "event": "user_turn", "text": "take Plus"}
+{"t": "19:37:38", "sid": "a6f478df", "event": "user_turn", "text": "yes"}
+{"t": "19:37:38", "sid": "a6f478df", "event": "ins_consent_granted"}
+{"t": "19:37:38", "sid": "a6f478df", "event": "esigned", "kind": "insurance", "ref": "PTM-H-325A3CD9-9258", "plan": "SecureHealth Plus"}
+{"t": "19:37:38", "sid": "85f81464", "event": "session_start", "user": "rahul"}
+{"t": "19:37:38", "sid": "85f81464", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:37:38", "sid": "85f81464", "event": "user_turn", "text": "yes"}
+{"t": "19:37:38", "sid": "85f81464", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:37:38"}
+{"t": "19:37:38", "sid": "85f81464", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "19:37:38", "sid": "1249c1ac", "event": "session_start", "user": "meena"}
+{"t": "19:37:38", "sid": "1249c1ac", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "19:37:38", "sid": "1249c1ac", "event": "user_turn", "text": "yes"}
+{"t": "19:37:38", "sid": "1249c1ac", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:37:38"}
+{"t": "19:37:38", "sid": "1249c1ac", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "19:37:38", "sid": "b760abb3", "event": "session_start", "user": "sunita"}
+{"t": "19:37:38", "sid": "b760abb3", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:37:38", "sid": "b760abb3", "event": "handoff", "reason": "user_request"}
+{"t": "19:37:38", "sid": "776f766d", "event": "session_start", "user": "sunita"}
+{"t": "19:37:38", "sid": "776f766d", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "19:37:38", "sid": "776f766d", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "19:37:38", "sid": "776f766d", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "19:37:38", "sid": "776f766d", "event": "handoff", "reason": "user_request"}
+{"t": "19:37:38", "sid": "010d9982", "event": "session_start", "user": "sunita"}
+{"t": "19:37:38", "sid": "010d9982", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:37:38", "sid": "010d9982", "event": "user_turn", "text": "yes"}
+{"t": "19:37:38", "sid": "010d9982", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:37:38"}
+{"t": "19:37:38", "sid": "010d9982", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:37:38", "sid": "f79dc370", "event": "session_start", "user": "sunita"}
+{"t": "19:37:38", "sid": "f79dc370", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:37:38", "sid": "f79dc370", "event": "user_turn", "text": "yes"}
+{"t": "19:37:38", "sid": "f79dc370", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:37:38"}
+{"t": "19:37:38", "sid": "f79dc370", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:37:38", "sid": "f79dc370", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:37:38", "sid": "f79dc370", "event": "handoff", "reason": "user_request"}
+{"t": "19:37:38", "sid": "f79dc370", "event": "agent_turn", "agent": "Neha (Saytm Agent)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "19:37:38", "sid": "f79dc370", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "19:37:38", "sid": "7670e31b", "event": "session_start", "user": "sunita"}
+{"t": "19:38:03", "sid": "b36fc39c", "event": "session_start", "user": "sunita"}
+{"t": "19:38:03", "sid": "b36fc39c", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "19:38:04", "sid": "b36fc39c", "event": "user_turn", "text": "haan"}
+{"t": "19:38:04", "sid": "b36fc39c", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:04"}
+{"t": "19:38:04", "sid": "b36fc39c", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:38:04", "sid": "b36fc39c", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "19:38:04", "sid": "b36fc39c", "event": "fees_explained"}
+{"t": "19:38:04", "sid": "b36fc39c", "event": "user_turn", "text": "haan aage badho"}
+{"t": "19:38:04", "sid": "b36fc39c", "event": "esign_requested"}
+{"t": "19:38:04", "sid": "b36fc39c", "event": "esigned", "kind": "loan", "ref": "PTM-L-716ABD08-9284", "amount": 200000, "emi": 7131}
+{"t": "19:38:04", "sid": "7e1dcfb7", "event": "session_start", "user": "sunita"}
+{"t": "19:38:04", "sid": "7e1dcfb7", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:38:04", "sid": "7e1dcfb7", "event": "user_turn", "text": "yes"}
+{"t": "19:38:04", "sid": "7e1dcfb7", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:04"}
+{"t": "19:38:04", "sid": "7e1dcfb7", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:38:04", "sid": "7e1dcfb7", "event": "user_turn", "text": "24 months"}
+{"t": "19:38:04", "sid": "7e1dcfb7", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "19:38:04", "sid": "b538313e", "event": "session_start", "user": "sunita"}
+{"t": "19:38:04", "sid": "b538313e", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "19:38:04", "sid": "2d8fa2b1", "event": "session_start", "user": "sunita"}
+{"t": "19:38:04", "sid": "2d8fa2b1", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "19:38:04", "sid": "2d8fa2b1", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "19:38:04", "sid": "2d8fa2b1", "event": "user_turn", "text": "compare both plans"}
+{"t": "19:38:04", "sid": "2d8fa2b1", "event": "compare_plans"}
+{"t": "19:38:04", "sid": "2d8fa2b1", "event": "user_turn", "text": "take Plus"}
+{"t": "19:38:04", "sid": "2d8fa2b1", "event": "user_turn", "text": "yes"}
+{"t": "19:38:04", "sid": "2d8fa2b1", "event": "ins_consent_granted"}
+{"t": "19:38:04", "sid": "2d8fa2b1", "event": "esigned", "kind": "insurance", "ref": "PTM-H-37768C30-9284", "plan": "SecureHealth Plus"}
+{"t": "19:38:04", "sid": "51056721", "event": "session_start", "user": "rahul"}
+{"t": "19:38:04", "sid": "51056721", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:38:04", "sid": "51056721", "event": "user_turn", "text": "yes"}
+{"t": "19:38:04", "sid": "51056721", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:04"}
+{"t": "19:38:04", "sid": "51056721", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "19:38:04", "sid": "698d64e8", "event": "session_start", "user": "meena"}
+{"t": "19:38:04", "sid": "698d64e8", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "19:38:04", "sid": "698d64e8", "event": "user_turn", "text": "yes"}
+{"t": "19:38:04", "sid": "698d64e8", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:04"}
+{"t": "19:38:04", "sid": "698d64e8", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "19:38:04", "sid": "7c44734a", "event": "session_start", "user": "sunita"}
+{"t": "19:38:04", "sid": "7c44734a", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:38:04", "sid": "7c44734a", "event": "handoff", "reason": "user_request"}
+{"t": "19:38:04", "sid": "94477eec", "event": "session_start", "user": "sunita"}
+{"t": "19:38:04", "sid": "94477eec", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "19:38:04", "sid": "94477eec", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "19:38:04", "sid": "94477eec", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "19:38:04", "sid": "94477eec", "event": "handoff", "reason": "user_request"}
+{"t": "19:38:04", "sid": "779c2633", "event": "session_start", "user": "sunita"}
+{"t": "19:38:04", "sid": "779c2633", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:38:04", "sid": "779c2633", "event": "user_turn", "text": "yes"}
+{"t": "19:38:04", "sid": "779c2633", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:04"}
+{"t": "19:38:04", "sid": "779c2633", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:38:04", "sid": "83d14af6", "event": "session_start", "user": "sunita"}
+{"t": "19:38:04", "sid": "83d14af6", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:38:04", "sid": "83d14af6", "event": "user_turn", "text": "yes"}
+{"t": "19:38:04", "sid": "83d14af6", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:04"}
+{"t": "19:38:04", "sid": "83d14af6", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:38:04", "sid": "83d14af6", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:38:04", "sid": "83d14af6", "event": "handoff", "reason": "user_request"}
+{"t": "19:38:04", "sid": "83d14af6", "event": "agent_turn", "agent": "Neha (Saytm Agent)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "19:38:04", "sid": "83d14af6", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "19:38:04", "sid": "eef55bab", "event": "session_start", "user": "sunita"}
+{"t": "19:38:28", "sid": "0928ab3b", "event": "session_start", "user": "sunita"}
+{"t": "19:38:28", "sid": "0928ab3b", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "19:38:28", "sid": "0928ab3b", "event": "user_turn", "text": "haan"}
+{"t": "19:38:28", "sid": "0928ab3b", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:28"}
+{"t": "19:38:28", "sid": "0928ab3b", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:38:28", "sid": "0928ab3b", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "19:38:28", "sid": "0928ab3b", "event": "fees_explained"}
+{"t": "19:38:28", "sid": "0928ab3b", "event": "user_turn", "text": "haan aage badho"}
+{"t": "19:38:28", "sid": "0928ab3b", "event": "esign_requested"}
+{"t": "19:38:28", "sid": "0928ab3b", "event": "esigned", "kind": "loan", "ref": "PTM-L-BD37E69B-9308", "amount": 200000, "emi": 7131}
+{"t": "19:38:28", "sid": "1e68c868", "event": "session_start", "user": "sunita"}
+{"t": "19:38:28", "sid": "1e68c868", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:38:28", "sid": "1e68c868", "event": "user_turn", "text": "yes"}
+{"t": "19:38:28", "sid": "1e68c868", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:28"}
+{"t": "19:38:28", "sid": "1e68c868", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:38:28", "sid": "1e68c868", "event": "user_turn", "text": "24 months"}
+{"t": "19:38:28", "sid": "1e68c868", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "19:38:28", "sid": "7f4f3331", "event": "session_start", "user": "sunita"}
+{"t": "19:38:28", "sid": "7f4f3331", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "19:38:28", "sid": "46f88af8", "event": "session_start", "user": "sunita"}
+{"t": "19:38:28", "sid": "46f88af8", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "19:38:28", "sid": "46f88af8", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "19:38:28", "sid": "46f88af8", "event": "user_turn", "text": "compare both plans"}
+{"t": "19:38:28", "sid": "46f88af8", "event": "compare_plans"}
+{"t": "19:38:28", "sid": "46f88af8", "event": "user_turn", "text": "take Plus"}
+{"t": "19:38:28", "sid": "46f88af8", "event": "user_turn", "text": "yes"}
+{"t": "19:38:28", "sid": "46f88af8", "event": "ins_consent_granted"}
+{"t": "19:38:28", "sid": "46f88af8", "event": "esigned", "kind": "insurance", "ref": "PTM-H-5E4C726C-9308", "plan": "SecureHealth Plus"}
+{"t": "19:38:28", "sid": "dfbf6bc3", "event": "session_start", "user": "rahul"}
+{"t": "19:38:28", "sid": "dfbf6bc3", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:38:28", "sid": "dfbf6bc3", "event": "user_turn", "text": "yes"}
+{"t": "19:38:28", "sid": "dfbf6bc3", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:28"}
+{"t": "19:38:28", "sid": "dfbf6bc3", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "19:38:28", "sid": "d7559ca9", "event": "session_start", "user": "meena"}
+{"t": "19:38:28", "sid": "d7559ca9", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "19:38:28", "sid": "d7559ca9", "event": "user_turn", "text": "yes"}
+{"t": "19:38:28", "sid": "d7559ca9", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:28"}
+{"t": "19:38:28", "sid": "d7559ca9", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "19:38:28", "sid": "e53a6741", "event": "session_start", "user": "sunita"}
+{"t": "19:38:28", "sid": "e53a6741", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:38:28", "sid": "e53a6741", "event": "handoff", "reason": "user_request"}
+{"t": "19:38:28", "sid": "0fa7166f", "event": "session_start", "user": "sunita"}
+{"t": "19:38:28", "sid": "0fa7166f", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "19:38:28", "sid": "0fa7166f", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "19:38:28", "sid": "0fa7166f", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "19:38:28", "sid": "0fa7166f", "event": "handoff", "reason": "user_request"}
+{"t": "19:38:28", "sid": "067d303a", "event": "session_start", "user": "sunita"}
+{"t": "19:38:28", "sid": "067d303a", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:38:28", "sid": "067d303a", "event": "user_turn", "text": "yes"}
+{"t": "19:38:28", "sid": "067d303a", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:28"}
+{"t": "19:38:28", "sid": "067d303a", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:38:28", "sid": "0bb3a5f7", "event": "session_start", "user": "sunita"}
+{"t": "19:38:28", "sid": "0bb3a5f7", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:38:28", "sid": "0bb3a5f7", "event": "user_turn", "text": "yes"}
+{"t": "19:38:28", "sid": "0bb3a5f7", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:38:28"}
+{"t": "19:38:28", "sid": "0bb3a5f7", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:38:28", "sid": "0bb3a5f7", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:38:28", "sid": "0bb3a5f7", "event": "handoff", "reason": "user_request"}
+{"t": "19:38:28", "sid": "0bb3a5f7", "event": "agent_turn", "agent": "Neha (Saytm Agent)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "19:38:28", "sid": "0bb3a5f7", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "19:38:28", "sid": "25373d75", "event": "session_start", "user": "sunita"}
+{"t": "19:43:48", "sid": "72a0ac57", "event": "session_start", "user": "sunita"}
+{"t": "19:44:41", "sid": "3f846917", "event": "session_start", "user": "sunita"}
+{"t": "19:44:45", "sid": "bc95a62e", "event": "session_start", "user": "rahul"}
+{"t": "19:44:48", "sid": "4c27afac", "event": "session_start", "user": "rahul"}
+{"t": "19:44:48", "sid": "028542ec", "event": "session_start", "user": "rahul"}
+{"t": "19:44:50", "sid": "028542ec", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:44:54", "sid": "028542ec", "event": "user_turn", "text": "24 mahine mein"}
+{"t": "19:44:57", "sid": "028542ec", "event": "user_turn", "text": "yes"}
+{"t": "19:44:57", "sid": "028542ec", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:44:57"}
+{"t": "19:44:57", "sid": "028542ec", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "19:44:58", "sid": "028542ec", "event": "user_turn", "text": "Explain health insurance"}
+{"t": "19:44:58", "sid": "028542ec", "event": "rag_answer", "clauses": ["SHP-8.1"]}
+{"t": "19:45:02", "sid": "028542ec", "event": "user_turn", "text": "Room rent limit?"}
+{"t": "19:45:02", "sid": "028542ec", "event": "rag_answer", "clauses": ["SHP-5.2", "SHB-5.2"]}
+{"t": "19:45:08", "sid": "028542ec", "event": "consent_revoked"}
+{"t": "19:46:25", "sid": "028542ec", "event": "agent_turn", "agent": "Neha (Saypatm Agent)", "text": "i need an education loan for my child's study", "action": null}
+{"t": "19:46:41", "sid": "028542ec", "event": "agent_turn", "agent": "Neha (Saypatm Agent)", "text": "Hello, this is Neha from Saypatm. How can I help clarify your query?", "action": null}
+{"t": "19:46:45", "sid": "028542ec", "event": "agent_turn", "agent": "Neha (Saypatm Agent)", "text": "I have reviewed your account inflows; you qualify for expedited disbursement within 15 minutes of e-signing.", "action": null}
+{"t": "19:47:07", "sid": "06e0dfed", "event": "session_start", "user": "sunita"}
+{"t": "19:48:54", "sid": "8f17ef1e", "event": "session_start", "user": "sunita"}
+{"t": "19:48:56", "sid": "8f17ef1e", "event": "user_turn", "text": "Explain health insurance"}
+{"t": "19:48:56", "sid": "8f17ef1e", "event": "rag_answer", "clauses": ["SHP-8.1"]}
+{"t": "19:49:00", "sid": "8f17ef1e", "event": "user_turn", "text": "What is the waiting period?"}
+{"t": "19:49:00", "sid": "8f17ef1e", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "19:49:03", "sid": "8f17ef1e", "event": "user_turn", "text": "Take Plus"}
+{"t": "19:49:05", "sid": "8f17ef1e", "event": "user_turn", "text": "yes"}
+{"t": "19:49:05", "sid": "8f17ef1e", "event": "ins_consent_granted"}
+{"t": "19:49:06", "sid": "8f17ef1e", "event": "esigned", "kind": "insurance", "ref": "PTM-H-4AD2E641-9946", "plan": "SecureHealth Plus"}
+{"t": "19:49:25", "sid": "8f17ef1e", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "19:49:25", "sid": "8f17ef1e", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:49:30", "sid": "8f17ef1e", "event": "user_turn", "text": "Talk to an agent"}
+{"t": "19:49:30", "sid": "8f17ef1e", "event": "handoff", "reason": "user_request"}
+{"t": "19:50:24", "sid": "8f17ef1e", "event": "agent_turn", "agent": "Neha (Saypatm Agent)", "text": "do my kyc", "action": null}
+{"t": "19:50:32", "sid": "8f17ef1e", "event": "agent_turn", "agent": "Neha (Saypatm Priority Desk)", "text": "Special Priority Offer: I have authorized an exclusive rate reduction to 12.0% p.a. for your loan!", "action": "special_rate"}
+{"t": "19:50:32", "sid": "8f17ef1e", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "19:50:41", "sid": "8f17ef1e", "event": "agent_turn", "agent": "Neha (Saypatm Agent)", "text": "I have reviewed your account inflows; you qualify for expedited disbursement within 15 minutes of e-signing.", "action": null}
+{"t": "19:56:21", "sid": "f2d4c226", "event": "session_start", "user": "sunita"}
+{"t": "19:56:21", "sid": "f2d4c226", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "19:56:21", "sid": "f2d4c226", "event": "user_turn", "text": "haan"}
+{"t": "19:56:21", "sid": "f2d4c226", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:56:21"}
+{"t": "19:56:21", "sid": "f2d4c226", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:56:21", "sid": "f2d4c226", "event": "user_turn", "text": "haan, samjhao"}
+{"t": "19:56:21", "sid": "f2d4c226", "event": "fees_explained"}
+{"t": "19:56:21", "sid": "f2d4c226", "event": "user_turn", "text": "haan aage badho"}
+{"t": "19:56:21", "sid": "f2d4c226", "event": "esign_requested"}
+{"t": "19:56:21", "sid": "f2d4c226", "event": "esigned", "kind": "loan", "ref": "PTM-L-5C4A279E-381", "amount": 200000, "emi": 7131}
+{"t": "19:56:21", "sid": "2a475a99", "event": "session_start", "user": "sunita"}
+{"t": "19:56:21", "sid": "2a475a99", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:56:21", "sid": "2a475a99", "event": "user_turn", "text": "yes"}
+{"t": "19:56:21", "sid": "2a475a99", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:56:21"}
+{"t": "19:56:21", "sid": "2a475a99", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:56:21", "sid": "2a475a99", "event": "user_turn", "text": "24 months"}
+{"t": "19:56:21", "sid": "2a475a99", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 9888}
+{"t": "19:56:21", "sid": "fea8ef18", "event": "session_start", "user": "sunita"}
+{"t": "19:56:21", "sid": "fea8ef18", "event": "user_turn", "text": "do lakh ka loan chahiye"}
+{"t": "19:56:21", "sid": "1886861e", "event": "session_start", "user": "sunita"}
+{"t": "19:56:21", "sid": "1886861e", "event": "user_turn", "text": "what is the waiting period?"}
+{"t": "19:56:21", "sid": "1886861e", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "19:56:21", "sid": "1886861e", "event": "user_turn", "text": "compare both plans"}
+{"t": "19:56:21", "sid": "1886861e", "event": "compare_plans"}
+{"t": "19:56:21", "sid": "1886861e", "event": "user_turn", "text": "take Plus"}
+{"t": "19:56:21", "sid": "1886861e", "event": "user_turn", "text": "yes"}
+{"t": "19:56:21", "sid": "1886861e", "event": "ins_consent_granted"}
+{"t": "19:56:21", "sid": "1886861e", "event": "esigned", "kind": "insurance", "ref": "PTM-H-D0A392C3-381", "plan": "SecureHealth Plus"}
+{"t": "19:56:21", "sid": "b86818ab", "event": "session_start", "user": "rahul"}
+{"t": "19:56:21", "sid": "b86818ab", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:56:21", "sid": "b86818ab", "event": "user_turn", "text": "yes"}
+{"t": "19:56:21", "sid": "b86818ab", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:56:21"}
+{"t": "19:56:21", "sid": "b86818ab", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "19:56:21", "sid": "735b013d", "event": "session_start", "user": "meena"}
+{"t": "19:56:21", "sid": "735b013d", "event": "user_turn", "text": "I need a 50 thousand loan"}
+{"t": "19:56:21", "sid": "735b013d", "event": "user_turn", "text": "yes"}
+{"t": "19:56:21", "sid": "735b013d", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:56:21"}
+{"t": "19:56:21", "sid": "735b013d", "event": "decision", "amount": 50000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "19:56:21", "sid": "4166e3d7", "event": "session_start", "user": "sunita"}
+{"t": "19:56:21", "sid": "4166e3d7", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:56:21", "sid": "4166e3d7", "event": "handoff", "reason": "user_request"}
+{"t": "19:56:21", "sid": "ea67a61d", "event": "session_start", "user": "sunita"}
+{"t": "19:56:21", "sid": "ea67a61d", "event": "user_turn", "text": "are dinosaur bites covered in this policy?"}
+{"t": "19:56:21", "sid": "ea67a61d", "event": "handoff", "reason": "no_supporting_clause"}
+{"t": "19:56:21", "sid": "ea67a61d", "event": "user_turn", "text": "what about unicorn fever treatment"}
+{"t": "19:56:21", "sid": "ea67a61d", "event": "handoff", "reason": "user_request"}
+{"t": "19:56:21", "sid": "8385de38", "event": "session_start", "user": "sunita"}
+{"t": "19:56:21", "sid": "8385de38", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:56:21", "sid": "8385de38", "event": "user_turn", "text": "yes"}
+{"t": "19:56:21", "sid": "8385de38", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:56:21"}
+{"t": "19:56:21", "sid": "8385de38", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:56:21", "sid": "5b18fbd8", "event": "session_start", "user": "sunita"}
+{"t": "19:56:21", "sid": "5b18fbd8", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "19:56:21", "sid": "5b18fbd8", "event": "user_turn", "text": "yes"}
+{"t": "19:56:21", "sid": "5b18fbd8", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 19:56:21"}
+{"t": "19:56:21", "sid": "5b18fbd8", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "19:56:21", "sid": "5b18fbd8", "event": "user_turn", "text": "talk to an agent"}
+{"t": "19:56:21", "sid": "5b18fbd8", "event": "handoff", "reason": "user_request"}
+{"t": "19:56:21", "sid": "5b18fbd8", "event": "agent_turn", "agent": "Neha (Saytm Agent)", "text": "Hello Sunita, I am offering you an exclusive 12% partner rate.", "action": "special_rate"}
+{"t": "19:56:21", "sid": "5b18fbd8", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
+{"t": "19:56:21", "sid": "13e5b6c8", "event": "session_start", "user": "sunita"}

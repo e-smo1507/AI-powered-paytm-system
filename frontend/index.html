@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Paytm Assistant · Voice-first loans & insurance</title>
+  <title>Saytm - Just say to pay</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%2300baf2'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%23002e6e' font-family='sans-serif' font-weight='bold'>₹</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#10243e;--mut:#5d6f86;--bg:#e8f4fc;--card:#fff;--blue:#002e6e;--sky:#00baf2;--bot:#fff;--me:#002e6e;--me-t:#fff;--line:#d3e1ee;--ok:#0a7d4f;--warn:#b45309;--paytm:#00baf2}
-@media(prefers-color-scheme:dark){:root{--ink:#e6eef8;--mut:#92a5bd;--bg:#0b1522;--card:#12233a;--blue:#7dd3fc;--sky:#00baf2;--bot:#12233a;--me:#00baf2;--me-t:#04213a;--line:#223a57;--ok:#4ade80;--warn:#fbbf24}}
+:root{--ink:#10243e;--mut:#5d6f86;--bg:#e8f4fc;--card:#fff;--blue:#002e6e;--sky:#00baf2;--bot:#fff;--me:#002e6e;--me-t:#fff;--agent:#0d4d42;--agent-t:#eefaf4;--line:#d3e1ee;--ok:#0a7d4f;--warn:#b45309;--saytm:#00baf2}
+@media(prefers-color-scheme:dark){:root{--ink:#e6eef8;--mut:#92a5bd;--bg:#0b1522;--card:#12233a;--blue:#7dd3fc;--sky:#00baf2;--bot:#12233a;--me:#00baf2;--me-t:#04213a;--agent:#0f3f37;--agent-t:#e6f8f0;--line:#223a57;--ok:#4ade80;--warn:#fbbf24}}
 *{box-sizing:border-box}html,body{height:100%;margin:0}
 body{font-family:Hind,system-ui,sans-serif;background:linear-gradient(180deg,#cfefff,#eaf4fb 40%,#eaf4fb);color:var(--ink);display:flex;justify-content:center;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
 .app{width:100%;max-width:460px;height:100%;display:flex;flex-direction:column;background:var(--bg);box-shadow:0 0 0 1px var(--line)}
@@ -19,9 +20,10 @@ option{color:#10243e}
 .seg{display:flex}.seg button{border-radius:0;cursor:pointer}.seg button:first-child{border-radius:8px 0 0 8px}.seg button:last-child{border-radius:0 8px 8px 0;border-left:0}
 .seg button.on{background:#fff;color:#002e6e;border-color:#fff}
 #log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-.m{max-width:88%;padding:10px 13px;border-radius:16px;line-height:1.45;font-size:15.5px}
+.m{max-width:88%;padding:10px 13px;border-radius:16px;line-height:1.45;font-size:15px}
 .bot{background:var(--bot);align-self:flex-start;border:1px solid var(--line);border-bottom-left-radius:4px}
 .me{background:var(--me);color:var(--me-t);align-self:flex-end;border-bottom-right-radius:4px}
+.agent-m{background:var(--agent);color:var(--agent-t);align-self:flex-start;border:1px solid var(--ok);border-left:4px solid var(--ok);border-bottom-left-radius:4px}
 .card{align-self:stretch;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--sky);border-radius:10px;padding:12px;font-size:14px}
 .card h4{margin:0 0 6px;font:600 15px Hind}.card .s{color:var(--mut);font-size:12.5px}
 table{width:100%;border-collapse:collapse;font-size:12.5px}td,th{padding:5px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--mut);font-weight:500}
@@ -30,62 +32,62 @@ table{width:100%;border-collapse:collapse;font-size:12.5px}td,th{padding:5px 4px
 .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .cite{border-left-color:var(--ok)}.hand{border-left-color:var(--warn)}.guide{border-left-color:#7c3aed}
 #chips{display:flex;gap:8px;padding:0 14px 8px;overflow-x:auto}
-#chips button{white-space:nowrap;border:1px solid var(--sky);color:var(--blue);background:var(--card);border-radius:999px;padding:6px 12px;font:500 13.5px Hind;cursor:pointer}
+#chips button{white-space:nowrap;border:1px solid var(--sky);color:var(--blue);background:var(--card);border-radius:999px;padding:6px 12px;font:500 13px Hind;cursor:pointer}
+.vhelp{display:flex;gap:6px;padding:6px 14px;overflow-x:auto;background:var(--card);border-top:1px solid var(--line)}
+.vhelp button{white-space:nowrap;border:1px solid var(--line);color:var(--mut);background:transparent;border-radius:999px;padding:3px 9px;font:500 11.5px Hind;cursor:pointer}
+.vhelp button:hover{border-color:var(--sky);color:var(--blue);background:rgba(0,186,242,.07)}
+.vwrap{display:flex;align-items:center;justify-content:center;gap:10px;padding:6px 14px;background:rgba(0,186,242,.08);border-top:1px dashed var(--sky)}
+.vbars{display:flex;align-items:center;gap:3px;height:22px}
+.vbar{width:4px;height:6px;background:var(--sky);border-radius:2px;transition:height .08s ease}
+.vstatus{font-size:12px;font-weight:600;color:var(--blue)}
 form{display:flex;gap:8px;padding:10px 14px 14px;border-top:1px solid var(--line);background:var(--card)}
 input{flex:1;font:16px Hind;padding:11px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
 .mic,.send{width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;flex:none}
-.mic{background:var(--sky);color:#04213a;font-size:20px}
+.mic{background:var(--sky);color:#04213a;font-size:20px;display:flex;align-items:center;justify-content:center}
 .send{background:var(--blue);color:#fff;font-size:18px}
 .mic.rec{background:#e11d48;color:#fff;animation:p 1s infinite}@keyframes p{50%{transform:scale(1.08)}}
 @media(prefers-reduced-motion:reduce){.mic.rec{animation:none}}
 :focus-visible{outline:3px solid var(--sky);outline-offset:2px}
 .tools{display:flex;gap:10px;flex-wrap:wrap;padding:6px 16px;font-size:12px;color:var(--mut);align-items:center}
 .tools a{color:var(--blue);cursor:pointer;text-decoration:underline}
-dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);max-width:420px;width:92%;max-height:70vh}
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);max-width:440px;width:92%;max-height:75vh}
 pre{white-space:pre-wrap;font-size:11.5px}
 .err{background:#fef2f2;color:#9f1239;border:1px solid #fecdd3}
-.status{font-size:12px;color:var(--mut);align-self:center}
-/* ── Zen mode: calmer palette, fewer borders, slower breath ── */
 .zen-toggle{font:500 12px Hind;color:var(--blue);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
 .zen-toggle[aria-pressed="true"]{background:var(--blue);color:var(--bg);border-color:var(--blue)}
 .zen-glow{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .8s ease;background:radial-gradient(58% 38% at 50% 16%,rgba(127,184,163,.38),transparent 72%)}
 body.zen .zen-glow{opacity:1;animation:breathe 9s ease-in-out infinite}
 @keyframes breathe{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.06);opacity:.9}}
-body.zen{--bg:#edf4f0;--card:#fbfdfb;--bot:#f9fcfb;--line:#dbe8e1;--ink:#1d3a31;--mut:#5e7d72;--blue:#2f6f5c;--me:#2f6f5c;--me-t:#f4fbf7;--sky:#86bda8;--ok:#2f7d5c;--warn:#8a6a3a;
- background:linear-gradient(180deg,#e6f1eb,#f6faf8 45%,#eef5f1) fixed}
-@media(prefers-color-scheme:dark){body.zen{--bg:#0e1614;--card:#14201c;--bot:#14201c;--line:#233530;--ink:#dcebe4;--mut:#8faea3;--blue:#8fd0b8;--me:#2c6b58;--me-t:#eefaf4;--sky:#5ea78d;
- background:linear-gradient(180deg,#0a1210,#0e1614 45%,#0a1210) fixed}}
+body.zen{--bg:#edf4f0;--card:#fbfdfb;--bot:#f9fcfb;--line:#dbe8e1;--ink:#1d3a31;--mut:#5e7d72;--blue:#2f6f5c;--me:#2f6f5c;--me-t:#f4fbf7;--sky:#86bda8;--ok:#2f7d5c;--warn:#8a6a3a;background:linear-gradient(180deg,#e6f1eb,#f6faf8 45%,#eef5f1) fixed}
+@media(prefers-color-scheme:dark){body.zen{--bg:#0e1614;--card:#14201c;--bot:#14201c;--line:#233530;--ink:#dcebe4;--mut:#8faea3;--blue:#8fd0b8;--me:#2c6b58;--me-t:#eefaf4;--sky:#5ea78d;background:linear-gradient(180deg,#0a1210,#0e1614 45%,#0a1210) fixed}}
 body.zen .app{max-width:520px;background:transparent;box-shadow:none;position:relative;z-index:1}
 body.zen header{background:transparent;color:var(--ink);padding:16px 18px 4px;gap:6px}
-body.zen .logo{font-size:19px;letter-spacing:.01em}
-body.zen .logo small{margin-top:2px;opacity:.6}
+body.zen .logo{font-size:19px}body.zen .logo small{opacity:.6}
 body.zen select,body.zen .seg button{color:var(--mut);background:transparent;border-color:var(--line)}
-body.zen select{max-width:132px}
 body.zen .seg button.on{background:var(--blue);color:var(--bg);border-color:var(--blue)}
 body.zen #log{padding:18px 20px;gap:14px}
 body.zen .m{max-width:92%;padding:12px 16px;border-radius:20px;line-height:1.55}
-body.zen .bot{background:var(--bot);border:1px solid var(--line);border-bottom-left-radius:6px;box-shadow:none}
+body.zen .bot{background:var(--bot);border:1px solid var(--line);border-bottom-left-radius:6px}
 body.zen .me{border-bottom-right-radius:6px}
-body.zen .card{border:1px solid var(--line);border-left-width:3px;border-radius:16px;box-shadow:none}
+body.zen .card{border:1px solid var(--line);border-left-width:3px;border-radius:16px}
 body.zen #chips{padding:0 20px 10px}
-body.zen #chips button{border-color:var(--line);color:var(--mut);background:transparent;font-size:13px}
-body.zen #chips button:hover,body.zen #chips button:focus-visible{border-color:var(--sky);color:var(--blue)}
+body.zen #chips button{border-color:var(--line);color:var(--mut);background:transparent}
+body.zen .vhelp{background:transparent;border-top:0;padding:2px 20px}
 body.zen form{background:transparent;border-top:0;padding:6px 18px 20px}
 body.zen input{background:var(--card);border-color:var(--line);padding:13px 18px;box-shadow:0 2px 12px rgba(47,111,92,.07)}
 body.zen .mic{background:var(--sky);color:#0b2a22}
 body.zen .send{background:var(--blue);color:var(--bg)}
-body.zen .btn:not(.ghost){background:var(--blue);color:var(--bg)}
 body.zen .mic.rec{background:#b4635f;animation:breathe 2.4s ease-in-out infinite}
-body.zen .tools{opacity:.7;padding:4px 20px 2px;transition:opacity .3s ease}
-body.zen .tools:hover,body.zen .tools:focus-within{opacity:1}
-@media(prefers-reduced-motion:reduce){body.zen .zen-glow,body.zen .mic.rec{animation:none}}
+.kfs-box{font-size:12.5px;line-height:1.45}
+.kfs-hdr{border-bottom:2px solid var(--sky);padding-bottom:6px;margin-bottom:8px}
+.kfs-sec{background:rgba(0,186,242,.04);border:1px solid var(--line);border-radius:8px;padding:8px;margin:8px 0}
 </style>
 </head>
 <body>
 <div class="zen-glow" aria-hidden="true"></div>
 <div class="app">
 <header>
-  <div class="logo">Paytm Assistant<small id="who">Loans · Insurance</small></div>
+  <div class="logo">Saytm - Just say to pay<small id="who">Loans · Insurance</small></div>
   <select id="user" aria-label="Demo customer">
     <option value="sunita">Sunita (eligible)</option>
     <option value="rahul">Rahul (low score)</option>
@@ -105,29 +107,67 @@ body.zen .tools:hover,body.zen .tools:focus-within{opacity:1}
   <a href="/agent" target="_blank">Agent desk</a>
 </div>
 <div id="chips"></div>
+<div class="vhelp" id="vhelp">
+  <small style="color:var(--mut);align-self:center;margin-right:2px">🎙️ Quick Voice:</small>
+  <button type="button" onclick="send('Mujhe dukaan ke liye 2 lakh ka loan chahiye')">2L Loan</button>
+  <button type="button" onclick="send('24 mahine mein')">24m Reprice</button>
+  <button type="button" onclick="send('waiting period kya hai?')">Waiting Period</button>
+  <button type="button" onclick="send('dono plan compare karo')">Compare Plans</button>
+  <button type="button" onclick="send('Plus le lo')">Take Plus</button>
+  <button type="button" onclick="send('agent se baat karo')">Talk to Agent</button>
+</div>
+<div class="vwrap" id="vwrap" style="display:none">
+  <div class="vbars">
+    <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+    <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+    <div class="vbar"></div>
+  </div>
+  <span class="vstatus" id="vstatus">Listening... बोलिए...</span>
+</div>
 <form id="f">
   <button type="button" class="mic" id="mic" aria-label="Speak">🎤</button>
   <input id="t" placeholder="Boliye ya likhiye..." autocomplete="off" aria-label="Message">
   <button type="submit" class="send" aria-label="Send">➤</button>
 </form>
 </div>
+
 <dialog id="dlg"><pre id="pre"></pre><form method="dialog"><button class="btn">Close</button></form></dialog>
+<dialog id="kfs_dlg"><div id="kfs_content"></div><form method="dialog" style="padding:10px 0 0;display:flex;gap:8px"><button class="btn" type="button" onclick="window.print()">🖨️ Print / Save PDF</button><button class="btn ghost">Close</button></form></dialog>
+
 <script>
 const $=id=>document.getElementById(id);
-let sid, lang='hi', busy=false, zen=false;
-const inr=n=>'₹'+Number(n).toLocaleString('en-IN');
-const L={
+let sid, lang='hi', busy=false, zen=false, turnsRendered=0;
+let micStream=null, audioCtx=null, analyser=null, animId=null, currentRec=null;
+const fmtN = typeof Intl !== 'undefined' && Intl.NumberFormat ? new Intl.NumberFormat('en-IN').format : n => {
+  const s = String(Math.round(n));
+  const l = s.length;
+  return s.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+};
+const inr = n => '₹' + fmtN(Math.round(n || 0));
+const L = {
   hi:{ph:'बोलिए या लिखिए...',loc:'hi-IN',consent:'मैं सहमत हूँ',no:'सहमत नहीं',sign:'e-sign से पुष्टि करें',hand:'एजेंट को पूरी बातचीत दिख रही है'},
   en:{ph:'Speak or type...',loc:'en-IN',consent:'I agree',no:'No thanks',sign:'Confirm with e-sign',hand:'Agent can see the full conversation'}
 };
+
 async function api(p,b){
   const r=await fetch('/api/'+p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
   const j=await r.json().catch(()=>({}));
   if(!r.ok) throw new Error(j.detail||r.statusText);
   return j;
 }
+
 const esc=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-function add(cls,html){const d=document.createElement('div');d.className=cls;d.innerHTML=html;$('log').append(d);$('log').scrollTop=1e9;return d}
+
+function add(cls,html){
+  const d=document.createElement('div');
+  d.className=cls;
+  d.innerHTML=html;
+  $('log').append(d);
+  $('log').scrollTop=1e9;
+  turnsRendered++;
+  return d;
+}
+
 function say(t){
   if(!$('speak').checked||!window.speechSynthesis)return;
   speechSynthesis.cancel();
@@ -138,7 +178,45 @@ function say(t){
   if(v)u.voice=v;
   speechSynthesis.speak(u);
 }
+
+function playSoundbox(kind, amount, ref){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const now = ctx.currentTime;
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(740, now);
+    gain1.gain.setValueAtTime(0.25, now);
+    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.start(now);
+    osc1.stop(now + 0.16);
+
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(1108, now + 0.14);
+    gain2.gain.setValueAtTime(0.3, now + 0.14);
+    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.52);
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.start(now + 0.14);
+    osc2.stop(now + 0.52);
+  }catch(e){}
+
+  setTimeout(()=>{
+    const f=n=>'₹'+fmtN(Math.round(n||0));
+    const announcement = lang==='hi'
+      ? (kind==='loan'?`Saypatm: ${f(amount)} का लोन मंज़ूर हो गया!`:`Saypatm: आपकी पॉलिसी सक्रिय हो गई!`)
+      : (kind==='loan'?`Saypatm: Your loan of ${f(amount)} is approved!`:`Saypatm: Your policy is active!`);
+    say(announcement);
+  }, 400);
+}
+
 function chips(a){$('chips').innerHTML='';(a||[]).forEach(c=>{const b=document.createElement('button');b.type='button';b.textContent=c;b.onclick=()=>send(c);$('chips').append(b)})}
+
 function setZen(on){
   zen=!!on;
   document.body.classList.toggle('zen',zen);
@@ -150,7 +228,9 @@ function setZen(on){
   }
   try{localStorage.setItem('paytm-zen',zen?'1':'0')}catch(e){}
 }
+
 function apply(r){if(!r)return;if(r.sid)sid=r.sid;if(r.reply)bot(r.reply);cards(r.cards||[]);chips(r.chips)}
+
 function cards(cs){(cs||[]).forEach(c=>{
   if(c.type==='consent'){
     add('card',`<h4>${lang==='hi'?'डेटा की मंज़ूरी':'Data consent'}</h4><div class="s">${(c.scope||[]).map(esc).join(' · ')}<br>${lang==='hi'?'उद्देश्य सीमित · कभी भी वापस लें':'Purpose-limited · revocable anytime'}</div><button class="btn" data-a="y">${L[lang].consent}</button><button class="btn ghost" data-a="n">${L[lang].no}</button>`).onclick=e=>{const a=e.target.dataset.a;if(a)send(a==='y'?(lang==='hi'?'हाँ':'yes'):(lang==='hi'?'नहीं':'no'))};
@@ -167,6 +247,16 @@ function cards(cs){(cs||[]).forEach(c=>{
         <span>${lang==='hi'?'खाते में आएगा':'You receive'}</span><b>${inr(c.disbursed)}</b>
         <span>${lang==='hi'?'कुल वापसी':'Total repayment'}</span><b>${inr(c.total_payable)}</b>
       </div>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <span class="s" style="font-weight:600">${lang==='hi'?'अवधि बदलें:':'Reprice tenure:'}</span>
+        <button type="button" class="btn ghost" style="padding:3px 8px;font-size:12px;margin:0" onclick="send('12 mahine')">12m</button>
+        <button type="button" class="btn ghost" style="padding:3px 8px;font-size:12px;margin:0" onclick="send('24 mahine')">24m</button>
+        <button type="button" class="btn ghost" style="padding:3px 8px;font-size:12px;margin:0" onclick="send('36 mahine')">36m</button>
+        <button type="button" class="btn ghost" style="padding:3px 8px;font-size:12px;margin:0" onclick="send('48 mahine')">48m</button>
+      </div>
+      <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center">
+        <button type="button" class="btn ghost" style="padding:5px 9px;font-size:12px;margin:4px 0 0" onclick="openKFS('${sid}')">📄 ${lang==='hi'?'ऑफिशियल RBI KFS देखें':'View Official RBI KFS'}</button>
+      </div>
       <div class="s" style="margin-top:6px">${lang==='hi'?'आधार: ':'Basis: '}${esc(c.inflow_basis)} (avg ${inr(c.avg_inflow)}/mo) · ${lang==='hi'?'नंबर नियम-इंजन से, AI से नहीं':'Numbers set by the rules engine, not the AI'}</div>`);
   }
   if(c.type==='ins_quote') add('card',`<h4>${esc(c.plan)}</h4><div class="kv"><span>Premium</span><b>${inr(c.premium)}/yr</b><span>${lang==='hi'?'बीमा राशि':'Sum insured'}</span><b>${inr(c.sum_insured)}</b></div>`);
@@ -176,11 +266,16 @@ function cards(cs){(cs||[]).forEach(c=>{
     const el=add('card',`<h4>e-Sign</h4><div class="s">${lang==='hi'?'Key facts पढ़ें। कूलिंग-ऑफ / फ्री-लुक लागू।':'Review key facts. Cooling-off / free-look applies.'}</div><button class="btn" data-sg="1">${L[lang].sign}</button>`);
     el.querySelector('[data-sg]').onclick=async ev=>{ev.target.disabled=true;try{apply(await api('sign',{sid}))}catch(err){add('card err',esc(err.message))}};
   }
-  if(c.type==='receipt') add('card cite',`<h4>✅ ${esc(c.ref)}</h4><div class="s">${esc(c.kind)} · ${inr(c.amount)}</div>`);
+  if(c.type==='receipt'){
+    add('card cite',`<h4>✅ ${esc(c.ref)}</h4><div class="s">${esc(c.kind)} · ${inr(c.amount)}</div><button type="button" class="btn ghost" style="padding:5px 9px;font-size:12px;margin:6px 0 0" onclick="openKFS('${sid}')">📄 ${lang==='hi'?'डाउनलोड KFS रसीद':'Download KFS Receipt'}</button>`);
+    playSoundbox(c.kind, c.amount, c.ref);
+  }
   if(c.type==='decline') add('card hand',`<h4>${lang==='hi'?'पात्र नहीं':'Not eligible'}</h4><div class="s">${(c.reasons||[]).map(esc).join(', ')}</div>`);
   if(c.type==='handoff') add('card hand',`<h4>👤 ${lang==='hi'?'मानव एजेंट से जोड़ा जा रहा है':'Handing over to a human agent'}</h4><div class="s">${L[lang].hand}<br>${lang==='hi'?'कारण':'Reason'}: ${esc(c.reason)} · ${(c.context||[]).length} ${lang==='hi'?'संदेश साझा':'messages shared'}</div><a class="btn" href="/agent" target="_blank" style="display:inline-block;text-decoration:none;margin-top:8px">${lang==='hi'?'एजेंट डेस्क खोलें':'Open agent desk'}</a>`);
 })}
+
 function bot(t){add('m bot',esc(t));say(t)}
+
 async function send(text){
   if(!text||busy)return;
   busy=true;
@@ -190,9 +285,11 @@ async function send(text){
   catch(err){add('card err','Could not reach assistant. Is the server running? '+esc(err.message))}
   busy=false;
 }
+
 async function start(){
   $('log').innerHTML='';
   $('t').placeholder=L[lang].ph;
+  turnsRendered=0;
   speechSynthesis.cancel();
   try{
     const r=await api('start',{user:$('user').value,lang});
@@ -205,6 +302,60 @@ async function start(){
     add('card err','Start failed: '+esc(err.message)+'. Run <code>uvicorn backend.app:app --reload</code> and open http://localhost:8000');
   }
 }
+
+async function openKFS(sessionSid){
+  try{
+    const r = await fetch('/api/kfs/'+sessionSid);
+    if(!r.ok) return alert('No active loan statement found for this session yet.');
+    const kfs = await r.json();
+    $('kfs_content').innerHTML = `
+      <div class="kfs-box">
+        <div class="kfs-hdr">
+          <h3 style="margin:0;font-size:16px;color:var(--blue)">RESERVE BANK OF INDIA · DIGITAL LENDING KEY FACT STATEMENT</h3>
+          <small style="color:var(--mut)">Ref: <b>${esc(kfs.kfs_reference)}</b> · Date: ${esc(kfs.sanction_date)} · Hash: ${esc(kfs.kfs_hash)}</small>
+        </div>
+        <div class="kfs-sec">
+          <b>Borrower:</b> ${esc(kfs.borrower.name)} (${esc(kfs.borrower.kind)}, ${esc(kfs.borrower.city)})<br>
+          <b>KYC Status:</b> ${esc(kfs.borrower.kyc_status)} · <b>Bureau Score:</b> ${esc(kfs.borrower.credit_score)}<br>
+          <b>Regulated Entity (Lender):</b> ${esc(kfs.lender.name)} (${esc(kfs.lender.registration)})
+        </div>
+        <div class="kfs-sec">
+          <div class="kv">
+            <span>Sanctioned Principal:</span><b>${inr(kfs.loan_terms.sanctioned_amount)}</b>
+            <span>Tenure:</span><b>${kfs.loan_terms.tenure_months} months</b>
+            <span>Annualised Rate (APR):</span><b>${kfs.loan_terms.apr_effective}%</b>
+            <span>Monthly EMI:</span><b>${inr(kfs.loan_terms.emi_monthly)}</b>
+            <span>Processing Fee + GST:</span><b>${inr(kfs.loan_terms.processing_fee)} + ${inr(kfs.loan_terms.gst)}</b>
+            <span>Net Disbursed:</span><b>${inr(kfs.loan_terms.net_disbursed)}</b>
+            <span>Total Payable:</span><b>${inr(kfs.loan_terms.total_payable)}</b>
+          </div>
+        </div>
+        <div class="kfs-sec">
+          <b>Cooling-Off Period:</b> ${esc(kfs.loan_terms.cooling_off_period)}<br>
+          <b>Prepayment Penalty:</b> ${esc(kfs.loan_terms.foreclosure_charges)}<br>
+          <b>Grievance Officer:</b> ${esc(kfs.lender.grievance_officer)}
+        </div>
+        <h4 style="margin:8px 0 4px;font-size:13px">Amortisation Preview (First 6 Months)</h4>
+        <table>
+          <tr><th>Mo</th><th>EMI</th><th>Principal</th><th>Interest</th><th>Balance</th></tr>
+          ${kfs.amortization_preview.map(row=>`<tr><td>${row.month}</td><td>${inr(row.emi)}</td><td>${inr(row.principal)}</td><td>${inr(row.interest)}</td><td>${inr(row.balance)}</td></tr>`).join('')}
+        </table>
+      </div>
+    `;
+    $('kfs_dlg').showModal();
+  }catch(e){
+    alert('Could not generate KFS: '+e.message);
+  }
+}
+
+// Microphone Engine with Live Audio Visualizer & Toggle
+if(!SR) alert('🎤 Voice requires a working internet connection to Google Web Speech API. Use Quick Voice buttons, type below, or tap a demo customer.');
+
+function stopMic(){}
+
+function startMic(){alert('🎤 Voice requires a working internet connection to Google Web Speech API. Use Quick Voice buttons, type below, or tap a demo customer.');return;}
+
+$('mic').onclick=startMic;
 $('f').onsubmit=e=>{e.preventDefault();send($('t').value.trim())};
 $('user').onchange=start;
 ['hi','en'].forEach(l=>$(l).onclick=()=>{lang=l;$('hi').classList.toggle('on',l==='hi');$('en').classList.toggle('on',l==='en');setZen(zen);start()});
@@ -212,20 +363,21 @@ $('zen').onclick=()=>setZen(!zen);
 document.addEventListener('keydown',e=>{if(e.altKey&&!e.ctrlKey&&!e.metaKey&&e.key.toLowerCase()==='z'){e.preventDefault();setZen(!zen)}});
 $('revoke').onclick=async()=>{try{await api('consent/revoke',{sid});bot(lang==='hi'?'आपकी डेटा-मंज़ूरी वापस ले ली गई है।':'Your data consent has been revoked.')}catch(e){add('card err',esc(e.message))}};
 $('aud').onclick=async()=>{const rows=await (await fetch('/api/audit/'+sid)).json();$('pre').textContent=rows.map(a=>JSON.stringify(a)).join('\n');$('dlg').showModal()};
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-if(!SR){$('mic').title='Voice input needs Chrome/Edge';$('mic').style.opacity=.45}
-$('mic').onclick=()=>{
-  if(!SR)return alert('Voice input works in Chrome or Edge. Type instead.');
-  speechSynthesis.cancel();
-  const r=new SR();
-  r.lang=L[lang].loc;
-  r.interimResults=true;
-  $('mic').classList.add('rec');
-  r.onresult=e=>{const t=[...e.results].map(x=>x[0].transcript).join('');$('t').value=t;if(e.results[e.results.length-1].isFinal)send(t)};
-  r.onend=()=>$('mic').classList.remove('rec');
-  r.onerror=()=>$('mic').classList.remove('rec');
-  r.start();
-};
+
+// Two-way human agent live poller
+setInterval(async()=>{
+  if(!sid) return;
+  try{
+    const poll = await (await fetch('/api/poll/'+sid+'?turns='+turnsRendered)).json();
+    (poll.new_turns||[]).forEach(turn=>{
+      if(turn.role==='agent'){
+        add('m agent-m',`<b>👤 ${esc(turn.agent_name||'Human Agent')}</b> <span style="font-size:11px;opacity:.7">${esc(turn.ts)}</span><br>${esc(turn.text)}`);
+        say((turn.agent_name||'Agent')+': '+turn.text);
+      }
+    });
+  }catch(e){}
+}, 3000);
+
 if(window.speechSynthesis) speechSynthesis.onvoiceschanged=()=>{};
 let zenSaved=false;try{zenSaved=localStorage.getItem('paytm-zen')==='1'}catch(e){}
 setZen(zenSaved);

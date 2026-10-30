@@ -1,4 +1,4 @@
-"""Mock partner APIs: KYC, bureau, Paytm inflows, e-sign. Swap for real connectors later."""
+"""Mock partner APIs: KYC, bureau, Saytm inflows, e-sign. Swap for real connectors later."""
 import json
 import time
 import uuid
