@@ -2,6 +2,8 @@
 import re
 
 DEV = str.maketrans("०१२३४५६७८९", "0123456789")
+DEVANAGARI_DIGITS = str.maketrans("०१२३४५६७८९", "0123456789")
+
 WORDS = {
     "ek": 1, "do": 2, "teen": 3, "char": 4, "panch": 5, "paanch": 5, "chhe": 6, "che": 6,
     "saat": 7, "aath": 8, "nau": 9, "das": 10, "gyarah": 11, "barah": 12, "pandrah": 15,
@@ -16,7 +18,7 @@ WORDS = {
 
 
 def norm(t: str) -> str:
-    return (t or "").translate(DEV).lower().replace("-", " ")
+    return (t or "").translate(DEVANAGARI_DIGITS).lower().replace("-", " ")
 
 
 def tokens(t: str) -> list[str]:

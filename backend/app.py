@@ -39,8 +39,9 @@ def inr(n):
 
 
 def audit(sid, event, **data):
+    if sid not in SESSIONS:
+        return
     rec = {"t": time.strftime("%H:%M:%S"), "sid": sid, "event": event, **data}
-    SESSIONS[sid]["audit"].append(rec)
     with AUDIT_FILE.open("a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
@@ -608,6 +609,7 @@ def poll_session(sid: str, turns: int = 0):
     }
 
 
+@app.get("/health")
 @app.get("/api/health")
 def health():
     return {"ok": True}
