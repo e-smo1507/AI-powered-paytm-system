@@ -1822,3 +1822,32 @@
 {"t": "22:37:25", "sid": "5f7f4a68", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
 {"t": "22:37:31", "sid": "5f7f4a68", "event": "agent_intervened"}
 {"t": "22:37:39", "sid": "5f7f4a68", "event": "user_turn", "text": "yes"}
+{"t": "23:03:17", "sid": "ba5d40c8", "event": "session_start", "user": "rahul"}
+{"t": "23:03:18", "sid": "ba5d40c8", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "23:03:20", "sid": "ba5d40c8", "event": "user_turn", "text": "yes"}
+{"t": "23:03:20", "sid": "ba5d40c8", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 23:03:20"}
+{"t": "23:03:20", "sid": "ba5d40c8", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "23:03:23", "sid": "ba5d40c8", "event": "user_turn", "text": "Explain health insurance"}
+{"t": "23:03:23", "sid": "ba5d40c8", "event": "rag_answer", "clauses": ["SHP-8.1"]}
+{"t": "23:03:24", "sid": "ba5d40c8", "event": "user_turn", "text": "Room rent limit?"}
+{"t": "23:03:24", "sid": "ba5d40c8", "event": "rag_answer", "clauses": ["SHP-5.2", "SHB-5.2"]}
+{"t": "23:03:29", "sid": "ba5d40c8", "event": "user_turn", "text": "What is the waiting period?"}
+{"t": "23:03:29", "sid": "ba5d40c8", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "23:03:54", "sid": "ba5d40c8", "event": "user_turn", "text": "OK I will get"}
+{"t": "23:04:01", "sid": "ba5d40c8", "event": "user_turn", "text": "I need loan"}
+{"t": "23:04:01", "sid": "ba5d40c8", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["score"], "emi": 0}
+{"t": "23:04:05", "sid": "c393b78d", "event": "session_start", "user": "sunita"}
+{"t": "23:04:06", "sid": "c393b78d", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "23:04:08", "sid": "c393b78d", "event": "user_turn", "text": "yes"}
+{"t": "23:04:08", "sid": "c393b78d", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 23:04:08"}
+{"t": "23:04:08", "sid": "c393b78d", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "23:04:09", "sid": "c393b78d", "event": "user_turn", "text": "Yes, explain"}
+{"t": "23:04:09", "sid": "c393b78d", "event": "fees_explained"}
+{"t": "23:04:10", "sid": "c393b78d", "event": "user_turn", "text": "Yes, go ahead"}
+{"t": "23:04:10", "sid": "c393b78d", "event": "esign_requested"}
+{"t": "23:04:13", "sid": "c393b78d", "event": "user_turn", "text": "e-sign now"}
+{"t": "23:04:13", "sid": "c393b78d", "event": "esigned", "kind": "loan", "ref": "PTM-L-4C7732C0-1653", "amount": 200000, "emi": 7131}
+{"t": "23:06:15", "sid": "5c1cbb26", "event": "agent_intervened"}
+{"t": "23:06:20", "sid": "5e23541a", "event": "session_start", "user": "meena"}
+{"t": "23:06:21", "sid": "5e23541a", "event": "user_turn", "text": "I need a 2 lakh loan"}
+{"t": "23:06:31", "sid": "5e23541a", "event": "agent_intervened"}

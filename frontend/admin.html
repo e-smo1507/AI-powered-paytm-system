@@ -130,6 +130,23 @@ body{color:var(--text);background:linear-gradient(145deg,#fff 0%,#f4f5f6 55%,#e9
 .dark-theme .ticket.active .ticket-name{color:#fff}
 .dark-theme .welcome{color:var(--muted)}
 .dark-theme .error{background:#3d2423;color:#ffb8b2;border-color:#693733}
+.message.user{background:linear-gradient(145deg,#edf5ff,#e1edfb);border-color:#cfdef0;color:#294c70}
+.message.user .message-meta{color:#315f8a}
+.message.assistant{background:linear-gradient(145deg,#fff,#eceff2);border-color:#dfe3e7;color:#343a40}
+.message.assistant .message-meta{color:#5d6670}
+.message.agent{background:linear-gradient(145deg,#eaf5ef,#dfeee5);border-color:#cde2d4;color:#28513d}
+.message.agent .message-meta{color:#38664d}
+.speaker-button.is-speaking{opacity:1;background:rgba(38,120,190,.15);border-color:currentColor}
+.dark-theme .message.user{background:linear-gradient(145deg,#203b59,#1b3049);border-color:#345679;color:#dcecff}
+.dark-theme .message.user .message-meta{color:#a7cef4}
+.dark-theme .message.assistant{background:linear-gradient(145deg,#30363e,#252b33);border-color:#414954;color:#e5e9ef}
+.dark-theme .message.assistant .message-meta{color:#b4bdc8}
+.dark-theme .message.agent{background:linear-gradient(145deg,#214034,#1b332a);border-color:#315c48;color:#e1f3e8}
+.dark-theme .message.agent .message-meta{color:#a7d8b8}
+.speaker-button.is-speaking{background:rgba(44,125,190,.2);border-color:currentColor}
+.top-actions .theme-toggle{width:40px;height:40px;display:grid;place-items:center;padding:0;border:1px solid #aeb8c2;border-radius:12px;background:#fff;color:#26384a;font-size:19px;box-shadow:0 2px 6px rgba(26,42,58,.08)}
+.top-actions .theme-toggle:hover{background:#edf3f8;border-color:#718396}
+.dark-theme .top-actions .theme-toggle{background:#20334b;border-color:#58708c;color:#f0f6ff}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -163,6 +180,7 @@ body{color:var(--text);background:linear-gradient(145deg,#fff 0%,#f4f5f6 55%,#e9
 const $=id=>document.getElementById(id);
 let activeSid=null;
 let sessions=[];
+let activeUtterance=null,activeSpeechButton=null;
 const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 
 async function request(path,options={}){
@@ -198,14 +216,47 @@ function renderQueue(){
   queue.querySelectorAll('[data-sid]').forEach(button=>button.addEventListener('click',()=>openSession(button.dataset.sid)));
 }
 
-function speakText(text,language='en'){
+function setSpeakerButton(button,speaking){
+  if(!button)return;
+  button.classList.toggle('is-speaking',speaking);
+  button.setAttribute('aria-pressed',speaking?'true':'false');
+  button.setAttribute('aria-label',speaking?'Stop reading aloud':'Read message aloud');
+  button.title=button.getAttribute('aria-label');
+  button.innerHTML=speaking
+    ?'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"></rect></svg>'
+    :'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7m3-10a9 9 0 0 1 0 13"></path></svg>';
+}
+
+function stopSpeech(){
+  if(window.speechSynthesis)speechSynthesis.cancel();
+  setSpeakerButton(activeSpeechButton,false);
+  activeSpeechButton=null;
+  activeUtterance=null;
+}
+
+function speakText(text,language='en',button=null){
   if(!window.speechSynthesis)return;
-  speechSynthesis.cancel();
-  const utterance=new SpeechSynthesisUtterance(String(text||'').replace(/\bSaytm\b/gi,'Say T M'));
+  if(button&&button===activeSpeechButton&&activeUtterance){
+    stopSpeech();
+    return;
+  }
+  stopSpeech();
+  const utterance=new SpeechSynthesisUtterance(String(text||'').replace(/\bSaytm\b/gi,'Say-tum'));
   const prefix=language==='hi'?'hi':'en';
   utterance.lang=prefix==='hi'?'hi-IN':'en-IN';
   const voice=speechSynthesis.getVoices().find(item=>item.lang?.toLowerCase().startsWith(prefix));
   if(voice)utterance.voice=voice;
+  activeUtterance=utterance;
+  activeSpeechButton=button;
+  if(button)setSpeakerButton(button,true);
+  const clear=()=>{
+    if(activeUtterance!==utterance)return;
+    setSpeakerButton(activeSpeechButton,false);
+    activeSpeechButton=null;
+    activeUtterance=null;
+  };
+  utterance.onend=clear;
+  utterance.onerror=clear;
   speechSynthesis.speak(utterance);
 }
 
@@ -239,7 +290,10 @@ function renderConversation(session){
   chat.scrollTop=chat.scrollHeight;
   $('agent-input').value=previousInput;
   $('composer').addEventListener('submit',sendMessage);
-  $('chat').querySelectorAll('[data-speak]').forEach(button=>button.addEventListener('click',()=>speakText(button.dataset.speak,button.dataset.lang)));
+  $('chat').querySelectorAll('[data-speak]').forEach(button=>{
+    setSpeakerButton(button,false);
+    button.addEventListener('click',()=>speakText(button.dataset.speak,button.dataset.lang,button));
+  });
   $('connect')?.addEventListener('click',connectToCustomer);
   $('intervene')?.addEventListener('click',interveneInChat);
   if(session.agent_connected){

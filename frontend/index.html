@@ -53,7 +53,7 @@ input{flex:1;font:16px Hind;padding:11px 14px;border-radius:999px;border:1px sol
 dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);max-width:440px;width:92%;max-height:75vh}
 pre{white-space:pre-wrap;font-size:11.5px}
 .err{background:#fef2f2;color:#9f1239;border:1px solid #fecdd3}
-.zen-toggle{font:500 12px Hind;color:var(--blue);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.zen-toggle{font:500 12px Hind;color:var(--blue);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 11px;min-width:120px;justify-content:center;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
 .zen-toggle[aria-pressed="true"]{background:var(--blue);color:var(--bg);border-color:var(--blue)}
 .zen-glow{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .8s ease;background:radial-gradient(58% 38% at 50% 16%,rgba(127,184,163,.38),transparent 72%)}
 body.zen .zen-glow{opacity:1;animation:breathe 9s ease-in-out infinite}
@@ -95,10 +95,10 @@ header{min-height:78px;padding:14px 26px;background:#fff;color:#10243e;border-bo
 .eyebrow{font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#0878c9}
 .welcome-panel h1{font:600 clamp(28px,3vw,40px)/1.13 Fraunces,Georgia,serif;letter-spacing:-.03em;color:#123458;margin:18px 0 12px}
 .welcome-panel p{font-size:15px;line-height:1.65;color:#60758d;margin:0}
-.welcome-speak{margin:8px 0 0;padding:5px 7px;border:1px solid #dce5ee;border-radius:999px;background:rgba(255,255,255,.75);color:#34516b;cursor:pointer}
-.welcome-speak svg{width:16px;height:16px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.welcome-speak{align-self:flex-start;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:12px 0 0;padding:0 12px;border:1px solid #9aabba;border-radius:12px;background:#fff;color:#294a63;font:600 12px Hind;box-shadow:0 2px 7px rgba(27,52,82,.1);cursor:pointer}
+.welcome-speak svg{width:18px;height:18px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .welcome-note{margin-top:30px;padding:16px;border:1px solid #d9e8f4;border-radius:16px;background:rgba(255,255,255,.72);font-size:13px;line-height:1.55;color:#526b83}
-.welcome-bottom{margin-top:auto;padding-top:28px;font-size:12px;line-height:1.6;color:#718096}
+.welcome-bottom{display:flex;flex-direction:column;align-items:flex-start;gap:14px;margin-top:auto;padding-top:28px;font-size:12px;line-height:1.6;color:#718096}
 .welcome-bottom a{color:#0878c9;text-decoration:none}
 .conversation{min-width:0;min-height:0;display:flex;flex-direction:column;background:#fbfcfe}
 .conversation-head{min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 24px;border-bottom:1px solid #e9eef3;background:#fff}
@@ -180,9 +180,10 @@ body.zen form#f input{background:var(--card);border-color:var(--line)}
   .logo,body.zen .logo{font-size:19px}
   .header-actions{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
   .header-actions .seg{grid-column:1;grid-row:1;justify-self:start}
-  .header-actions{grid-template-columns:minmax(0,1fr) auto auto}
+  .header-actions{grid-template-columns:minmax(0,1fr) auto auto auto}
   .theme-toggle{grid-column:2;grid-row:1}
-  .mobile-profile{display:block;grid-column:3;grid-row:1;justify-self:end}
+  .zen-toggle{grid-column:3;grid-row:1}
+  .mobile-profile{display:block;grid-column:4;grid-row:1;justify-self:end}
   .mobile-profile summary{width:42px;height:42px;justify-content:center}
   .mobile-profile .profile-copy{display:none}
   .mobile-profile .profile-popover{top:calc(100% + 8px);bottom:auto;left:auto;right:0}
@@ -298,7 +299,7 @@ html.dark-theme .profile-popover{background:linear-gradient(155deg,#292e33,#1d22
 .mobile-profile summary[data-initial]:not([data-initial=""])::after{content:attr(data-initial);font-weight:700;font-size:14px}
 .profile-avatar{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:#e8f2f9;color:#315b7e;border:1px solid #d5e3ee}
 .profile-avatar svg{width:21px;height:21px}
-.desktop-profile{margin-top:24px}
+.desktop-profile{margin-top:0}
 .desktop-profile summary{width:max-content;padding:7px 12px 7px 7px;border:1px solid #dce5ee;border-radius:999px;background:rgba(255,255,255,.82);color:#34516b}
 .profile-copy{display:grid;line-height:1.2}
 .profile-copy strong{font-size:13px;font-weight:600}
@@ -330,8 +331,8 @@ body.zen .welcome-bottom{padding:0;margin:0}
 body.zen .welcome-bottom>span,body.zen .welcome-bottom>br{display:none}
 body.zen .desktop-profile{margin:0}
 body.zen .desktop-profile summary{background:#f7faf8}
-body.zen .conversation{width:min(100%,1040px);margin:0 auto;background:#f7faf8}
-body.zen .conversation-head{min-height:58px;justify-content:center;background:#f7faf8;border:0}
+body.zen .conversation{width:100%;margin:0 auto;background:#f7faf8}
+body.zen .conversation-head{min-height:66px;justify-content:flex-end;padding:12px 24px;background:#f7faf8;border:0}
 body.zen .conversation-head>div{display:none}
 body.zen #log{width:min(100%,900px);margin:0 auto;padding:30px clamp(20px,7vw,88px);gap:18px;background:#f7faf8}
 body.zen .m{max-width:min(82%,720px);padding:16px 20px;line-height:1.7;border-radius:20px}
@@ -357,6 +358,53 @@ body.zen .profile-option:hover,body.zen .profile-action:hover{background:#eff5f0
   body.zen .profile-option,body.zen .profile-action{color:#d5e5d9}
   body.zen .profile-option:hover,body.zen .profile-action:hover{background:#293a2e}
 }
+html.light-theme body.zen{--bg:#f4f8f5;--card:#fff;--bot:#fff;--line:#d5e2d9;--ink:#203b30;--mut:#526d60;--blue:#32694f;--me:#e4efe8;--me-t:#203b30;--sky:#6d9d7c;--ok:#32694f;background:linear-gradient(180deg,#edf5ef,#f8faf8 45%,#eef5f0) fixed}
+html.light-theme body.zen .app,html.light-theme body.zen .conversation,html.light-theme body.zen .conversation-head,html.light-theme body.zen #log{background:#f7faf8;border-color:#dbe7df}
+html.light-theme body.zen .welcome-panel h1,html.light-theme body.zen .conversation-title,html.light-theme body.zen .empty-state h2,html.light-theme body.zen .card,html.light-theme body.zen .bot{color:#203b30}
+html.light-theme body.zen .welcome-panel p,html.light-theme body.zen .welcome-bottom,html.light-theme body.zen .conversation-subtitle,html.light-theme body.zen .empty-state p,html.light-theme body.zen .card .s,html.light-theme body.zen th{color:#526d60}
+html.light-theme body.zen .me{background:#e4efe8;border-color:#cddfd2;color:#203b30}
+html.light-theme body.zen .profile-popover{background:#fff;border-color:#d5e2d9}
+html.light-theme body.zen .profile-option,html.light-theme body.zen .profile-action{color:#294c39}
+html.light-theme body.zen .profile-option:hover,html.light-theme body.zen .profile-action:hover{background:#edf4ef}
+html.light-theme body.zen .profile-copy small{color:#526d60}
+html.dark-theme body.zen{--bg:#101914;--card:#18241d;--bot:#1a2920;--line:#34483a;--ink:#e0eee5;--mut:#adc2b4;--blue:#9bd5b4;--me:#294a36;--me-t:#eff8f2;--sky:#74b493;--ok:#8acaa5;background:linear-gradient(180deg,#101914,#17231b 45%,#101914) fixed}
+html.dark-theme body.zen .app,html.dark-theme body.zen .conversation,html.dark-theme body.zen .conversation-head,html.dark-theme body.zen #log{background:#142019;border-color:#304237}
+html.dark-theme body.zen .welcome-panel h1,html.dark-theme body.zen .conversation-title,html.dark-theme body.zen .empty-state h2,html.dark-theme body.zen .card,html.dark-theme body.zen .bot{color:#e0eee5}
+html.dark-theme body.zen .welcome-panel p,html.dark-theme body.zen .welcome-bottom,html.dark-theme body.zen .conversation-subtitle,html.dark-theme body.zen .empty-state p,html.dark-theme body.zen .card .s,html.dark-theme body.zen th{color:#b4c8ba}
+html.dark-theme body.zen .me{background:#294a36;border-color:#41684f;color:#eff8f2}
+html.dark-theme body.zen .profile-popover{background:#1a2920;border-color:#3a5141}
+html.dark-theme body.zen .profile-option,html.dark-theme body.zen .profile-action{color:#dcebe1}
+html.dark-theme body.zen .profile-option:hover,html.dark-theme body.zen .profile-action:hover{background:#293d30}
+html.dark-theme body.zen .profile-copy small{color:#b4c8ba}
+html.dark-theme body.zen .zen-toggle[aria-pressed="true"]{background:#315c45;border-color:#48755b;color:#eff8f2}
+html.light-theme body.zen .theme-toggle{background:#fff;border-color:#aebfb3;color:#274b37}
+html.dark-theme body.zen .theme-toggle{background:#1c2b21;border-color:#526b59;color:#e0eee5}
+html.dark-theme body:not(.zen){background:linear-gradient(145deg,#0b1220,#111c2e 58%,#0b1423);color:#e6edf7}
+html.dark-theme body:not(.zen) .app{background:#111b2b;border-color:#293a50;box-shadow:0 24px 70px rgba(0,0,0,.4)}
+html.dark-theme body:not(.zen) header,html.dark-theme body:not(.zen) .conversation-head,html.dark-theme body:not(.zen) .tools,html.dark-theme body:not(.zen) #chips,html.dark-theme body:not(.zen) .vhelp,html.dark-theme body:not(.zen) form#f{background:#142237;border-color:#293d56}
+html.dark-theme body:not(.zen) .logo,html.dark-theme body:not(.zen) .conversation-title,html.dark-theme body:not(.zen) .empty-state h2{color:#e6edf7}
+html.dark-theme body:not(.zen) .logo small,html.dark-theme body:not(.zen) .conversation-subtitle{color:#a7b8cc}
+html.dark-theme body:not(.zen) .welcome-panel{background:linear-gradient(155deg,#172b43,#16283b 72%,#173432);border-color:#293d56}
+html.dark-theme body:not(.zen) .welcome-panel h1{color:#edf5ff}
+html.dark-theme body:not(.zen) .welcome-panel p,html.dark-theme body:not(.zen) .welcome-bottom{color:#b0c1d4}
+html.dark-theme body:not(.zen) .welcome-note{background:#1b3047;color:#d0deec;border-color:#344b65}
+html.dark-theme body:not(.zen) .conversation,html.dark-theme body:not(.zen) #log{background:#0e1928}
+html.dark-theme body:not(.zen) .card,html.dark-theme body:not(.zen) .bot{background:#17283b;border-color:#2b405b;color:#e7eef8}
+html.dark-theme body:not(.zen) .me{background:linear-gradient(145deg,#2563eb,#1d4ed8);border-color:#3b73ed;color:#fff}
+html.dark-theme body:not(.zen) .agent-m{background:#173d35;border-color:#2c6253;color:#e3f5ed}
+html.dark-theme body:not(.zen) .btn,html.dark-theme body:not(.zen) .send,html.dark-theme body:not(.zen) .zen-toggle[aria-pressed="true"],html.dark-theme body:not(.zen) .seg button.on{background:linear-gradient(145deg,#3b82f6,#2563eb);border-color:#3b82f6;color:#fff}
+html.dark-theme body:not(.zen) .btn.ghost{background:#1a2a3e;border-color:#405570;color:#dbe8f6}
+html.dark-theme body:not(.zen) .mic{background:#193149;color:#8bd5ff;border-color:#3e607e}
+html.dark-theme body:not(.zen) .theme-toggle,html.dark-theme body:not(.zen) .seg button{background:#1b2b40;border-color:#4a6078;color:#e2ecf6}
+html.dark-theme body:not(.zen) .welcome-icon,html.dark-theme body:not(.zen) .profile-avatar{background:#1c3147;color:#b9ddf7;border-color:#3b5671}
+html.light-theme body:not(.zen) .theme-toggle{background:#fff;border-color:#aeb8c2;color:#26384a}
+html.dark-theme body:not(.zen) .theme-toggle{background:#20334b;border-color:#58708c;color:#f0f6ff}
+body.zen .conversation-head{display:none}
+.welcome-speak{color:#284b39}
+.welcome-speak:hover{background:#eff6f0;border-color:#92ad99}
+.theme-toggle{width:40px;height:40px;display:grid;place-items:center;padding:0;border:1px solid #aeb8c2;border-radius:12px;background:#fff;color:#26384a;font:600 19px/1 Hind;box-shadow:0 2px 6px rgba(26,42,58,.08);cursor:pointer}
+.theme-toggle:hover{background:#edf3f8;border-color:#718396}
+.zen-toggle[aria-pressed="true"]{color:#fff}
 </style>
 </head>
 <body>
@@ -365,6 +413,7 @@ body.zen .profile-option:hover,body.zen .profile-action:hover{background:#eff5f0
 <header>
   <div class="logo">Saytm<small id="who">Voice-first banking, at your pace</small></div>
   <div class="header-actions">
+  <button type="button" class="zen-toggle" id="zen" aria-pressed="false" title="Calm, distraction-free mode (Alt+Z)">Zen mode</button>
   <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">☾</button>
   <details class="profile-control mobile-profile">
     <summary class="profile-avatar" aria-label="Open customer profiles">
@@ -391,7 +440,7 @@ body.zen .profile-option:hover,body.zen .profile-action:hover{background:#eff5f0
   <span class="eyebrow" id="welcome-eyebrow">आपका रोज़मर्रा का money companion</span>
   <h1 id="welcome-heading">नमस्ते, स्वागत है।</h1>
   <p id="welcome-copy">लोन और स्वास्थ्य बीमा के बारे में सरल, भरोसेमंद मदद — अपनी भाषा में, अपनी गति से।</p>
-  <button type="button" class="welcome-speak" id="welcome-speak" aria-label="Read welcome aloud" title="Read welcome aloud"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7m3-10a9 9 0 0 1 0 13"></path></svg></button>
+  <button type="button" class="welcome-speak" id="welcome-speak" aria-label="Read welcome aloud" title="Read welcome aloud"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l5 4V6l-5 4H4z"></path><path d="M16 9a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"></path></svg><span id="welcome-speak-label">Welcome audio</span></button>
   <div class="welcome-note" id="welcome-note">आपकी जानकारी तभी देखी जाएगी जब आप स्पष्ट अनुमति देंगे। शुरू करने के लिए प्रोफ़ाइल मेनू से ग्राहक खाता चुनें।</div>
   <div class="welcome-bottom">
     <span id="welcome-foot">सुरक्षित बातचीत · आपकी अनुमति, आपका नियंत्रण</span>
@@ -413,7 +462,7 @@ body.zen .profile-option:hover,body.zen .profile-action:hover{background:#eff5f0
   </div>
 </aside>
 <section class="conversation">
-<div class="conversation-head"><div><div class="conversation-title" id="conversation-title">आपकी बातचीत</div><div class="conversation-subtitle" id="conversation-subtitle">एक खाता चुनकर शुरू करें</div></div><button type="button" class="zen-toggle" id="zen" aria-pressed="false" title="Calm, distraction-free mode (Alt+Z)">🧘 Zen</button></div>
+<div class="conversation-head"><div><div class="conversation-title" id="conversation-title">आपकी बातचीत</div><div class="conversation-subtitle" id="conversation-subtitle">एक खाता चुनकर शुरू करें</div></div></div>
 <div class="empty-state" id="empty-state"><div class="empty-state-inner"><div class="welcome-icon">₹</div><h2 id="empty-title">शुरू करने के लिए तैयार?</h2><p id="empty-copy">प्रोफ़ाइल मेनू से ग्राहक खाता चुनें। आपकी बातचीत यहीं शुरू होगी।</p></div></div>
 <div id="chat-area" hidden>
 <div id="log" aria-live="polite"></div>
@@ -454,6 +503,7 @@ body.zen .profile-option:hover,body.zen .profile-action:hover{background:#eff5f0
 const $=id=>document.getElementById(id);
 let sid, lang='hi', busy=false, zen=false, turnsRendered=0, startTask=null, activeUser=null, consentActive=false;
 let micStream=null, audioCtx=null, analyser=null, animId=null, currentRec=null;
+let activeUtterance=null, activeSpeechButton=null, activeSpeechLang=lang;
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 const fmtN = typeof Intl !== 'undefined' && Intl.NumberFormat ? new Intl.NumberFormat('en-IN').format : n => {
   const s = String(Math.round(n));
@@ -514,23 +564,64 @@ function addMessage(cls,text,meta='',voiceLang=lang){
   button.className='message-speak';
   button.setAttribute('aria-label',lang==='hi'?'यह संदेश सुनें':'Read this message aloud');
   button.title=lang==='hi'?'यह संदेश सुनें':'Read this message aloud';
-  button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7m3-10a9 9 0 0 1 0 13"></path></svg>';
-  button.addEventListener('click',()=>say(text,true,voiceLang));
+  setSpeakerButton(button,false,voiceLang);
+  button.addEventListener('click',()=>say(text,true,voiceLang,button));
   message.append(copy,button);
   $('log').append(message);
   $('log').scrollTop=1e9;
   return message;
 }
 
-function say(t,manual=false,voiceLang=lang){
+function setSpeakerButton(button,speaking,voiceLang){
+  if(!button)return;
+  button.classList.toggle('is-speaking',speaking);
+  button.setAttribute('aria-pressed',speaking?'true':'false');
+  const isWelcome=button.id==='welcome-speak';
+  const label=speaking
+    ?(voiceLang==='hi'?'पढ़ना रोकें':'Stop reading aloud')
+    :(isWelcome?(voiceLang==='hi'?'स्वागत संदेश सुनें':'Read welcome aloud'):(voiceLang==='hi'?'यह संदेश सुनें':'Read this message aloud'));
+  button.setAttribute('aria-label',label);
+  button.title=button.getAttribute('aria-label');
+  button.innerHTML=speaking
+    ?'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"></rect></svg>'
+    :'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l5 4V6l-5 4H4z"></path><path d="M16 9a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"></path></svg>'+(isWelcome?`<span id="welcome-speak-label">${voiceLang==='hi'?'स्वागत सुनें':'Welcome audio'}</span>`:'');
+}
+
+function stopSpeech(){
+  if(window.speechSynthesis)speechSynthesis.cancel();
+  setSpeakerButton(activeSpeechButton,false,activeSpeechLang);
+  activeSpeechButton=null;
+  activeUtterance=null;
+}
+
+function say(t,manual=false,voiceLang=lang,button=null){
   if((!manual&&!$('speak').checked)||!window.speechSynthesis)return;
-  speechSynthesis.cancel();
-  const spokenText=t.replace(/\bSaytm\b/gi,'Say T M');
+  if(button&&button===activeSpeechButton&&activeUtterance){
+    stopSpeech();
+    return;
+  }
+  stopSpeech();
+  const spokenText=t.replace(/\bSaytm\b/gi,'Say, T. M.').replace(
+    'A human agent has taken over the conversation. The AI assistant is paused.',
+    voiceLang==='hi'?'एक मानव एजेंट ने बातचीत संभाल ली है। AI सहायक अभी रुका हुआ है.':'A human agent has taken over the conversation. The AI assistant is paused.'
+  );
   const u=new SpeechSynthesisUtterance(spokenText);
   u.lang=L[voiceLang].loc;u.rate=zen?.88:.95;
   const voices=speechSynthesis.getVoices();
   const v=voices.find(x=>x.lang&&x.lang.toLowerCase().startsWith(L[voiceLang].loc.slice(0,2)));
   if(v)u.voice=v;
+  activeUtterance=u;
+  activeSpeechButton=button;
+  activeSpeechLang=voiceLang;
+  if(button)setSpeakerButton(button,true,voiceLang);
+  const clear=()=>{
+    if(activeUtterance!==u)return;
+    setSpeakerButton(activeSpeechButton,false,voiceLang);
+    activeSpeechButton=null;
+    activeUtterance=null;
+  };
+  u.onend=clear;
+  u.onerror=clear;
   speechSynthesis.speak(u);
 }
 
@@ -564,8 +655,8 @@ function playSoundbox(kind, amount, ref){
   setTimeout(()=>{
     const f=n=>'₹'+fmtN(Math.round(n||0));
       const announcement = lang==='hi'
-        ? (kind==='loan'?`Say T M: ${f(amount)} का लोन मंज़ूर हो गया!`:`Say T M: आपकी पॉलिसी सक्रिय हो गई!`)
-        : (kind==='loan'?`Say T M: Your loan of ${f(amount)} is approved!`:`Say T M: Your policy is active!`);
+        ? (kind==='loan'?`Saytm: ${f(amount)} का लोन मंज़ूर हो गया!`:`Saytm: आपकी पॉलिसी सक्रिय हो गई!`)
+        : (kind==='loan'?`Saytm: Your loan of ${f(amount)} is approved!`:`Saytm: Your policy is active!`);
     say(announcement);
   }, 400);
 }
@@ -578,7 +669,7 @@ function setZen(on){
   const b=$('zen');
   if(b){
     b.setAttribute('aria-pressed',zen?'true':'false');
-    b.textContent=zen?(lang==='hi'?'🧘 ज़ेन चालू':'🧘 Zen on'):(lang==='hi'?'🧘 ज़ेन':'🧘 Zen');
+    b.textContent='Zen mode';
     b.title=zen?'Calm mode on · Alt+Z to exit':'Calm, distraction-free mode (Alt+Z)';
   }
   try{localStorage.setItem('paytm-zen',zen?'1':'0')}catch(e){}
@@ -598,8 +689,8 @@ function setTheme(theme){
 }
 
 function speakWelcome(){
-  const text=lang==='hi'?'नमस्ते, Say T M में आपका स्वागत है।':'Hello, welcome to Say T M.';
-  say(text,true,lang);
+  const text=lang==='hi'?'नमस्ते, Saytm में आपका स्वागत है।':'Hello, welcome to Saytm.';
+  say(text,true,lang,$('welcome-speak'));
 }
 
 function apply(r){
@@ -673,7 +764,10 @@ function cards(cs){(cs||[]).forEach(c=>{
   }
 })}
 
-function bot(t,voiceLang=lang){addMessage('m bot',t,'',voiceLang);say(t,false,voiceLang)}
+function bot(t,voiceLang=lang){
+  const message=addMessage('m bot',t,'',voiceLang);
+  say(t,false,voiceLang,message.querySelector('.message-speak'));
+}
 
 async function send(text){
   if(!text||busy)return;
@@ -712,7 +806,7 @@ function updateProfileMenu(){
 }
 
 let sessionGeneration=0;
-async function start(user=activeUser){
+async function start(user=activeUser,readWelcome=false){
   if(!user)return;
   const generation=++sessionGeneration;
   activeUser=user;
@@ -725,7 +819,7 @@ async function start(user=activeUser){
   $('chips').innerHTML='';
   $('t').placeholder=L[lang].ph;
   turnsRendered=0;
-  if(window.speechSynthesis)speechSynthesis.cancel();
+  stopSpeech();
   try{
     const r=await api('start',{user,lang});
     if(generation!==sessionGeneration)return;
@@ -739,6 +833,7 @@ async function start(user=activeUser){
     bot(r.reply,r.lang||lang);
     cards(r.cards||[]);
     chips(r.chips);
+    if(readWelcome)speakWelcome();
   }catch(err){
     if(generation!==sessionGeneration)return;
     add('card err','Start failed: '+esc(err.message)+'. Run <code>uvicorn backend.app:app --reload</code> and open http://localhost:8000');
@@ -894,17 +989,22 @@ function setLanguage(next){
   $('conversation-title').textContent=lang==='hi'?'आपकी बातचीत':'Your conversation';
   $('conversation-subtitle').textContent=sid?(lang==='hi'?'आपका खाता सुरक्षित रूप से जुड़ा है':'Your account is connected securely'):(lang==='hi'?'एक खाता चुनकर शुरू करें':'Choose an account to begin');
   $('speak-label').textContent=lang==='hi'?'बोलकर सुनाएँ':'Read aloud';
+  $('welcome-speak-label').textContent=lang==='hi'?'स्वागत सुनें':'Welcome audio';
   document.querySelectorAll('.profile-popover-label').forEach(label=>label.textContent=lang==='hi'?'खाता बदलें':'Switch profile');
   document.querySelectorAll('.staff-sign-in').forEach(link=>link.textContent=lang==='hi'?'स्टाफ साइन इन ↗':'Staff sign in ↗');
   document.querySelectorAll('.revoke-action').forEach(button=>button.textContent=lang==='hi'?'डेटा की सहमति वापस लें':'Revoke data consent');
   document.querySelectorAll('.profile-copy small').forEach(label=>label.textContent=lang==='hi'?'ग्राहक खाता':'Customer account');
   $('t').placeholder=L[lang].ph;
   updateProfileMenu();
-  if(activeUser)startTask=start(activeUser);
+  if(activeUser)startTask=start(activeUser,true);
+  else speakWelcome();
 }
 ['hi','en'].forEach(l=>$(l).onclick=()=>setLanguage(l));
 $('zen').onclick=()=>setZen(!zen);
-$('theme-toggle').onclick=()=>setTheme(document.documentElement.classList.contains('dark-theme')?'light':'dark');
+$('theme-toggle').onclick=()=>{
+  setTheme(document.documentElement.classList.contains('dark-theme')?'light':'dark');
+  speakWelcome();
+};
 $('welcome-speak').onclick=speakWelcome;
 document.addEventListener('keydown',e=>{if(e.altKey&&!e.ctrlKey&&!e.metaKey&&e.key.toLowerCase()==='z'){e.preventDefault();setZen(!zen)}});
 document.querySelectorAll('[data-user]').forEach(button=>button.addEventListener('click',()=>{startTask=start(button.dataset.user)}));
@@ -927,7 +1027,10 @@ setInterval(async()=>{
     const poll = await (await fetch('/api/poll/'+sid+'?turns='+turnsRendered)).json();
     (poll.new_turns||[]).forEach(turn=>{
       if(turn.role==='agent'){
-        addMessage('m agent-m',turn.text,`${turn.agent_name||'Human Agent'} · ${turn.ts||''}`,turn.lang||lang);
+        const message=addMessage('m agent-m',turn.text,`${turn.agent_name||'Human Agent'} · ${turn.ts||''}`,turn.lang||lang);
+        if(turn.text==='A human agent has taken over the conversation. The AI assistant is paused.'){
+          say(turn.text,true,turn.lang||lang,message.querySelector('.message-speak'));
+        }
       }
     });
     turnsRendered=poll.total_turns;
@@ -941,7 +1044,7 @@ let themeSaved='light';try{themeSaved=localStorage.getItem('saytm-theme')||'ligh
 setTheme(themeSaved);
 setZen(zenSaved);
 updateProfileMenu();
-if(window.speechSynthesis){speechSynthesis.cancel();say('नमस्ते, Say T M में आपका स्वागत है।',true,'hi')}
+if(window.speechSynthesis)speakWelcome();
 </script>
 </body>
 </html>
