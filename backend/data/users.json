@@ -1,0 +1,38 @@
+{
+  "sunita": {
+    "name": "Sunita",
+    "city": "Kanpur",
+    "kind": "Kirana merchant",
+    "age": 34,
+    "kyc": true,
+    "bureau": 724,
+    "vintage_months": 26,
+    "life_event": "festival_stock",
+    "hint": "Diwali ke pehle inventory ke liye working capital",
+    "monthly_inflow": [82000, 79000, 91000, 88000, 76000, 84000, 97000, 93000, 89000, 101000, 95000, 90000]
+  },
+  "rahul": {
+    "name": "Rahul",
+    "city": "Noida",
+    "kind": "Street-food vendor",
+    "age": 41,
+    "kyc": true,
+    "bureau": 598,
+    "vintage_months": 9,
+    "life_event": "cashflow_gap",
+    "hint": "Seasonal dip in UPI collections",
+    "monthly_inflow": [21000, 19000, 24000, 18000, 22000, 20000]
+  },
+  "meena": {
+    "name": "Meena",
+    "city": "Jaipur",
+    "kind": "New user",
+    "age": 22,
+    "kyc": false,
+    "bureau": 0,
+    "vintage_months": 2,
+    "life_event": "first_health_cover",
+    "hint": "No health cover on file",
+    "monthly_inflow": [8000, 12000]
+  }
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paytm Assistant · Agent desk</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Hind,system-ui,sans-serif;background:#0b1522;color:#e6eef8;display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+h1{font-size:16px;margin:0} aside{border-right:1px solid #223a57;padding:16px}
+main{padding:20px;max-width:720px}
+.item{display:block;width:100%;text-align:left;background:#12233a;border:1px solid #223a57;color:#e6eef8;border-radius:8px;padding:10px;margin:8px 0;cursor:pointer}
+.item.on,.item:hover{border-color:#00baf2}
+.flag{color:#fbbf24;font-size:12px}
+.m{padding:8px 10px;border-radius:10px;margin:8px 0;max-width:90%}
+.user{background:#002e6e} .assistant{background:#12233a;border:1px solid #223a57}
+pre{white-space:pre-wrap;font-size:12px;background:#12233a;padding:12px;border-radius:8px}
+a{color:#00baf2}
+</style>
+</head>
+<body>
+<aside>
+  <h1>Agent desk</h1>
+  <p style="color:#92a5bd;font-size:13px">Handoffs land here with the full transcript. Customer does not repeat themselves.</p>
+  <a href="/">← Customer mini-app</a>
+  <div id="list"></div>
+</aside>
+<main id="main"><p style="color:#92a5bd">Select a session.</p></main>
+<script>
+async function loadList(){
+  const rows=await (await fetch('/api/sessions')).json();
+  document.getElementById('list').innerHTML=rows.map(s=>`<button class="item" data-id="${s.sid}">${s.name} · ${s.stage}${s.handoff?' <span class="flag">HANDOFF</span>':''}<br><small>${s.sid} · ${s.turns} turns</small></button>`).join('')||'<p>No sessions yet. Start a chat first.</p>';
+  document.querySelectorAll('.item').forEach(b=>b.onclick=()=>open(b.dataset.id));
+}
+async function open(sid){
+  const s=await (await fetch('/api/session/'+sid)).json();
+  document.getElementById('main').innerHTML=`<h1>${s.profile.name} · ${s.profile.kind}, ${s.profile.city}</h1>
+    <p>Stage: ${s.stage} · Consent: ${s.consent?JSON.stringify(s.consent.scope):'none'}</p>
+    ${(s.transcript||[]).map(m=>`<div class="m ${m.role}"><b>${m.role}</b> ${m.ts||''}<br>${m.text}</div>`).join('')}
+    <h1>Decision</h1><pre>${JSON.stringify(s.decision,null,2)}</pre>
+    <h1>Audit</h1><pre>${(s.audit||[]).map(a=>JSON.stringify(a)).join('\n')}</pre>`;
+}
+loadList();
+setInterval(loadList,4000);
+</script>
+</body>
+</html>
