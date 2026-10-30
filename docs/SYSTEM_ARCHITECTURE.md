@@ -1,15 +1,15 @@
 # System Architecture & Technical Specifications
-## Paytm Voice Assistant · Architecture Documentation
+## Saytm · Architecture Documentation
 
 ---
 
 ## 1. Architectural Philosophy & Core Principles
 
-The Paytm Voice Assistant is architected specifically for high-stakes fintech domains where hallucinations, non-transparent decisions, and compliance violations cannot be tolerated. The architecture is governed by three non-negotiable principles:
+Saytm is a local demonstration of conversational financial journeys. It is not a production banking or insurance service. Its design uses three prototype principles:
 
-1. **Separation of Explanation and Calculation:** Generative or statistical language components are restricted to conversational dialogue and intent mapping. All monetary values, fees, EMIs, interest rates, eligibility criteria, and repayments are strictly governed by a deterministic, transparent rules engine (`backend/rules.py`).
-2. **Clause-Grounded Knowledge (Zero Hallucination RAG):** The assistant cannot invent coverage details, room rent caps, or exclusion clauses. Queries are checked against the codified contract clauses (`backend/data/clauses.json`). When no clause confidently supports an answer, the system immediately triggers a human handoff.
-3. **Purpose-Limited, Revocable Consent Lifecycle:** Conforming to India's Digital Personal Data Protection (DPDP) Act and RBI digital lending norms, partner financial data (KYC, credit scores, transaction inflows) is accessed only after explicit customer authorization. Revoking consent immediately evicts calculations and active offers from memory.
+1. **Separation of Explanation and Calculation:** The demo's language parsing and response flow are separate from its deterministic financial calculations. Monetary values and eligibility outcomes come from the rules engine (`backend/rules.py`), not a hosted language-model API.
+2. **Clause-Grounded Retrieval:** Insurance explanations retrieve from the local sample clauses (`backend/data/clauses.json`). Low-confidence questions can be escalated rather than answered with unsupported sample policy claims.
+3. **Purpose-Limited Demo Consent:** The sample flow demonstrates explicit consent before using selected mock-profile data and supports revocation. This is not a certification of legal or regulatory compliance.
 
 ---
 
@@ -22,7 +22,7 @@ graph TB
         Desk["Authenticated Staff Inbox<br/>(frontend/admin.html)"]
         MicAPI["Web Speech API (SpeechRecognition)<br/>hi-IN / en-IN"]
         TTSAPI["SpeechSynthesis API<br/>Dynamic Rate / Locale Pitch"]
-        Storage["Browser LocalStorage<br/>(Zen Mode State)"]
+        Storage["Browser LocalStorage<br/>(Theme and Zen Preferences)"]
     end
 
     subgraph GatewayLayer ["API & Transport Tier (FastAPI + ASGI)"]
@@ -77,7 +77,7 @@ graph TB
 ## 3. Subsystem Breakdown
 
 ### 3.1 Client Tier (`frontend/index.html`, `frontend/admin.html`)
-The frontend is built as a zero-dependency, ultra-lightweight client suitable for embedding inside the Paytm Super-App WebView or standard desktop/mobile browsers.
+The frontend is a zero-dependency HTML/CSS/JavaScript demo for modern desktop and mobile browsers. It has not been validated as a production Paytm Super-App integration.
 
 - **Audio Engine:** 
   - `window.SpeechRecognition` / `window.webkitSpeechRecognition` captures continuous voice streams. Interim transcripts are rendered live into input field `$('t')`. Final transcript submission directly invokes `send()`.
@@ -86,11 +86,13 @@ The frontend is built as a zero-dependency, ultra-lightweight client suitable fo
   - `cards()` evaluates card schemas (`consent`, `guide`, `offer`, `ins_quote`, `clause`, `compare`, `esign`, `receipt`, `decline`, `handoff`).
   - `chips()` creates quick-reply pills based on current conversation context.
 - **Zen Mode Engine:**
-  - Uses the same responsive customer layout as standard mode on mobile and desktop, with a calmer palette, ambient breathing glow, and slower narration.
+  - Reduces visual distractions while keeping essential account, language, theme, speech, and chat actions available. It supports both light and dark themes and persists independently from the theme selection.
 - **Welcome & Account Selection:**
-  - Opens without a selected customer session; speaks one short welcome line and starts a chat only after an account is selected and continued.
+  - Opens without a selected customer session and speaks one short welcome line. Choosing a profile starts that customer's chat immediately; there is no Continue step.
 - **Staff Inbox:**
-  - `/admin` presents a sign-in screen and live handoff queue. Authenticated staff can join a customer session and reply without sending the customer to another page. `/agent` is a compatibility alias.
+  - `/admin` presents a sign-in screen and live queue. Authenticated staff can join a requested handoff or intervene in an active AI chat. The reply composer is gated until takeover; the customer remains on the original page. `/agent` is a compatibility alias.
+- **Speech Controls:**
+  - Message playback is manually controllable and can be stopped from the same speaker button. Human replies are not auto-spoken; the customer receives a spoken takeover notice.
 
 ---
 
@@ -99,7 +101,7 @@ The orchestrator maintains multi-turn conversation states inside memory dictiona
 
 - Staff credentials are configurable with `SAYTM_ADMIN_USERNAME` and `SAYTM_ADMIN_PASSWORD`; the local demo defaults are not for public deployment.
 - Successful staff login creates an eight-hour HttpOnly, SameSite=Strict cookie. Queue, session detail, connect, and staff-message endpoints validate this cookie.
-- Handoff state is returned to the customer poller so the customer remains in a waiting state until staff joins.
+- Handoff state is returned to the customer poller so the customer remains in a waiting state until staff joins. An authenticated intervention can also connect an active AI session and pause subsequent AI replies.
 
 ```mermaid
 stateDiagram-v2

@@ -1,103 +1,89 @@
-# Paytm Voice Assistant (Build for India AI Hackathon, Track 2)
+# Saytm — voice-first banking assistant
 
-> **Voice-first loans + insurance journeys that talk back.**  
-> Explain / Decide / Guide / Hand over · Spoken Hindi + Indian English · Deterministic Financial Rules Engine · RBI Digital Lending KFS · Iconic Paytm Soundbox Chime · Responsive customer app and staff inbox.
+Saytm is a bilingual Hindi/English banking-assistance prototype for exploring loan and health-insurance journeys through voice or text. The demo combines mock customer data, deterministic financial rules, policy-clause retrieval, browser speech, and a separate staff inbox.
 
----
+> **Prototype notice:** Customer profiles, partner integrations, underwriting, signatures, and insurance data are simulated. This project is not connected to Paytm accounts, a lender, an insurer, a credit bureau, or a government service, and it is not suitable for real financial decisions.
 
-## 🌟 Standout Features Added
+## What the demo includes
 
-1. **🎙️ Responsive Voice-First Customer App:**
-   - Real-time Web Audio API frequency analyser renders dynamic pulsing visualizer bars while listening.
-   - Comprehensive error recovery (friendly permission guidance, network timeout recovery, clean toggle on/off).
-   - Responsive desktop and mobile layouts in both standard and Zen modes.
-   - Starts on a short welcome; customers select a demo account before a chat or account data is opened.
-2. **🔔 Iconic Paytm Soundbox Audio Experience:**
-   - Dual-tone synthesizer chime (740Hz $\to$ 1108Hz) on loan sanction and policy issuance, followed by official spoken voice receipt.
-3. **📄 Official RBI Key Fact Statement (KFS) Modal & PDF Export:**
-   - Interactive disclosure meeting RBI digital lending guidelines with APR, itemized fee/GST breakdown, 6-month amortisation preview table, statutory 3-day cooling-off notice, and printable layout.
-4. **⚡ Live Interactive Re-Pricing Pills:**
-   - Instant re-pricing buttons directly inside the offer card (`12m`, `24m`, `36m`, `48m`) demonstrating instantaneous deterministic calculation.
-5. **👥 Staff Inbox (`/admin`):**
-   - Staff sign in to a separate inbox, see waiting customer handoffs first, join a conversation, and reply without navigating the customer away.
-   - Customers see a waiting state until staff joins; KYC declines offer a direct request for human help.
-6. **🧘 Zen Mode (Cognitive Accessibility):**
-   - Distraction-free palette, soft ambient breathing glow, slower narration playback rate (`Alt+Z`).
+- A welcome-first customer app. No customer session is created until a demo profile is chosen.
+- Hindi and Indian-English text and browser speech input/output.
+- Purpose-specific consent before using mock financial profile data.
+- Deterministic loan calculations and repricing, plus a printable Key Fact Statement preview.
+- Policy explanations retrieved from the local sample clause data.
+- A customer-side waiting state and a separate authenticated staff inbox.
+- Staff takeover/intervention, two-way chat, and per-message speech controls.
+- Responsive layouts, a persistent light/dark theme, and a distraction-reduced Zen mode.
 
----
+The app uses local Python rules and sample data. Browser speech is provided by the browser's Web Speech APIs. No external AI-service API key is required to run this prototype.
 
-## Quick Start
+## Run locally
+
+Requirements: Python 3.11 or newer and a modern browser. Chrome or Edge is recommended for microphone speech recognition; typed input remains available elsewhere.
 
 ```bash
-# 1. Activate virtual environment
-.\.venv\Scripts\activate   # Windows
-source .venv/bin/activate  # macOS / Linux
-
-# 2. Install dependencies
+python3 -m venv .venv
+source .venv/bin/activate        # macOS / Linux
+# .venv\Scripts\activate         # Windows PowerShell
 pip install -r requirements.txt
-
-# 3. Start local server (macOS / Linux)
-./runit.sh
-
-# Or start it directly
-uvicorn backend.app:app --reload --port 8000
+uvicorn backend.app:app --reload --host 127.0.0.1 --port 8000
 ```
 
-- Customer Mini-App: **http://localhost:8000** (Open in Chrome or Edge for voice input)
-- Staff Inbox: **http://localhost:8000/admin**
-- Local demo staff sign-in: `admin` / `saytm-demo`
+Open:
 
-Set `SAYTM_ADMIN_USERNAME` and `SAYTM_ADMIN_PASSWORD` in the server environment to change the demo sign-in credentials. The built-in credentials are for local demos only; configure your own before exposing the app beyond localhost.
+- Customer app: <http://127.0.0.1:8000/>
+- Staff inbox: <http://127.0.0.1:8000/admin>
+- Health check: <http://127.0.0.1:8000/health>
 
-Demo conversations are kept in server memory: refreshing a browser page does not clear them, but stopping and starting the backend process does. The audit log is stored separately and does not restore conversations into the inbox.
+The local demo staff credentials are `admin` / `saytm-demo`. Set `SAYTM_ADMIN_USERNAME` and `SAYTM_ADMIN_PASSWORD` in the server environment to override them. The defaults are for local demonstration only; do not expose them on a public deployment.
 
----
+## Try the customer and staff journeys
 
-## Interactive Demo Journeys
+1. On the welcome screen, use the profile control to choose a demo customer. The chat starts immediately; there is no separate Continue step.
+2. Try a loan request, for example `Mujhe dukaan ke liye 2 lakh ka loan chahiye`, or use a Quick query.
+3. Review the consent prompt before the demo uses the selected profile's mock data. Explore repricing, the KFS preview, or the insurance clause questions.
+4. Ask for a human agent, or open the profile menu's Staff sign in link (it opens a new tab) and sign in to `/admin`.
+5. In the staff inbox, join a waiting handoff or intervene in an active AI conversation. The customer stays in their existing chat.
 
-1. **Sunita (Kirana Merchant, Kanpur) · Full Loan & Reprice:**
-   - Open the profile menu and choose **Sunita**; the chat starts immediately.
-   - Click the microphone and say: `Mujhe dukaan ke liye 2 lakh ka loan chahiye` (or tap the **2L Loan** voice chip).
-   - Voice assistant asks for consent $\to$ Say `haan` $\to$ Instant approved offer at 17% p.a.
-   - Tap **24m Reprice** $\to$ Rules engine dynamically recalculates EMI from ₹7,131 to ₹9,888.
-   - Click **📄 View Official RBI KFS** to inspect APR, fees, and amortisation preview.
-   - Say `haan aage badho` $\to$ Click **Send e-sign request** $\to$ the request waits for human-agent review; it is not automatically approved.
-2. **Rahul (Food Vendor, Noida) · Explainable Underwriting Decline:**
-   - Open the profile menu and choose **Rahul**; the chat starts immediately.
-   - Say `I need a 2 lakh loan` $\to$ `yes` $\to$ Assistant explains decline due to credit score (598 < 650 threshold).
-3. **Meena (New User, Jaipur) · Missing KYC Guardrail:**
-   - Open the profile menu and choose **Meena** $\to$ Say `I need a 50 thousand loan` $\to$ Declines with clear guidance to complete video KYC first.
-   - Choose **Request KYC review** to send the request for human-agent review. Do not send identity documents in chat.
-4. **Health Insurance Q&A & Purchase:**
-   - Say `waiting period kya hai?` $\to$ Cites exact policy clauses (SHB-4.1 & SHP-4.1).
-   - Say `dono plan compare karo` $\to$ Renders side-by-side comparison matrix.
-   - Say `Plus le lo` $\to$ Grants KYC consent $\to$ request e-sign review; the policy remains inactive until human review.
-5. **Human Agent Handoff:**
-   - Say `agent se baat karo` or choose the KYC help option $\to$ the customer stays on the chat and sees a waiting state.
-   - Open `/admin` in a separate tab and sign in $\to$ the AI-requested handoff appears in the queue; click **Join conversation** to pause the AI and reply.
-   - Staff can also click **Intervene in AI chat** before a handoff, which pauses the AI and enables the human reply box.
-   - Customer and staff messages appear on the left for received text and on the right for the current speaker's own text. Use each speaker button to read a message aloud; human-agent replies are never spoken automatically.
+Staff can inspect active conversations, but the reply composer remains hidden until a human handoff or staff intervention. After takeover, the customer receives a spoken takeover notice and new customer messages no longer trigger another AI response. Human-agent replies are not spoken automatically; either side can play or stop speech for an individual message.
 
----
+## Project map
 
-## Architecture & Codebase Map
+| Path | Purpose |
+|---|---|
+| [`frontend/index.html`](./frontend/index.html) | Customer landing, profile switching, chat, voice controls, responsive themes, and Zen mode |
+| [`frontend/admin.html`](./frontend/admin.html) | Staff sign-in, conversation queue, transcript, takeover controls, and replies |
+| [`frontend/agent.html`](./frontend/agent.html) | Compatibility page for the staff inbox |
+| [`backend/app.py`](./backend/app.py) | FastAPI routes, session orchestration, handoff state, and audit events |
+| [`backend/nlu.py`](./backend/nlu.py) | Hindi/English intent and amount parsing |
+| [`backend/rules.py`](./backend/rules.py) | Deterministic demo loan calculations |
+| [`backend/rag.py`](./backend/rag.py) | Local policy-clause retrieval |
+| [`backend/partners.py`](./backend/partners.py) | Mock KYC, bureau, inflow, and e-sign integrations |
+| [`backend/data/`](./backend/data/) | Sample customer profiles and policy clauses |
+| [`backend/test_journeys.py`](./backend/test_journeys.py) | Customer and staff API journey tests |
+| [`docs/`](./docs/) | Product, architecture, workflow, feature, and technology documentation |
+| [`design.md`](./design.md) | Detailed, reusable UI/UX design brief and implementation guide |
 
-| Component | File Path | Architectural Responsibility |
-| :--- | :--- | :--- |
-| **Mini-App UI** | [`frontend/index.html`](./frontend/index.html) | Responsive welcome, account selection, voice input, chat, and Zen mode |
-| **Staff Inbox** | [`frontend/admin.html`](./frontend/admin.html) | Staff login, live handoff queue, customer transcripts, and two-way replies |
-| **Orchestrator** | [`backend/app.py`](./backend/app.py) | Multi-turn state machine, consent lifecycle, KFS generator, staff inbox API |
-| **Bilingual NLU**| [`backend/nlu.py`](./backend/nlu.py) | Devanagari numerals translation, colloquial Hindi number words (`do lakh`, `50k`), tenures |
-| **Rules Engine** | [`backend/rules.py`](./backend/rules.py) | Reducing-balance EMI, 40% FOIR cap with binary search shrink, risk-based pricing |
-| **Clause RAG** | [`backend/rag.py`](./backend/rag.py) | Pure-Python TF-IDF search over policy wording; triggers human handoff on low confidence |
-| **Partner Stubs**| [`backend/partners.py`](./backend/partners.py) | Telemetry mocks: KYC verification, bureau scores, 12-month Paytm UPI inflows, e-sign |
-
----
-
-## Automated Journey Tests
+## Tests
 
 ```bash
 pip install -r requirements-dev.txt
-python -m pytest backend/test_journeys.py -q
+python -m pytest -q backend/test_journeys.py
 ```
-Verifies Sunita loan happy path, live repricing, Hindi parsing, insurance flows, underwriting declines, customer handoffs, staff authentication, the waiting queue, and two-way agent messaging.
+
+## Prototype behavior and boundaries
+
+- Customer sessions are held in server memory and disappear when the server restarts. `backend/audit.jsonl` is an append-only event log; it does not restore sessions.
+- Customer and partner records are static demo fixtures. Do not enter real identity documents, account data, or sensitive customer information.
+- Loan decisions, KFS content, e-sign references, and policy results are simulations and require domain, legal, compliance, and security review before any production use.
+- Browser speech availability and voice quality vary by operating system, browser, installed voices, permissions, and locale.
+- Staff authentication is intended for local demos. Configure credentials and replace the demo security/session design before deployment.
+
+## Further reading
+
+- [Product requirements](./docs/PRD.md)
+- [Feature status](./docs/FEATURE_STATUS.md)
+- [Application workflow](./docs/WORKFLOW.md)
+- [System architecture](./docs/SYSTEM_ARCHITECTURE.md)
+- [Technology stack](./docs/TECH_STACK.md)
+- [UI/UX design specification](./design.md)

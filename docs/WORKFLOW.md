@@ -1,5 +1,5 @@
 # End-to-End Application Workflow & Journey Guide
-## Paytm Voice Assistant · Operational & Conversational Workflows
+## Saytm · Customer and Staff Workflows
 
 ---
 
@@ -15,7 +15,7 @@ sequenceDiagram
 
     User->>Browser: Opens http://localhost:8000
     Browser->>Browser: Loads HTML, CSS, Hind fonts, initializes DOM
-    Browser->>Browser: Reads localStorage('paytm-zen') -> restores Zen state
+    Browser->>Browser: Reads saved theme and Zen preferences
     Browser->>Browser: Render welcome; speak one short welcome line
     User->>Browser: Open profile menu and select customer account
     Browser->>Server: POST /api/start {user, lang}
@@ -28,11 +28,11 @@ sequenceDiagram
 
 ### Detailed Startup Steps:
 1. **Client Loading:** The browser requests `GET /`, serving `frontend/index.html`.
-2. **State Hydration:** JavaScript inspects `localStorage.getItem('paytm-zen')`. If set to `1`, the document body is decorated with class `.zen`, enabling calm colors and the breathing glow background.
+2. **State Hydration:** JavaScript restores the light/dark theme from `saytm-theme` and Zen preference from `paytm-zen`.
 3. **Welcome:** The customer sees a short welcome and hears one spoken welcome line; no profile is selected and no customer session is created yet.
-4. **Session Genesis:** Selecting an account in the profile menu immediately issues `POST /api/start`.
+4. **Session Genesis:** Selecting an account in the profile menu immediately issues `POST /api/start`. There is no separate Continue step.
 5. **Backend Orchestration:** `app.py:start()` generates a unique 8-character session ID (`sid`), creates `SESSIONS[sid]`, and loads the selected demo profile.
-6. **Proactive Financial Guidance:** If the selected customer has a `hint`, the backend returns a personalized greeting and guide card. The personalized greeting is read aloud when the chat starts.
+6. **Proactive Financial Guidance:** If the selected customer has a `hint`, the backend returns a personalized greeting and guide card. The personalized greeting is read aloud when the chat starts. The brand is expanded in speech to the intended “Say T M” pronunciation.
 
 ---
 
@@ -257,17 +257,17 @@ sequenceDiagram
 Session events continue to be recorded in the backend audit trail for operational traceability. The raw audit log is not exposed as a customer-facing chat control.
 
 ### 4.3 Human-Agent Reply Controls
-The staff inbox shows active AI conversations for monitoring, but keeps the reply composer hidden until the AI requests a handoff or staff explicitly chooses **Intervene in AI chat**. Joining or intervening marks the session as human-connected; subsequent customer messages are recorded for the agent without invoking another AI reply. Human-authored messages are not read automatically; either side can use the message speaker button to hear a specific message.
+The staff inbox shows active AI conversations for monitoring, but keeps the reply composer hidden until the AI requests a handoff and staff chooses **Join conversation**, or staff explicitly chooses **Intervene in AI chat**. Joining or intervening marks the session as human-connected; subsequent customer messages are recorded for the agent without invoking another AI reply. Human-authored messages are not read automatically; either side can use the message speaker button to hear or stop a specific message. The customer hears a spoken takeover notice when staff intervenes.
 
 ### 4.4 Display Theme
-The customer app and staff inbox share a persistent light/dark theme preference. The staff inbox uses neutral white/gray gradients in light mode and charcoal gradients in dark mode.
+The customer app and staff inbox share a persistent light/dark theme preference. The light theme uses neutral white/gray surfaces and charcoal controls; dark mode uses refined charcoal with a restrained teal accent. Zen is a separate, persistent distraction-reduction mode that keeps the main actions available and preserves readable contrast in both themes.
 
 ### 4.5 Zen Mode (Cognitive Accessibility) Workflow
-1. User clicks **"🧘 Zen"** button or presses `Alt+Z` keyboard shortcut.
+1. User clicks the **Zen mode** button or presses `Alt+Z` keyboard shortcut.
 2. JavaScript toggles CSS class `document.body.classList.toggle('zen')`.
-3. Background ambient glow fades in with a gentle 9-second ease-in-out breathing cycle (`@keyframes breathe`).
+3. A subtle ambient glow can fade in; the reduced visual density and calmer layout—not the color change alone—define Zen mode.
 4. Speech synthesis rate drops from `0.95` to `0.88`, ensuring clear, relaxed narration.
-5. Mode preference is saved to `localStorage.setItem('paytm-zen', '1')` and restored automatically on next visit.
+5. Mode preference is saved to `localStorage.setItem('paytm-zen', '1')` and restored automatically on next visit. The Zen button stays in its header position and always displays the complete **Zen mode** label.
 
 ### 4.6 Official RBI Key Fact Statement (KFS) Inspection & Print Workflow
 1. When loan offer is presented or signed, user clicks **"📄 View Official RBI KFS"**.
@@ -275,16 +275,19 @@ The customer app and staff inbox share a persistent light/dark theme preference.
 3. Backend produces official disclosure payload: effective APR, 6-month amortization preview, 3-day cooling-off declarations, and nodal officer contacts.
 4. Native `<dialog id="kfs_dlg">` displays the formatted KFS with a **"🖨️ Print / Save PDF"** button invoking `window.print()`.
 
-### 4.5 Staff Inbox & Human Handoff Workflow
+### 4.6 Staff Inbox & Human Handoff Workflow
 1. A customer requests a human or a guarded answer triggers `handoff()`. The customer sees a waiting state and stays on the current chat page.
 2. Staff opens `/admin`, signs in, and selects a waiting chat from the live queue.
-3. Staff clicks **Join conversation**; the backend records the connection and the customer chat updates its waiting status.
+3. Staff clicks **Join conversation** for a requested handoff or **Intervene in AI chat** for an active AI session; the backend records the connection and the customer chat updates its waiting status.
 4. Staff replies through `POST /api/agent/message`; this endpoint and the inbox/session endpoints require the admin session cookie.
-5. The customer mini-app polls `/api/poll/{sid}`, renders the staff message, and reads it aloud when read-aloud is enabled.
+5. The customer mini-app polls `/api/poll/{sid}`, renders the staff message, and does not read human-authored text automatically. Each message has an on-demand speaker/stop control. The takeover notice is spoken once to announce that AI has paused.
 
-### 4.6 Voice Input and Output Controls
+### 4.7 Voice Input and Output Controls
 1. The microphone uses the browser Speech Recognition API; unsupported browsers and permission or network errors receive an on-screen explanation.
-2. The volume slider controls speech synthesis and remembers the chosen level. Its speaker button mutes and stops any active narration.
-3. The **Read aloud** toggle controls automatic assistant narration. Each message also has a speaker button that toggles playback for that specific message.
-4. Changing the language or theme reads the welcome line in the selected language. Speech spells Saytm as “Say, tee-em” with a brief pause.
-5. A KYC or e-sign request waits for human review; it does not play an approval chime or generate an approval receipt.
+2. The welcome has a clearly shaped volume/speaker button; each message speaker control toggles playback and can stop its current utterance.
+3. The **Read aloud** toggle controls automatic assistant narration. Human-authored messages remain manual-only.
+4. Changing the language or theme reads the short welcome in the current language. Speech expands Saytm to the intended “Say T M” pronunciation.
+5. A KYC or human-support request leaves the customer in the current chat in a waiting state while staff uses `/admin`.
+6. A KYC or e-sign request waits for human review; it does not play an approval chime or generate an approval receipt.
+
+The local prototype uses deterministic Python rules, local profile/clause data, and browser speech. It does not need a hosted AI API key.

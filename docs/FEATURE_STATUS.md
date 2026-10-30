@@ -1,56 +1,35 @@
-# Feature Implementation Status & Gap Analysis
-## Paytm Voice Assistant · Codebase Audit
+# Saytm feature status
 
----
+This status describes the current local prototype, not a production banking or insurance service. Integrations use demo data and mock partner behavior.
 
-## 1. Feature Implementation Matrix
+## Implemented
 
-| Requirement ID | Feature Name | Status | Codebase Location | Implementation Verification Notes | Remaining / Production Work |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **FR-001** | Welcome, Account Selection & Session Start | **Implemented** | `backend/app.py:start()`, `frontend/index.html` | Opens on a short spoken welcome without creating a customer session; the customer chooses an account from the profile menu, which starts the chat immediately. The personalized greeting is spoken. | Replace demo account selection with real authentication and session persistence in Redis/DB. |
-| **FR-002** | Colloquial Bilingual NLU | **Implemented** | `backend/nlu.py:1-108` | Parses numbers (`do lakh`, `50k`), Devanagari numerals (`०-९`), tenures (`24 months`, `2 saal`), intent phrases. | Add ASR confidence parsing and regional dialect expansion (Bhojpuri, Marathi). |
-| **FR-003** | DPDP Data Consent Gate | **Implemented** | `backend/app.py:grant()`, `backend/app.py:chat()` | Explicit authorization step before querying bureau/inflows; logs timestamp and scope snapshot. | Implement verifiable OTP or digital signature on consent payload. |
-| **FR-004** | Consent Revocation | **Implemented** | `backend/app.py:revoke()` | `POST /api/consent/revoke` sets `revoked=True`, wipes calculated decision, resets stage to `idle`. | Cascade revocation notification to upstream data providers. |
-| **FR-005** | Deterministic Credit Underwriting | **Implemented** | `backend/rules.py:decide()` | Hard gates on KYC, score, vintage, min amount. Reducing-balance EMI. 40% FOIR cap with binary search principal shrink. | Integrate real NBFC credit policy APIs and Account Aggregator data. |
-| **FR-006** | Dynamic Loan Repricing | **Implemented** | `backend/app.py:chat()`, lines 340-349 | User utterance or interactive tenure button click triggers immediate recalculation and updated KFS card. | Support custom prepayment schedule simulations. |
-| **FR-007** | Official RBI Key Fact Statement (KFS) Viewer & Export | **Implemented** | `backend/app.py:get_kfs()`, `frontend/index.html:openKFS()` | Endpoint `/api/kfs/{sid}` generates complete digital lending KFS with APR, 6-month amortization table, nodal officer, and print dialog. | Connect to digital certificate PDF signing server. |
-| **FR-008** | Loan Fee Transparency Dialogue | **Implemented** | `backend/app.py:chat()`, lines 349-356 | Explains fee, GST, net disbursement, and cites prepayment clause `LN-2.1`. | Support multi-lender comparison where applicable. |
-| **FR-009** | Loan e-Sign & 3-Day Cooling-Off | **Implemented** | `backend/app.py:do_sign()`, `backend/partners.py:esign()` | Generates reference `PTM-L-XXXX-XXXX`, notifies of 3-day penalty-free cancellation. | Integrate Aadhaar e-Sign / NeSL gateway. |
-| **FR-010** | Clause-Grounded Insurance RAG | **Implemented** | `backend/rag.py:retrieve()`, `backend/data/clauses.json` | Dependency-free TF-IDF retrieval over 14 clauses in English and Hindi with threshold gating. | Migrate to local embeddings (e.g. BGE-small / SentenceTransformers) with vector search. |
-| **FR-011** | Policy Comparison Matrix | **Implemented** | `backend/app.py:compare_card()`, `frontend/index.html` | Structured table comparing Basic vs Plus across premium, cover, waiting, room rent, co-pay, maternity. | Support dynamic multi-tier comparisons across 5+ insurers. |
-| **FR-012** | Insurance Purchase & Free-Look | **Implemented** | `backend/app.py:chat()`, `do_sign()` | Issues `PTM-H-XXXX-XXXX` with explicit 15-day free-look window disclosure. | Connect to IRDAI insurer policy issuance webhooks. |
-| **FR-013** | Authenticated Staff Inbox & Human Handoff | **Implemented** | `frontend/admin.html`, `backend/app.py:admin_login()`, `backend/app.py:admin_connect()`, `backend/app.py:admin_intervene()`, `backend/app.py:agent_message()` | Active AI chats are visible to staff with the composer gated until handoff or intervention; joining/intervening pauses AI replies and enables real-time human messaging. | Add durable staff identity, multi-agent assignment, and persistent queue state. |
-| **FR-014** | Multi-Trigger Fallback Mechanism | **Implemented** | `backend/app.py:handoff()` | Triggers handoff on: (1) explicit request, (2) RAG confidence < 0.32, (3) 2x unrecognized turns. | Add sentiment / frustration detection trigger. |
-| **FR-015** | Append-Only Audit Trail | **Implemented** | `backend/app.py:audit()`, `backend/audit.jsonl` | Dual logging: in-memory session history and file-persisted JSONL format. | Stream to append-only WORM storage or AWS CloudWatch / OpenSearch. |
-| **FR-016** | Bulletproof Web Speech Engine with Live Visualizer | **Implemented** | `frontend/index.html:startMic(), stopMic()` | Web Audio API real-time frequency analyser renders animated pulsing waveform; comprehensive error messages for blocked mic or network timeout; Quick query testing chips. | Add backend streaming Whisper STT for non-Chromium browsers. |
-| **FR-017** | Web Speech API TTS + Soundbox Chime | **Implemented** | `frontend/index.html:say(), playSoundbox()` | Speaks AI responses and approval receipts with “Say T M” pronunciation; message speaker buttons provide on-demand playback, and human-agent replies are not auto-spoken. | Add cloud neural TTS for richer accents. |
-| **FR-018** | Zen & Display Themes | **Implemented** | `frontend/index.html`, `frontend/admin.html` | Zen mode remains distraction-reduced; both customer and staff apps provide a persistent light/dark switch. | Add high-contrast mode for severe visual impairments. |
-| **FR-019** | Proactive Lifecycle Guidance | **Implemented** | `backend/app.py:start()`, `frontend/index.html` | Detects life-event triggers from user profile (e.g. Diwali stock) and renders contextual guide card. | Integrate real-time ML merchant inflow anomaly detector. |
-| **FR-020** | End-to-End Automated Journey Tests | **Implemented** | `backend/test_journeys.py` | 16 automated tests cover customer journeys, account-selection landing, KYC handoff, staff authentication, waiting queue, and two-way messaging. | Add load testing and stress testing. |
+| Area | Current behavior | Main implementation |
+|---|---|---|
+| Welcome and account selection | Opens without a selected customer. Selecting a profile starts its chat immediately. | `frontend/index.html`, `backend/app.py` |
+| Language and speech | Hindi and Indian English UI, browser speech input where supported, spoken greetings and assistant replies, per-message playback and stop controls. | `frontend/index.html` |
+| Consent | Consent is requested before the demo uses profile data in relevant loan journeys; revocation resets the active demo decision. | `backend/app.py`, `frontend/index.html` |
+| Loan journey | Local NLU, deterministic eligibility and pricing, tenure repricing, fee disclosure, and KFS preview. | `backend/nlu.py`, `backend/rules.py`, `backend/app.py` |
+| Insurance journey | Local clause retrieval, clause citations, plan comparison, and simulated purchase/signature flow. | `backend/rag.py`, `backend/data/clauses.json`, `backend/app.py` |
+| Human support | Customer waits in the existing chat. Staff can join a requested handoff or intervene in an active AI chat; takeover pauses AI replies. | `backend/app.py`, `frontend/admin.html`, `frontend/index.html` |
+| Staff inbox | Authenticated local demo login, active/waiting queue, transcript, and two-way messages. Replies are gated until takeover. | `backend/app.py`, `frontend/admin.html` |
+| Themes and layout | Responsive desktop/mobile customer and staff views; persistent light/dark preference; separate Zen mode with reduced distraction and improved contrast. | `frontend/index.html`, `frontend/admin.html` |
+| Audit events | Important demo events append to a local JSON Lines file. | `backend/app.py`, `backend/audit.jsonl` |
+| Regression tests | Customer journeys, consent, rules, retrieval, staff login, waiting, intervention, and messaging. | `backend/test_journeys.py` |
 
----
+## Prototype limitations
 
-## 2. In-Depth Component Assessment
+- Profiles and partner data are static fixtures. No production customer data source is connected.
+- Sessions live in process memory and are lost on backend restart.
+- The rules engine, clause data, signature references, and KFS are demonstrations, not official product decisions or legal disclosures.
+- Browser-native speech recognition may be unavailable or permission/network-limited. Text entry remains available.
+- Staff credentials and session handling are demonstration-grade. Do not expose the default credentials publicly.
+- The project has no dependency on a hosted generative-AI API key. Conversation behavior is provided by local rules, parsing, and retrieval.
 
-### 2.1 Speech Recognition & Audio Pipeline
-- **Current State:** 
-  - Uses browser `SpeechRecognition` / `webkitSpeechRecognition`; voice input requires a supported browser and microphone permission.
-  - Added clean toggle control (clicking mic stops active recording).
-  - Shows actionable status for `not-allowed`, `network`, and other recognition errors.
-  - Quick query prompt chips appear after a customer selects an account and starts a chat.
-  - Added iconic **Paytm Soundbox chime** upon approval and e-signing.
+## Production work still required
 
-### 2.2 Decision Engine & Credit Policy
-- **Current State:** 100% verified and functional. Mathematical edge cases (FOIR cap exceedance, minimum loan threshold, interest rate banding) are handled cleanly with zero floating-point drift.
-- **New Feature:** Added support for human agent special rate overrides (e.g. 12% APR partner discount), which recalculates EMI and total repayment deterministically.
-
-### 2.3 RBI Key Fact Statement (KFS) Generation
-- **Current State:** Newly implemented endpoint `GET /api/kfs/{sid}` generates official digital lending disclosures including effective APR, itemized fees/taxes, 6-month amortisation schedule preview, statutory cooling-off notice, and printable modal view.
-
----
-
-## 3. Pending & Deferred Items
-
-1. **Persistent Session Storage:** Currently stored in memory (`SESSIONS = {}`). Deploying a lightweight Redis or SQLite backing store will ensure active conversations survive server restarts.
-2. **Real e-Signature Gateway:** Current `partners.esign()` generates mock tokens (`PTM-L-...`). Requires integration with legal electronic signature providers (e.g., Leegality or DigiLocker eSign).
-3. **Backend Streaming STT (Whisper):** In non-Chromium environments without native Web Speech API, a WebSocket endpoint can ingest raw PCM audio chunks.
+1. Replace demo accounts and local credentials with verified identity, authorization, and session management.
+2. Obtain legal, risk, compliance, accessibility, and security review for all financial and consent journeys.
+3. Integrate approved partner APIs and persist sessions/audit data using production-grade storage and retention controls.
+4. Replace simulated signatures and statements with approved signing and disclosure services.
+5. Define deployment, observability, incident response, and speech-service privacy requirements.
