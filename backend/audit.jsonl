@@ -1760,3 +1760,47 @@
 {"t": "20:09:34", "sid": "304b10d8", "event": "special_rate_applied", "new_rate": 12.0, "emi": 6643}
 {"t": "20:09:34", "sid": "ae4be2a0", "event": "session_start", "user": "sunita"}
 {"t": "20:09:45", "sid": "55e3023a", "event": "session_start", "user": "sunita"}
+{"t": "21:14:32", "sid": "a1158a13", "event": "user_turn", "text": "हाँ, समझाओ"}
+{"t": "21:14:32", "sid": "a1158a13", "event": "fees_explained"}
+{"t": "21:15:26", "sid": "a1158a13", "event": "user_turn", "text": "हाँ, आगे बढ़ो"}
+{"t": "21:15:26", "sid": "a1158a13", "event": "esign_requested"}
+{"t": "21:15:28", "sid": "a1158a13", "event": "esigned", "kind": "loan", "ref": "PTM-L-7BA2CC97-5128", "amount": 200000, "emi": 9888}
+{"t": "21:15:53", "sid": "de702563", "event": "session_start", "user": "sunita"}
+{"t": "21:16:09", "sid": "de702563", "event": "user_turn", "text": "मुझे 2 लाख का लोन चाहिए"}
+{"t": "21:16:21", "sid": "de702563", "event": "user_turn", "text": "हां मैं सहमत हूं"}
+{"t": "21:16:21", "sid": "de702563", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 21:16:21"}
+{"t": "21:16:21", "sid": "de702563", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "21:16:41", "sid": "de702563", "event": "user_turn", "text": "हां समझाओ"}
+{"t": "21:16:41", "sid": "de702563", "event": "fees_explained"}
+{"t": "21:16:59", "sid": "de702563", "event": "user_turn", "text": "हां आगे बढ़ो"}
+{"t": "21:16:59", "sid": "de702563", "event": "esign_requested"}
+{"t": "21:17:03", "sid": "de702563", "event": "esigned", "kind": "loan", "ref": "PTM-L-3A8A0D00-5223", "amount": 200000, "emi": 7131}
+{"t": "21:17:27", "sid": "de702563", "event": "user_turn", "text": "वेटिंग पीरियड कितना है लोन के लिए और क्या हम काम पर उद्दीन प्लान कंपेयर कर सकते हैं"}
+{"t": "21:17:27", "sid": "de702563", "event": "decision", "amount": 200000, "eligible": true, "reasons": [], "emi": 7131}
+{"t": "21:17:43", "sid": "de702563", "event": "user_turn", "text": "परंतु इसके लिए हमारा वेटिंग पीरियड कितना"}
+{"t": "21:17:57", "sid": "de702563", "event": "user_turn", "text": "बीमा समझो"}
+{"t": "21:17:57", "sid": "de702563", "event": "rag_answer", "clauses": ["SHB-5.2"]}
+{"t": "21:18:12", "sid": "de702563", "event": "user_turn", "text": "और व्हाट इस द वेटिंग पीरियड फॉर थिस"}
+{"t": "21:18:12", "sid": "de702563", "event": "handoff", "reason": "repeated_misunderstanding"}
+{"t": "21:18:23", "sid": "de702563", "event": "user_turn", "text": "बट आईटी वेटिंग पीरियड कितना है इसका"}
+{"t": "21:18:23", "sid": "de702563", "event": "handoff", "reason": "user_request"}
+{"t": "21:21:14", "sid": "97f554b7", "event": "session_start", "user": "meena"}
+{"t": "21:21:35", "sid": "3d474cda", "event": "session_start", "user": "sunita"}
+{"t": "21:21:38", "sid": "24749cf2", "event": "session_start", "user": "meena"}
+{"t": "21:21:44", "sid": "24749cf2", "event": "user_turn", "text": "क्या मुझे 2 लाख का लोन मिल सकता है"}
+{"t": "21:21:53", "sid": "24749cf2", "event": "user_turn", "text": "हां जी मैं सहमत हूं"}
+{"t": "21:21:53", "sid": "24749cf2", "event": "consent_granted", "purpose": "loan_eligibility", "scope": ["kyc", "txn_12m", "bureau"], "granted_at": "2026-10-30 21:21:53"}
+{"t": "21:21:53", "sid": "24749cf2", "event": "decision", "amount": 200000, "eligible": false, "reasons": ["kyc", "score", "vintage"], "emi": 0}
+{"t": "21:22:02", "sid": "fcba4872", "event": "session_start", "user": "rahul"}
+{"t": "21:22:04", "sid": "85622cc1", "event": "session_start", "user": "rahul"}
+{"t": "21:22:23", "sid": "85622cc1", "event": "user_turn", "text": "yeah I want to discuss about the health plan and what is what it is"}
+{"t": "21:22:23", "sid": "85622cc1", "event": "rag_answer", "clauses": ["SHP-8.1", "LN-4.1"]}
+{"t": "21:22:38", "sid": "85622cc1", "event": "user_turn", "text": "kya"}
+{"t": "21:22:48", "sid": "85622cc1", "event": "user_turn", "text": "kya Ham iska waiting period Jaan sakte hain"}
+{"t": "21:22:48", "sid": "85622cc1", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "21:23:00", "sid": "85622cc1", "event": "user_turn", "text": "what is the waiting period guy"}
+{"t": "21:23:00", "sid": "85622cc1", "event": "rag_answer", "clauses": ["SHP-4.1", "SHB-4.1"]}
+{"t": "21:23:07", "sid": "cc1ab3f5", "event": "session_start", "user": "rahul"}
+{"t": "21:23:08", "sid": "c86032c0", "event": "session_start", "user": "rahul"}
+{"t": "21:23:09", "sid": "f0ff3ba2", "event": "session_start", "user": "rahul"}
+{"t": "21:23:09", "sid": "a6518ebb", "event": "session_start", "user": "rahul"}

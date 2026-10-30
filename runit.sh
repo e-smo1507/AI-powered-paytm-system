@@ -1,12 +1,20 @@
-PYTHONPATH="C:\Users\lenovo\Downloads\paytm-voice-assistant\backend" python -c "
-import sys
-with open('frontend/index.html','rb') as f:
-    lines=f.read().splitlines()
-for i in range(354,424):
-    try:
-        s=lines[i].decode('utf-8')
-    except:
-        s=lines[i].decode('utf-8',errors='replace')
-    print(f'{i+1}: {s}', file=sys.stdout.buffer)
-" > out.txt 2> out_err.txt
-echo done
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")"
+
+if [[ -x .venv/bin/python ]]; then
+  python=.venv/bin/python
+else
+  python="${PYTHON:-python3}"
+fi
+
+if ! "$python" -c 'import uvicorn' >/dev/null 2>&1; then
+  printf 'Uvicorn is missing. Install dependencies with: %s -m pip install -r requirements.txt\n' "$python" >&2
+  exit 1
+fi
+
+exec "$python" -m uvicorn backend.app:app \
+  --host "${HOST:-127.0.0.1}" \
+  --port "${PORT:-8000}" \
+  --reload

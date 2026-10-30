@@ -136,8 +136,9 @@ body.zen .mic.rec{background:#b4635f;animation:breathe 2.4s ease-in-out infinite
 
 <script>
 const $=id=>document.getElementById(id);
-let sid, lang='hi', busy=false, zen=false, turnsRendered=0;
+let sid, lang='hi', busy=false, zen=false, turnsRendered=0, startTask=null;
 let micStream=null, audioCtx=null, analyser=null, animId=null, currentRec=null;
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 const fmtN = typeof Intl !== 'undefined' && Intl.NumberFormat ? new Intl.NumberFormat('en-IN').format : n => {
   const s = String(Math.round(n));
   const l = s.length;
@@ -152,7 +153,17 @@ const L = {
 async function api(p,b){
   const r=await fetch('/api/'+p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
   const j=await r.json().catch(()=>({}));
-  if(!r.ok) throw new Error(j.detail||r.statusText);
+  if(!r.ok){
+    const detail=j.detail;
+    const message=typeof detail==='string'?detail:
+      Array.isArray(detail)?detail.map(item=>{
+        const location=Array.isArray(item.loc)?item.loc.join('.'):'';
+        return [location,item.msg||JSON.stringify(item)].filter(Boolean).join(': ');
+      }).join('; '):
+      detail&&typeof detail==='object'?(detail.message||JSON.stringify(detail)):
+      r.statusText||'Request failed';
+    throw new Error(message);
+  }
   return j;
 }
 
@@ -281,12 +292,19 @@ async function send(text){
   busy=true;
   add('m me',esc(text));
   $('t').value='';
-  try{apply(await api('chat',{sid,text,lang}))}
+  stopMic();
+  try{
+    if(!sid&&startTask) await startTask;
+    if(!sid) throw new Error('No active assistant session. Check the server and reload the page.');
+    apply(await api('chat',{sid,text,lang}));
+  }
   catch(err){add('card err','Could not reach assistant. Is the server running? '+esc(err.message))}
   busy=false;
 }
 
 async function start(){
+  stopMic();
+  sid=null;
   $('log').innerHTML='';
   $('t').placeholder=L[lang].ph;
   turnsRendered=0;
@@ -349,16 +367,96 @@ async function openKFS(sessionSid){
 }
 
 // Microphone Engine with Live Audio Visualizer & Toggle
-if(!SR) alert('🎤 Voice requires a working internet connection to Google Web Speech API. Use Quick Voice buttons, type below, or tap a demo customer.');
+function setMicStatus(message, visible=true, listening=false){
+  $('vstatus').textContent=message;
+  $('vwrap').style.display=visible?'flex':'none';
+  $('mic').classList.toggle('rec',listening);
+  $('mic').setAttribute('aria-pressed',listening?'true':'false');
+}
 
-function stopMic(){}
+function stopMic(){
+  const rec=currentRec;
+  currentRec=null;
+  if(rec){
+    rec.onend=null;
+    try{rec.stop()}catch(error){
+      if(error.name!=='InvalidStateError') console.error('Could not stop speech recognition',error);
+    }
+  }
+  if(animId!==null)cancelAnimationFrame(animId);
+  animId=null;
+  if(micStream)micStream.getTracks().forEach(track=>track.stop());
+  micStream=null;
+  if(audioCtx){audioCtx.close().catch(error=>console.error('Could not close microphone audio context',error));audioCtx=null}
+  analyser=null;
+  setMicStatus('',false);
+}
 
-function startMic(){alert('🎤 Voice requires a working internet connection to Google Web Speech API. Use Quick Voice buttons, type below, or tap a demo customer.');return;}
+function startMic(){
+  if(currentRec){stopMic();return}
+  if(!SR){
+    setMicStatus('Voice input is unsupported here. Try Chrome or Edge, or use Quick Voice.',true);
+    return;
+  }
+  if(!window.isSecureContext){
+    setMicStatus('Microphone access requires HTTPS or http://localhost.',true);
+    return;
+  }
+
+  const rec=new SR();
+  currentRec=rec;
+  rec.lang=L[lang].loc;
+  rec.continuous=false;
+  rec.interimResults=true;
+  rec.maxAlternatives=1;
+  let heardSpeech=false;
+  rec.onstart=()=>setMicStatus(lang==='hi'?'सुन रहा हूँ... बोलिए':'Listening... speak now',true,true);
+  rec.onresult=event=>{
+    heardSpeech=true;
+    let finalText='';
+    let interimText='';
+    for(let i=event.resultIndex;i<event.results.length;i++){
+      const result=event.results[i];
+      if(result.isFinal)finalText+=result[0].transcript;
+      else interimText+=result[0].transcript;
+    }
+    if(interimText)setMicStatus(interimText,true,true);
+    if(finalText.trim()){
+      stopMic();
+      send(finalText.trim());
+    }
+  };
+  rec.onerror=event=>{
+    if(currentRec!==rec)return;
+    currentRec=null;
+    const messages={
+      'not-allowed':'Microphone permission was denied. Allow microphone access in your browser settings.',
+      'service-not-allowed':'Speech recognition is blocked by the browser.',
+      'no-speech':'No speech was detected. Tap the microphone and try again.',
+      'audio-capture':'No microphone was found. Check that one is connected and enabled.',
+      'network':'Speech recognition could not reach its online service. Check your internet connection.',
+      'language-not-supported':'Speech recognition does not support this language in your browser.'
+    };
+    setMicStatus(messages[event.error]||`Speech recognition error: ${event.error||'unknown error'}`,true);
+  };
+  rec.onend=()=>{
+    if(currentRec===rec){
+      currentRec=null;
+      if(heardSpeech)setMicStatus('',false);
+      else setMicStatus('No speech was detected. Tap the microphone and try again.',true);
+    }
+  };
+  try{rec.start()}
+  catch(error){
+    currentRec=null;
+    setMicStatus(error.message||'Could not start speech recognition.',true);
+  }
+}
 
 $('mic').onclick=startMic;
 $('f').onsubmit=e=>{e.preventDefault();send($('t').value.trim())};
-$('user').onchange=start;
-['hi','en'].forEach(l=>$(l).onclick=()=>{lang=l;$('hi').classList.toggle('on',l==='hi');$('en').classList.toggle('on',l==='en');setZen(zen);start()});
+$('user').onchange=()=>{startTask=start()};
+['hi','en'].forEach(l=>$(l).onclick=()=>{lang=l;$('hi').classList.toggle('on',l==='hi');$('en').classList.toggle('on',l==='en');setZen(zen);startTask=start()});
 $('zen').onclick=()=>setZen(!zen);
 document.addEventListener('keydown',e=>{if(e.altKey&&!e.ctrlKey&&!e.metaKey&&e.key.toLowerCase()==='z'){e.preventDefault();setZen(!zen)}});
 $('revoke').onclick=async()=>{try{await api('consent/revoke',{sid});bot(lang==='hi'?'आपकी डेटा-मंज़ूरी वापस ले ली गई है।':'Your data consent has been revoked.')}catch(e){add('card err',esc(e.message))}};
@@ -381,7 +479,7 @@ setInterval(async()=>{
 if(window.speechSynthesis) speechSynthesis.onvoiceschanged=()=>{};
 let zenSaved=false;try{zenSaved=localStorage.getItem('paytm-zen')==='1'}catch(e){}
 setZen(zenSaved);
-start();
+startTask=start();
 </script>
 </body>
 </html>

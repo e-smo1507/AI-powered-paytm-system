@@ -34,7 +34,10 @@ source .venv/bin/activate  # macOS / Linux
 # 2. Install dependencies
 pip install -r requirements.txt
 
-# 3. Start local server
+# 3. Start local server (macOS / Linux)
+./runit.sh
+
+# Or start it directly
 uvicorn backend.app:app --reload --port 8000
 ```
 
