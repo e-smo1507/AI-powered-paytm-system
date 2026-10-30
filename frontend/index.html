@@ -15,7 +15,7 @@ body{font-family:Hind,system-ui,sans-serif;background:linear-gradient(180deg,#cf
 header{padding:10px 14px;display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,#002e6e,#00baf2);color:#fff}
 .logo{font-family:Fraunces,serif;font-size:18px;flex:1;line-height:1.15}
 .logo-wordmark{font-family:Arial,Helvetica,sans-serif;font-size:25px;font-weight:900;letter-spacing:-.085em;line-height:1;color:#f8fafc}
-.logo-accent{color:#a7d7bd}
+.logo-accent{color:#72b58f}
 .logo small{display:block;font:500 11px Hind;opacity:.9}
 select,.seg button{font:500 12px Hind;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:8px;padding:5px 7px}
 option{color:#10243e}
@@ -532,7 +532,7 @@ html.dark-theme body:not(.zen) .welcome-speak,html.dark-theme body:not(.zen) .vo
 html.dark-theme body:not(.zen) .voice-mute{background:#41464a;border-color:#666c71;color:#f0f1f2}
 html.dark-theme body:not(.zen) .voice-volume-value{color:#d1d5d8}
 html.dark-theme body:not(.zen) .tools .read-aloud-toggle{background:#303438;border-color:#53595e;color:#eef0f1}
-html.dark-theme body:not(.zen) .tools .read-aloud-toggle input:checked{background:#687078;border-color:#a3a9ae}
+html.dark-theme body:not(.zen) .tools .read-aloud-toggle input:checked{background:#416b54;border-color:#77a784}
 body.zen #chips:empty{display:none}
 body.zen .message-meta{opacity:1}
 html.light-theme body.zen{--ink:#203b30;--mut:#4d6758;--line:#d5e2d9;--blue:#32694f;--me:#e0ede4;--me-t:#203b30;--sky:#6d9d7c;--ok:#32694f;--warn:#795b32}
@@ -672,6 +672,42 @@ html.dark-theme body.zen .agent-m .message-meta{color:#c0ddc8}
   body.zen .welcome-panel .voice-controls:hover,
   body.zen .welcome-panel .voice-controls:focus-within{width:min(230px,calc(100vw - 24px))}
 }
+.workspace form#f .mic{
+  position:relative;
+  isolation:isolate;
+  overflow:visible;
+  background:#f2f8f4;
+  color:#315d45;
+  border:2px solid #b6d2c0;
+  box-shadow:0 0 0 2px rgba(114,181,143,.16);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease
+}
+.workspace form#f .mic:hover{transform:translateY(-1px);border-color:#72b58f}
+.workspace form#f .mic:focus-visible{outline:3px solid #72b58f;outline-offset:4px}
+.workspace form#f .mic svg{
+  width:24px;
+  height:24px;
+  fill:none;
+  color:inherit;
+  stroke:currentColor;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round
+}
+.workspace form#f .mic.rec{
+  background:#f2f8f4;
+  color:#28593e;
+  border:3px solid #72b58f;
+  box-shadow:0 0 0 0 rgba(114,181,143,.55);
+  animation:mic-ripple 1.5s ease-out infinite;
+  transform:none
+}
+@keyframes mic-ripple{
+  0%{box-shadow:0 0 0 0 rgba(114,181,143,.55)}
+  70%{box-shadow:0 0 0 12px rgba(114,181,143,0)}
+  100%{box-shadow:0 0 0 0 rgba(114,181,143,0)}
+}
+@media(prefers-reduced-motion:reduce){.workspace form#f .mic.rec{animation:none}}
 html.dark-theme body:not(.zen) .eyebrow{color:#c1c5c8}
 </style>
 </head>
@@ -954,7 +990,6 @@ function setZen(on){
     b.textContent='Zen mode';
     b.title=zen?'Calm mode on · Alt+Z to exit':'Calm, distraction-free mode (Alt+Z)';
   }
-  try{localStorage.setItem('paytm-zen',zen?'1':'0')}catch(e){}
 }
 
 function setTheme(theme){
@@ -967,7 +1002,6 @@ function setTheme(theme){
     button.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');
     button.title=dark?'Switch to light mode':'Switch to dark mode';
   }
-  try{localStorage.setItem('saytm-theme',dark?'dark':'light')}catch(error){console.error('Could not save theme preference',error)}
 }
 
 function speakWelcome(){
@@ -1301,7 +1335,6 @@ function setLanguage(next){
 $('zen').onclick=()=>setZen(!zen);
 $('theme-toggle').onclick=()=>{
   setTheme(document.documentElement.classList.contains('dark-theme')?'light':'dark');
-  speakWelcome();
 };
 $('voice-mute').onclick=toggleVoiceMute;
 $('voice-volume').addEventListener('input',event=>setVoiceVolume(event.currentTarget.value));
@@ -1339,8 +1372,8 @@ setInterval(async()=>{
 }, 3000);
 
 if(window.speechSynthesis) speechSynthesis.onvoiceschanged=()=>{};
-let zenSaved=false;try{zenSaved=localStorage.getItem('paytm-zen')==='1'}catch(e){}
-let themeSaved='light';try{themeSaved=localStorage.getItem('saytm-theme')||'light'}catch(e){}
+const zenSaved=false;
+const themeSaved='light';
 try{
   const savedVolume=Number(localStorage.getItem('saytm-voice-volume'));
   if(Number.isFinite(savedVolume)&&savedVolume>0&&savedVolume<=1)voiceVolume=previousVoiceVolume=savedVolume;
