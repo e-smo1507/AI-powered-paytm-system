@@ -1817,3 +1817,8 @@
 {"t": "22:10:21", "sid": "0de57a9b", "event": "agent_turn", "agent": "Saytm Support", "text": "ji boliye", "action": null}
 {"t": "22:16:39", "sid": "7bd42dcf", "event": "session_start", "user": "rahul"}
 {"t": "22:16:55", "sid": "7bd42dcf", "event": "user_turn", "text": "2 लाख करोड़"}
+{"t": "22:37:08", "sid": "1d1cd4ad", "event": "agent_intervened"}
+{"t": "22:37:13", "sid": "5f7f4a68", "event": "session_start", "user": "rahul"}
+{"t": "22:37:25", "sid": "5f7f4a68", "event": "user_turn", "text": "Mujhe dukaan ke liye 2 lakh ka loan chahiye"}
+{"t": "22:37:31", "sid": "5f7f4a68", "event": "agent_intervened"}
+{"t": "22:37:39", "sid": "5f7f4a68", "event": "user_turn", "text": "yes"}

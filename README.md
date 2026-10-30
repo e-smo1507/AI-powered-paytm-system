@@ -72,8 +72,9 @@ Set `SAYTM_ADMIN_USERNAME` and `SAYTM_ADMIN_PASSWORD` in the server environment 
    - Say `Plus le lo` $\to$ Grants KYC consent $\to$ Issues policy receipt with 15-day free-look guarantee.
 5. **Human Agent Handoff:**
    - Say `agent se baat karo` or choose the KYC help option $\to$ the customer stays on the chat and sees a waiting state.
-   - Open `/admin` in a separate tab and sign in $\to$ choose a waiting chat and click **Join conversation**.
-   - Reply in the staff inbox and watch the customer chat update in real time.
+   - Open `/admin` in a separate tab and sign in $\to$ the AI-requested handoff appears in the queue; click **Join conversation** to pause the AI and reply.
+   - Staff can also click **Intervene in AI chat** before a handoff, which pauses the AI and enables the human reply box.
+   - Customer and staff messages appear on the left for received text and on the right for the current speaker's own text. Use each speaker button to read a message aloud; human-agent replies are never spoken automatically.
 
 ---
 

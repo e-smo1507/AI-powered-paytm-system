@@ -204,13 +204,15 @@ def chips(stage, lang):
 
 
 def reply(s, sid, lang, text, cards=None, chip_key=None):
-    s["transcript"].append({"role": "assistant", "text": text, "ts": time.strftime("%H:%M:%S")})
+    s["transcript"].append({"role": "assistant", "text": text, "ts": time.strftime("%H:%M:%S"), "lang": lang})
     return {
         "reply": text,
         "cards": cards or [],
         "chips": chips(chip_key or s["stage"], lang),
         "stage": s["stage"],
+        "lang": lang,
         "handoff": s["handoff"],
+        "agent_connected": s["agent_connected"],
         "consent_active": bool(s.get("consent") and not s["consent"].get("revoked")),
         "sid": sid,
     }
@@ -320,12 +322,13 @@ def start(b: StartIn):
     if u.get("hint"):
         msg += T("guide", b.lang, h=u["hint"])
         cards.append({"type": "guide", "event": u.get("life_event"), "hint": u["hint"]})
-    SESSIONS[sid]["transcript"].append({"role": "assistant", "text": msg, "ts": time.strftime("%H:%M:%S")})
+    SESSIONS[sid]["transcript"].append({"role": "assistant", "text": msg, "ts": time.strftime("%H:%M:%S"), "lang": b.lang})
     return {
         "sid": sid,
         "reply": msg,
         "cards": cards,
         "chips": chips("idle", b.lang),
+        "lang": b.lang,
         "profile": {"name": u["name"], "kind": u["kind"], "city": u["city"], "age": u.get("age")},
     }
 
@@ -336,8 +339,20 @@ def chat(b: ChatIn):
     if not t:
         return reply(s, sid, lang, T("unk", lang), [], "idle")
     s["lang"] = lang
-    s["transcript"].append({"role": "user", "text": t, "ts": time.strftime("%H:%M:%S")})
+    s["transcript"].append({"role": "user", "text": t, "ts": time.strftime("%H:%M:%S"), "lang": lang})
     audit(sid, "user_turn", text=t)
+    if s["agent_connected"]:
+        return {
+            "reply": "",
+            "cards": [],
+            "chips": [],
+            "stage": s["stage"],
+            "lang": lang,
+            "handoff": s["handoff"],
+            "agent_connected": True,
+            "consent_active": bool(s.get("consent") and not s["consent"].get("revoked")),
+            "sid": sid,
+        }
     if s["handoff"] or nlu.has_phrase(t, nlu.HUMAN):
         return handoff(s, sid, lang, "user_request")
 
@@ -494,6 +509,7 @@ def get_session(sid: str, request: Request):
         "user": s["user"],
         "profile": {"name": u["name"], "kind": u["kind"], "city": u["city"]},
         "stage": s["stage"],
+        "lang": s.get("lang", "en"),
         "handoff": s["handoff"],
         "agent_connected": s["agent_connected"],
         "transcript": s["transcript"],
@@ -516,11 +532,14 @@ def agent_message(b: AgentMsgIn, request: Request):
     t = (b.text or "").strip()
     if not t:
         raise HTTPException(400, "Message cannot be empty")
+    if not s["handoff"] and not s["agent_connected"]:
+        raise HTTPException(409, "Wait for the AI handoff prompt or intervene before replying")
     turn = {
         "role": "agent",
         "agent_name": b.agent_name,
         "text": t,
         "ts": time.strftime("%H:%M:%S"),
+        "lang": s.get("lang", "en"),
     }
     if s["handoff"]:
         s["agent_connected"] = True
@@ -617,6 +636,7 @@ def admin_session(sid: str, request: Request):
         "user": s["user"],
         "profile": {"name": u["name"], "kind": u["kind"], "city": u["city"]},
         "stage": s["stage"],
+        "lang": s.get("lang", "en"),
         "handoff": s["handoff"],
         "agent_connected": s["agent_connected"],
         "transcript": s["transcript"],
@@ -639,9 +659,29 @@ def admin_connect(sid: str, request: Request):
             "agent_name": "Saytm Support",
             "text": "A human agent has joined the conversation.",
             "ts": time.strftime("%H:%M:%S"),
+            "lang": s.get("lang", "en"),
         }
         s["transcript"].append(turn)
         audit(sid, "agent_connected")
+    return {"ok": True, "agent_connected": True}
+
+
+@app.post("/api/admin/session/{sid}/intervene")
+def admin_intervene(sid: str, request: Request):
+    require_admin(request)
+    s = S(sid)
+    if not s["agent_connected"]:
+        s["handoff"] = True
+        s["agent_connected"] = True
+        s["stage"] = "handoff"
+        s["transcript"].append({
+            "role": "agent",
+            "agent_name": "Saytm Support",
+            "text": "A human agent has taken over the conversation. The AI assistant is paused.",
+            "ts": time.strftime("%H:%M:%S"),
+            "lang": s.get("lang", "en"),
+        })
+        audit(sid, "agent_intervened")
     return {"ok": True, "agent_connected": True}
 
 

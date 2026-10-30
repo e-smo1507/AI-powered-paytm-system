@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#10243e;--mut:#5d6f86;--bg:#e8f4fc;--card:#fff;--blue:#002e6e;--sky:#00baf2;--bot:#fff;--me:#002e6e;--me-t:#fff;--agent:#0d4d42;--agent-t:#eefaf4;--line:#d3e1ee;--ok:#0a7d4f;--warn:#b45309;--saytm:#00baf2}
-@media(prefers-color-scheme:dark){:root{--ink:#e6eef8;--mut:#92a5bd;--bg:#0b1522;--card:#12233a;--blue:#7dd3fc;--sky:#00baf2;--bot:#12233a;--me:#00baf2;--me-t:#04213a;--agent:#0f3f37;--agent-t:#e6f8f0;--line:#223a57;--ok:#4ade80;--warn:#fbbf24}}
+@media(prefers-color-scheme:dark){:root:not(.light-theme){--ink:#e6eef8;--mut:#92a5bd;--bg:#0b1522;--card:#12233a;--blue:#7dd3fc;--sky:#00baf2;--bot:#12233a;--me:#00baf2;--me-t:#04213a;--agent:#0f3f37;--agent-t:#e6f8f0;--line:#223a57;--ok:#4ade80;--warn:#fbbf24}}
 *{box-sizing:border-box}html,body{height:100%;margin:0}
 body{font-family:Hind,system-ui,sans-serif;background:linear-gradient(180deg,#cfefff,#eaf4fb 40%,#eaf4fb);color:var(--ink);display:flex;justify-content:center;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
 .app{width:100%;max-width:460px;height:100%;display:flex;flex-direction:column;background:var(--bg);box-shadow:0 0 0 1px var(--line)}
@@ -86,6 +86,8 @@ body{min-height:100dvh;height:auto;padding:20px;background:#edf3f8}
 header{min-height:78px;padding:14px 26px;background:#fff;color:#10243e;border-bottom:1px solid #e7edf3}
 .logo{font-size:22px;color:#10243e}.logo small{font-size:12px;color:#718096;opacity:1}
 .header-actions{display:flex;align-items:center;gap:10px}
+.theme-toggle{border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:7px 10px;background:rgba(255,255,255,.13);color:inherit;font:500 12px Hind;white-space:nowrap;cursor:pointer}
+.theme-toggle:hover{background:rgba(255,255,255,.24)}
 .seg button{border-color:#dce5ee;background:#f7f9fb;color:#65758b;padding:8px 12px}
 .seg button.on{background:#e8f4ff;color:#006fcf;border-color:#b9daf7}
 .workspace{flex:1;min-height:0;display:grid;grid-template-columns:minmax(260px,330px) minmax(0,1fr)}
@@ -93,6 +95,8 @@ header{min-height:78px;padding:14px 26px;background:#fff;color:#10243e;border-bo
 .eyebrow{font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#0878c9}
 .welcome-panel h1{font:600 clamp(28px,3vw,40px)/1.13 Fraunces,Georgia,serif;letter-spacing:-.03em;color:#123458;margin:18px 0 12px}
 .welcome-panel p{font-size:15px;line-height:1.65;color:#60758d;margin:0}
+.welcome-speak{margin:8px 0 0;padding:5px 7px;border:1px solid #dce5ee;border-radius:999px;background:rgba(255,255,255,.75);color:#34516b;cursor:pointer}
+.welcome-speak svg{width:16px;height:16px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .welcome-note{margin-top:30px;padding:16px;border:1px solid #d9e8f4;border-radius:16px;background:rgba(255,255,255,.72);font-size:13px;line-height:1.55;color:#526b83}
 .welcome-bottom{margin-top:auto;padding-top:28px;font-size:12px;line-height:1.6;color:#718096}
 .welcome-bottom a{color:#0878c9;text-decoration:none}
@@ -108,7 +112,13 @@ header{min-height:78px;padding:14px 26px;background:#fff;color:#10243e;border-bo
 #chat-area{min-height:0;flex:1;display:flex;flex-direction:column}
 #chat-area[hidden],.empty-state[hidden]{display:none}
 #log{min-height:0;padding:24px clamp(16px,4vw,48px);background:#fbfcfe}
-.m{max-width:min(76%,680px);padding:13px 17px;border-radius:18px;font-size:15px}
+.m{max-width:min(76%,680px);padding:13px 17px;border-radius:18px;font-size:15px;display:flex;align-items:flex-start;gap:8px}
+.message-copy{min-width:0;flex:1}
+.message-meta{display:block;font-size:10px;opacity:.72;margin-bottom:3px}
+.message-text{display:block;white-space:pre-wrap}
+.message-speak{width:28px;height:28px;flex:none;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;opacity:.68;cursor:pointer}
+.message-speak:hover{opacity:1;background:rgba(127,140,150,.13)}
+.message-speak svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .bot{border:1px solid #e5ebf1;border-bottom-left-radius:5px;box-shadow:0 3px 12px rgba(21,51,83,.035)}
 .me{border-bottom-right-radius:5px;background:#0878c9}
 .card{max-width:760px;padding:16px;border-radius:16px;border-color:#e3eaf1;border-left-color:#1399dc;box-shadow:0 4px 14px rgba(21,51,83,.035)}
@@ -140,20 +150,20 @@ body.zen .m{max-width:min(76%,680px)}
 body.zen #chips button{color:var(--mut);border-color:var(--line);background:transparent}
 body.zen form#f input{background:var(--card);border-color:var(--line)}
 @media(prefers-color-scheme:dark){
-  body:not(.zen){background:#101a27;color:#e5edf5}
-  body:not(.zen) .app{background:#111e2c;border-color:#27394b;box-shadow:0 24px 70px rgba(0,0,0,.32)}
-  body:not(.zen) header,body:not(.zen) .conversation-head,body:not(.zen) .tools,body:not(.zen) #chips,body:not(.zen) .vhelp,body:not(.zen) form#f{background:#142333;border-color:#26394c}
-  body:not(.zen) .logo,body:not(.zen) .conversation-title,body:not(.zen) .empty-state h2{color:#e5edf5}
-  body:not(.zen) .logo small,body:not(.zen) .conversation-subtitle{color:#9eafc0}
-  body:not(.zen) .welcome-panel{background:linear-gradient(155deg,#172b3d,#152938 75%,#17302f);border-color:#26394c}
-  body:not(.zen) .welcome-panel h1{color:#e7f2fa}
-  body:not(.zen) .welcome-panel p,body:not(.zen) .welcome-bottom{color:#a7bacb}
-  body:not(.zen) .welcome-note{background:#1b3042;color:#bfd0de;border-color:#30475b}
-  body:not(.zen) .conversation,body:not(.zen) #log{background:#101a27}
-  body:not(.zen) .card,body:not(.zen) .bot{background:#172737;border-color:#2b4054;color:#e5edf5}
-  body:not(.zen) .tools a{color:#a9c5da}
-  body:not(.zen) form#f input{background:#101a27;border-color:#34485c;color:#e5edf5}
-  body:not(.zen) .vhelp button{color:#b4c3d1}
+  html:not(.light-theme) body:not(.zen){background:#101a27;color:#e5edf5}
+  html:not(.light-theme) body:not(.zen) .app{background:#111e2c;border-color:#27394b;box-shadow:0 24px 70px rgba(0,0,0,.32)}
+  html:not(.light-theme) body:not(.zen) header,html:not(.light-theme) body:not(.zen) .conversation-head,html:not(.light-theme) body:not(.zen) .tools,html:not(.light-theme) body:not(.zen) #chips,html:not(.light-theme) body:not(.zen) .vhelp,html:not(.light-theme) body:not(.zen) form#f{background:#142333;border-color:#26394c}
+  html:not(.light-theme) body:not(.zen) .logo,html:not(.light-theme) body:not(.zen) .conversation-title,html:not(.light-theme) body:not(.zen) .empty-state h2{color:#e5edf5}
+  html:not(.light-theme) body:not(.zen) .logo small,html:not(.light-theme) body:not(.zen) .conversation-subtitle{color:#9eafc0}
+  html:not(.light-theme) body:not(.zen) .welcome-panel{background:linear-gradient(155deg,#172b3d,#152938 75%,#17302f);border-color:#26394c}
+  html:not(.light-theme) body:not(.zen) .welcome-panel h1{color:#e7f2fa}
+  html:not(.light-theme) body:not(.zen) .welcome-panel p,html:not(.light-theme) body:not(.zen) .welcome-bottom{color:#a7bacb}
+  html:not(.light-theme) body:not(.zen) .welcome-note{background:#1b3042;color:#bfd0de;border-color:#30475b}
+  html:not(.light-theme) body:not(.zen) .conversation,html:not(.light-theme) body:not(.zen) #log{background:#101a27}
+  html:not(.light-theme) body:not(.zen) .card,html:not(.light-theme) body:not(.zen) .bot{background:#172737;border-color:#2b4054;color:#e5edf5}
+  html:not(.light-theme) body:not(.zen) .tools a{color:#a9c5da}
+  html:not(.light-theme) body:not(.zen) form#f input{background:#101a27;border-color:#34485c;color:#e5edf5}
+  html:not(.light-theme) body:not(.zen) .vhelp button{color:#b4c3d1}
   body.zen{background:linear-gradient(140deg,#111b17,#17211c 55%,#111b17)}
   body.zen .app{background:#14201b;border-color:#2b3c33}
   body.zen header,body.zen .conversation-head,body.zen .tools,body.zen #chips,body.zen .vhelp,body.zen form#f,body.zen .conversation,body.zen #log{background:#14201b}
@@ -170,7 +180,9 @@ body.zen form#f input{background:var(--card);border-color:var(--line)}
   .logo,body.zen .logo{font-size:19px}
   .header-actions{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
   .header-actions .seg{grid-column:1;grid-row:1;justify-self:start}
-  .mobile-profile{display:block;grid-column:2;grid-row:1;justify-self:end}
+  .header-actions{grid-template-columns:minmax(0,1fr) auto auto}
+  .theme-toggle{grid-column:2;grid-row:1}
+  .mobile-profile{display:block;grid-column:3;grid-row:1;justify-self:end}
   .mobile-profile summary{width:42px;height:42px;justify-content:center}
   .mobile-profile .profile-copy{display:none}
   .mobile-profile .profile-popover{top:calc(100% + 8px);bottom:auto;left:auto;right:0}
@@ -205,6 +217,81 @@ body.zen form#f input{background:var(--card);border-color:var(--line)}
   body{padding:12px}
   .welcome-panel{padding-top:30px;padding-bottom:24px}
 }
+html.light-theme{--ink:#252a30;--mut:#6f7781;--bg:#f2f3f4;--card:#fff;--blue:#383d43;--sky:#888f96;--bot:#fff;--me:#41464c;--me-t:#fff;--agent:#f0f1f2;--agent-t:#252a30;--line:#dfe3e6;--ok:#687078;--warn:#797f85}
+html.light-theme body:not(.zen){background:linear-gradient(145deg,#fff 0%,#f4f5f6 55%,#e9ecef 100%);color:var(--ink)}
+html.light-theme body:not(.zen) .app{background:linear-gradient(155deg,#fff,#f7f8f9);border-color:#dce0e4;box-shadow:0 24px 70px rgba(27,35,43,.12)}
+html.light-theme body:not(.zen) header,html.light-theme body:not(.zen) .conversation-head,html.light-theme body:not(.zen) .tools,html.light-theme body:not(.zen) #chips,html.light-theme body:not(.zen) .vhelp,html.light-theme body:not(.zen) form#f{background:#fff;border-color:#e7edf3}
+html.light-theme body:not(.zen) .logo,html.light-theme body:not(.zen) .conversation-title,html.light-theme body:not(.zen) .empty-state h2{color:#10243e}
+html.light-theme body:not(.zen) .logo small,html.light-theme body:not(.zen) .conversation-subtitle{color:#718096}
+html.light-theme body:not(.zen) .welcome-panel{background:linear-gradient(155deg,#f3f9ff,#eaf5ff 75%,#e6f4f2);border-color:#e4ecf3}
+html.light-theme body:not(.zen) .welcome-panel h1{color:#123458}
+html.light-theme body:not(.zen) .welcome-panel p,html.light-theme body:not(.zen) .welcome-bottom{color:#60758d}
+html.light-theme body:not(.zen) .welcome-note{background:rgba(255,255,255,.72);color:#526b83;border-color:#d9e8f4}
+html.light-theme body:not(.zen) .conversation,html.light-theme body:not(.zen) #log{background:#fbfcfe}
+html.light-theme body:not(.zen) .card,html.light-theme body:not(.zen) .bot{background:#fff;border-color:#e3eaf1;color:#10243e}
+html.light-theme body:not(.zen) form#f input{background:#f6f8fb;border-color:#dfe7ef;color:#10243e}
+html.light-theme body.zen{--bg:#edf4f0;--card:#fbfdfb;--bot:#f9fcfb;--line:#dbe8e1;--ink:#1d3a31;--mut:#5e7d72;--blue:#2f6f5c;--me:#2f6f5c;--me-t:#f4fbf7;--sky:#86bda8;--ok:#2f7d5c;--warn:#8a6a3a;background:linear-gradient(180deg,#e6f1eb,#f6faf8 45%,#eef5f1) fixed}
+html.light-theme body.zen .app,html.light-theme body.zen .conversation,html.light-theme body.zen .conversation-head,html.light-theme body.zen #log{background:#f7faf8;border-color:#e0e9e3}
+html.light-theme body.zen .welcome-panel .desktop-profile summary,html.light-theme body.zen form#f,html.light-theme body.zen .bot,html.light-theme body.zen .card,html.light-theme body.zen .profile-popover{background:#fff;border-color:#e5ece7;color:#1d3a31}
+html.light-theme body.zen .me{background:#e5f0e9;border-color:#d9e7dd;color:#25483a}
+html.light-theme body.zen form#f input{background:#f5f8f6;color:#1d3a31}
+html.dark-theme:not(.light-theme){--ink:#e6e9ed;--mut:#a0a8b0;--bg:#15181b;--card:#202429;--blue:#d7dce1;--sky:#969da4;--bot:#202429;--me:#383d43;--me-t:#f1f3f5;--agent:#24292e;--agent-t:#e4e7e9;--line:#383e44;--ok:#999fa5;--warn:#b2b7bc}
+html.dark-theme body:not(.zen){background:linear-gradient(180deg,#101a27,#0b1522 45%,#101a27);color:var(--ink)}
+html.dark-theme body:not(.zen) .app{background:#111e2c;border-color:#27394b;box-shadow:0 24px 70px rgba(0,0,0,.32)}
+html.dark-theme body:not(.zen) header,html.dark-theme body:not(.zen) .conversation-head,html.dark-theme body:not(.zen) .tools,html.dark-theme body:not(.zen) #chips,html.dark-theme body:not(.zen) .vhelp,html.dark-theme body:not(.zen) form#f{background:#142333;border-color:#26394c}
+html.dark-theme body:not(.zen) .logo,html.dark-theme body:not(.zen) .conversation-title,html.dark-theme body:not(.zen) .empty-state h2{color:#e5edf5}
+html.dark-theme body:not(.zen) .logo small,html.dark-theme body:not(.zen) .conversation-subtitle{color:#9eafc0}
+html.dark-theme body:not(.zen) .welcome-panel{background:linear-gradient(155deg,#172b3d,#152938 75%,#17302f);border-color:#26394c}
+html.dark-theme body:not(.zen) .welcome-panel h1{color:#e7f2fa}
+html.dark-theme body:not(.zen) .welcome-panel p,html.dark-theme body:not(.zen) .welcome-bottom{color:#a7bacb}
+html.dark-theme body:not(.zen) .welcome-note{background:#1b3042;color:#bfd0de;border-color:#30475b}
+html.dark-theme body:not(.zen) .conversation,html.dark-theme body:not(.zen) #log{background:#101a27}
+html.dark-theme body:not(.zen) .card,html.dark-theme body:not(.zen) .bot{background:#172737;border-color:#2b4054;color:#e5edf5}
+html.dark-theme body:not(.zen) form#f input{background:#101a27;border-color:#34485c;color:#e5edf5}
+html.dark-theme body.zen{--bg:#0e1614;--card:#14201c;--bot:#14201c;--line:#233530;--ink:#dcebe4;--mut:#8faea3;--blue:#8fd0b8;--me:#2c6b58;--me-t:#eefaf4;--sky:#5ea78d;background:linear-gradient(180deg,#0a1210,#0e1614 45%,#0a1210) fixed}
+html.dark-theme body.zen .app,html.dark-theme body.zen .conversation,html.dark-theme body.zen .conversation-head,html.dark-theme body.zen #log{background:#17211b;border-color:#293a2f}
+html.dark-theme body.zen .welcome-panel .desktop-profile summary,html.dark-theme body.zen form#f,html.dark-theme body.zen .bot,html.dark-theme body.zen .card,html.dark-theme body.zen .profile-popover{background:#1d2b22;border-color:#34483a;color:#e0ece3}
+html.dark-theme body.zen .me{background:#263c2d;border-color:#385642;color:#e3efe6}
+html.dark-theme body.zen form#f input{background:#1a271f;color:#e0ece3}
+html.dark-theme .profile-popover{background:#172737;border-color:#2b4054}
+html.dark-theme .profile-option,html.dark-theme .profile-action{color:#d5e5d9}
+html.dark-theme .welcome-speak{background:#172737;border-color:#34485c;color:#d5e5d9}
+html.light-theme body:not(.zen) header{background:linear-gradient(130deg,#fff,#eceff1);color:#252a30;border-color:#dfe3e6}
+html.light-theme body:not(.zen) .logo,html.light-theme body:not(.zen) .conversation-title,html.light-theme body:not(.zen) .empty-state h2{color:#252a30}
+html.light-theme body:not(.zen) .logo small,html.light-theme body:not(.zen) .conversation-subtitle{color:#707780}
+html.light-theme body:not(.zen) .welcome-panel{background:linear-gradient(155deg,#fff,#f0f2f3 72%,#e8ebed);border-color:#dfe3e6}
+html.light-theme body:not(.zen) .welcome-panel h1{color:#252a30}
+html.light-theme body:not(.zen) .welcome-panel p,html.light-theme body:not(.zen) .welcome-bottom{color:#626a72}
+html.light-theme body:not(.zen) .welcome-note{background:linear-gradient(145deg,#fff,#f1f2f3);color:#50575e;border-color:#dfe3e6}
+html.light-theme body:not(.zen) .conversation,html.light-theme body:not(.zen) #log{background:linear-gradient(155deg,#fff,#f7f8f9)}
+html.light-theme body:not(.zen) .bot,html.light-theme body:not(.zen) .card{background:linear-gradient(145deg,#fff,#f2f3f4);border-color:#e0e3e6;color:#252a30}
+html.light-theme body:not(.zen) .me{background:linear-gradient(145deg,#555b62,#292e33);border-color:#41464c;color:#fff}
+html.light-theme body:not(.zen) .agent-m{background:linear-gradient(145deg,#fff,#e9ebed);border-color:#dfe3e6;color:#252a30}
+html.light-theme body:not(.zen) .btn,html.light-theme body:not(.zen) .send,html.light-theme body:not(.zen) .zen-toggle[aria-pressed="true"],html.light-theme body:not(.zen) .seg button.on{background:linear-gradient(145deg,#555b62,#25292e);border-color:#3e444a;color:#fff}
+html.light-theme body:not(.zen) .btn.ghost{background:linear-gradient(145deg,#fff,#eceff1);border-color:#d7dce0;color:#3d4349}
+html.light-theme body:not(.zen) .mic{background:linear-gradient(145deg,#fff,#e5e8eb);color:#3f454b;border:1px solid #d5dade;box-shadow:0 2px 6px rgba(28,35,42,.08)}
+html.light-theme body:not(.zen) .theme-toggle{background:linear-gradient(145deg,#fff,#e8ebed);border-color:#d7dce0;color:#353b41}
+html.light-theme body:not(.zen) .seg button{background:linear-gradient(145deg,#fff,#eceff1);border-color:#d7dce0;color:#50575e}
+html.light-theme body:not(.zen) .seg button.on{color:#fff}
+html.light-theme body:not(.zen) .welcome-icon,html.light-theme body:not(.zen) .profile-avatar{background:linear-gradient(145deg,#fff,#e6e9eb);color:#444b52;border-color:#dfe3e6}
+html.dark-theme body:not(.zen){background:linear-gradient(145deg,#111417,#1c2024 58%,#101215)}
+html.dark-theme body:not(.zen) .app{background:linear-gradient(155deg,#22272c,#171b1f);border-color:#343a40}
+html.dark-theme body:not(.zen) header{background:linear-gradient(135deg,#292e33,#191d21);color:#e6e9ed;border-color:#343a40}
+html.dark-theme body:not(.zen) .logo,html.dark-theme body:not(.zen) .conversation-title,html.dark-theme body:not(.zen) .empty-state h2,html.dark-theme body:not(.zen) .welcome-panel h1{color:#eceff1}
+html.dark-theme body:not(.zen) .logo small,html.dark-theme body:not(.zen) .conversation-subtitle,html.dark-theme body:not(.zen) .welcome-panel p,html.dark-theme body:not(.zen) .welcome-bottom{color:#adb5bd}
+html.dark-theme body:not(.zen) .welcome-panel{background:linear-gradient(155deg,#292e33,#1b2024 72%,#171b1f);border-color:#343a40}
+html.dark-theme body:not(.zen) .welcome-note{background:linear-gradient(145deg,#30363c,#202429);color:#d2d7db;border-color:#41474d}
+html.dark-theme body:not(.zen) .conversation,html.dark-theme body:not(.zen) #log{background:linear-gradient(155deg,#171b1f,#202429)}
+html.dark-theme body:not(.zen) .bot,html.dark-theme body:not(.zen) .card{background:linear-gradient(145deg,#30363c,#22272c);border-color:#41474d;color:#e5e8eb}
+html.dark-theme body:not(.zen) .me{background:linear-gradient(145deg,#42484e,#292e33);border-color:#3a4046;color:#f1f3f5}
+html.dark-theme body:not(.zen) .agent-m{background:linear-gradient(145deg,#30363c,#202429);border-color:#41474d;color:#e5e8eb}
+html.dark-theme body:not(.zen) .btn,html.dark-theme body:not(.zen) .send,html.dark-theme body:not(.zen) .zen-toggle[aria-pressed="true"],html.dark-theme body:not(.zen) .seg button.on{background:linear-gradient(145deg,#e1e4e7,#aeb4ba);border-color:#9da4aa;color:#1b1e21}
+html.dark-theme body:not(.zen) .btn.ghost{background:linear-gradient(145deg,#292e33,#1c2024);border-color:#454b51;color:#e2e5e8}
+html.dark-theme body:not(.zen) .mic{background:linear-gradient(145deg,#3b4147,#252a2f);color:#e7eaed;border:1px solid #484e54;box-shadow:none}
+html.dark-theme body:not(.zen) .theme-toggle,html.dark-theme body:not(.zen) .seg button{background:linear-gradient(145deg,#3b4147,#252a2f);border-color:#4b5258;color:#e7eaed}
+html.dark-theme body:not(.zen) .welcome-icon,html.dark-theme body:not(.zen) .profile-avatar{background:linear-gradient(145deg,#3b4147,#252a2f);color:#e1e5e8;border-color:#484e54}
+html.light-theme .profile-popover{background:linear-gradient(155deg,#fff,#f0f2f3);border-color:#dfe3e6}
+html.dark-theme .profile-popover{background:linear-gradient(155deg,#292e33,#1d2226);border-color:#41474d}
 .profile-control{position:relative}
 .profile-control summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px}
 .profile-control summary::-webkit-details-marker{display:none}
@@ -278,6 +365,7 @@ body.zen .profile-option:hover,body.zen .profile-action:hover{background:#eff5f0
 <header>
   <div class="logo">Saytm<small id="who">Voice-first banking, at your pace</small></div>
   <div class="header-actions">
+  <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">☾</button>
   <details class="profile-control mobile-profile">
     <summary class="profile-avatar" aria-label="Open customer profiles">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0"></path></svg>
@@ -303,6 +391,7 @@ body.zen .profile-option:hover,body.zen .profile-action:hover{background:#eff5f0
   <span class="eyebrow" id="welcome-eyebrow">आपका रोज़मर्रा का money companion</span>
   <h1 id="welcome-heading">नमस्ते, स्वागत है।</h1>
   <p id="welcome-copy">लोन और स्वास्थ्य बीमा के बारे में सरल, भरोसेमंद मदद — अपनी भाषा में, अपनी गति से।</p>
+  <button type="button" class="welcome-speak" id="welcome-speak" aria-label="Read welcome aloud" title="Read welcome aloud"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7m3-10a9 9 0 0 1 0 13"></path></svg></button>
   <div class="welcome-note" id="welcome-note">आपकी जानकारी तभी देखी जाएगी जब आप स्पष्ट अनुमति देंगे। शुरू करने के लिए प्रोफ़ाइल मेनू से ग्राहक खाता चुनें।</div>
   <div class="welcome-bottom">
     <span id="welcome-foot">सुरक्षित बातचीत · आपकी अनुमति, आपका नियंत्रण</span>
@@ -405,14 +494,42 @@ function add(cls,html){
   return d;
 }
 
-function say(t){
-  if(!$('speak').checked||!window.speechSynthesis)return;
+function addMessage(cls,text,meta='',voiceLang=lang){
+  const message=document.createElement('div');
+  message.className=cls;
+  const copy=document.createElement('div');
+  copy.className='message-copy';
+  if(meta){
+    const label=document.createElement('span');
+    label.className='message-meta';
+    label.textContent=meta;
+    copy.append(label);
+  }
+  const body=document.createElement('span');
+  body.className='message-text';
+  body.textContent=text;
+  copy.append(body);
+  const button=document.createElement('button');
+  button.type='button';
+  button.className='message-speak';
+  button.setAttribute('aria-label',lang==='hi'?'यह संदेश सुनें':'Read this message aloud');
+  button.title=lang==='hi'?'यह संदेश सुनें':'Read this message aloud';
+  button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7m3-10a9 9 0 0 1 0 13"></path></svg>';
+  button.addEventListener('click',()=>say(text,true,voiceLang));
+  message.append(copy,button);
+  $('log').append(message);
+  $('log').scrollTop=1e9;
+  return message;
+}
+
+function say(t,manual=false,voiceLang=lang){
+  if((!manual&&!$('speak').checked)||!window.speechSynthesis)return;
   speechSynthesis.cancel();
   const spokenText=t.replace(/\bSaytm\b/gi,'Say T M');
   const u=new SpeechSynthesisUtterance(spokenText);
-  u.lang=L[lang].loc;u.rate=zen?.88:.95;
+  u.lang=L[voiceLang].loc;u.rate=zen?.88:.95;
   const voices=speechSynthesis.getVoices();
-  const v=voices.find(x=>x.lang&&x.lang.toLowerCase().startsWith(L[lang].loc.slice(0,2)));
+  const v=voices.find(x=>x.lang&&x.lang.toLowerCase().startsWith(L[voiceLang].loc.slice(0,2)));
   if(v)u.voice=v;
   speechSynthesis.speak(u);
 }
@@ -446,9 +563,9 @@ function playSoundbox(kind, amount, ref){
 
   setTimeout(()=>{
     const f=n=>'₹'+fmtN(Math.round(n||0));
-    const announcement = lang==='hi'
-      ? (kind==='loan'?`Saypatm: ${f(amount)} का लोन मंज़ूर हो गया!`:`Saypatm: आपकी पॉलिसी सक्रिय हो गई!`)
-      : (kind==='loan'?`Saypatm: Your loan of ${f(amount)} is approved!`:`Saypatm: Your policy is active!`);
+      const announcement = lang==='hi'
+        ? (kind==='loan'?`Say T M: ${f(amount)} का लोन मंज़ूर हो गया!`:`Say T M: आपकी पॉलिसी सक्रिय हो गई!`)
+        : (kind==='loan'?`Say T M: Your loan of ${f(amount)} is approved!`:`Say T M: Your policy is active!`);
     say(announcement);
   }, 400);
 }
@@ -467,6 +584,24 @@ function setZen(on){
   try{localStorage.setItem('paytm-zen',zen?'1':'0')}catch(e){}
 }
 
+function setTheme(theme){
+  const dark=theme==='dark';
+  document.documentElement.classList.toggle('dark-theme',dark);
+  document.documentElement.classList.toggle('light-theme',!dark);
+  const button=$('theme-toggle');
+  if(button){
+    button.textContent=dark?'☀':'☾';
+    button.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');
+    button.title=dark?'Switch to light mode':'Switch to dark mode';
+  }
+  try{localStorage.setItem('saytm-theme',dark?'dark':'light')}catch(error){console.error('Could not save theme preference',error)}
+}
+
+function speakWelcome(){
+  const text=lang==='hi'?'नमस्ते, Say T M में आपका स्वागत है।':'Hello, welcome to Say T M.';
+  say(text,true,lang);
+}
+
 function apply(r){
   if(!r)return;
   if(r.sid)sid=r.sid;
@@ -474,7 +609,7 @@ function apply(r){
     consentActive=r.consent_active;
     document.querySelectorAll('.revoke-action').forEach(button=>button.hidden=!consentActive);
   }
-  if(r.reply)bot(r.reply);
+  if(r.reply)bot(r.reply,r.lang||lang);
   cards(r.cards||[]);
   chips(r.chips);
 }
@@ -538,12 +673,12 @@ function cards(cs){(cs||[]).forEach(c=>{
   }
 })}
 
-function bot(t){add('m bot',esc(t));say(t)}
+function bot(t,voiceLang=lang){addMessage('m bot',t,'',voiceLang);say(t,false,voiceLang)}
 
 async function send(text){
   if(!text||busy)return;
   busy=true;
-  add('m me',esc(text));
+  addMessage('m me',text);
   $('t').value='';
   stopMic();
   try{
@@ -601,7 +736,7 @@ async function start(user=activeUser){
     $('empty-state').hidden=true;
     $('chat-area').hidden=false;
     turnsRendered=1;
-    bot(r.reply);
+    bot(r.reply,r.lang||lang);
     cards(r.cards||[]);
     chips(r.chips);
   }catch(err){
@@ -769,6 +904,8 @@ function setLanguage(next){
 }
 ['hi','en'].forEach(l=>$(l).onclick=()=>setLanguage(l));
 $('zen').onclick=()=>setZen(!zen);
+$('theme-toggle').onclick=()=>setTheme(document.documentElement.classList.contains('dark-theme')?'light':'dark');
+$('welcome-speak').onclick=speakWelcome;
 document.addEventListener('keydown',e=>{if(e.altKey&&!e.ctrlKey&&!e.metaKey&&e.key.toLowerCase()==='z'){e.preventDefault();setZen(!zen)}});
 document.querySelectorAll('[data-user]').forEach(button=>button.addEventListener('click',()=>{startTask=start(button.dataset.user)}));
 document.querySelectorAll('.revoke-action').forEach(button=>button.addEventListener('click',async()=>{
@@ -790,8 +927,7 @@ setInterval(async()=>{
     const poll = await (await fetch('/api/poll/'+sid+'?turns='+turnsRendered)).json();
     (poll.new_turns||[]).forEach(turn=>{
       if(turn.role==='agent'){
-        add('m agent-m',`<b>👤 ${esc(turn.agent_name||'Human Agent')}</b> <span style="font-size:11px;opacity:.7">${esc(turn.ts)}</span><br>${esc(turn.text)}`);
-        say((turn.agent_name||'Agent')+': '+turn.text);
+        addMessage('m agent-m',turn.text,`${turn.agent_name||'Human Agent'} · ${turn.ts||''}`,turn.lang||lang);
       }
     });
     turnsRendered=poll.total_turns;
@@ -801,16 +937,11 @@ setInterval(async()=>{
 
 if(window.speechSynthesis) speechSynthesis.onvoiceschanged=()=>{};
 let zenSaved=false;try{zenSaved=localStorage.getItem('paytm-zen')==='1'}catch(e){}
+let themeSaved='light';try{themeSaved=localStorage.getItem('saytm-theme')||'light'}catch(e){}
+setTheme(themeSaved);
 setZen(zenSaved);
 updateProfileMenu();
-if(window.speechSynthesis){
-  speechSynthesis.cancel();
-  const welcomeText='नमस्ते, Say T M में आपका स्वागत है।';
-  const utterance=new SpeechSynthesisUtterance(welcomeText);
-  utterance.lang='hi-IN';
-  utterance.rate=zen?.88:.95;
-  speechSynthesis.speak(utterance);
-}
+if(window.speechSynthesis){speechSynthesis.cancel();say('नमस्ते, Say T M में आपका स्वागत है।',true,'hi')}
 </script>
 </body>
 </html>

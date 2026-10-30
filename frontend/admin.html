@@ -81,12 +81,62 @@ button{cursor:pointer}
   .composer button{padding:0 14px}
   .login-wrap{min-height:calc(100vh - 62px)}
 }
+:root{color:#20252b;background:#f4f5f6;--muted:#6f7781;--line:#e1e4e8;--blue:#343a40;--green:#287a5a;--surface:#fff;--surface-soft:#f5f6f7;--text:#20252b;--received:#fff;--received-text:#252a30;--agent-text:#fff}
+body{color:var(--text);background:linear-gradient(145deg,#fff 0%,#f4f5f6 55%,#e9ecef 100%) fixed}
+.topbar,.queue,.session-head,.composer{background:linear-gradient(160deg,#fff,#f4f5f6);border-color:var(--line)}
+.brand,.welcome h2,.session-head h2{color:var(--text)}
+.brand small,.top-actions,.session-sub,.queue-note,.ticket-meta{color:var(--muted)}
+.ticket,.login-card{background:linear-gradient(155deg,#fff,#f5f6f7);border-color:var(--line);color:var(--text)}
+.ticket:hover,.ticket.active{border-color:#9da3aa;background:linear-gradient(145deg,#fff,#eceff1)}
+.pill{background:#e8eaed;color:#49515a}
+.pill.connected{background:#e2eee8;color:#256447}
+.welcome-icon{background:linear-gradient(145deg,#fff,#e7eaed);color:#4b535b}
+.message{display:grid;grid-template-columns:minmax(0,1fr) 30px;gap:7px;align-items:start;background:linear-gradient(155deg,#fff,#f0f1f2);border-color:#e0e3e6;color:#24292f}
+.message.user,.message.assistant{align-self:flex-start;border-radius:15px 15px 15px 4px;background:linear-gradient(145deg,#fff,#e9ebed);border-color:#dfe2e5;color:#252a30}
+.message.agent{align-self:flex-end;border-radius:15px 15px 4px 15px;background:linear-gradient(145deg,#555b62,#25292e);border-color:#444a50;color:var(--agent-text)}
+.message-meta,.message-text{grid-column:1}
+.message-meta{grid-row:1}
+.message-text{grid-row:2;white-space:pre-wrap}
+.message-meta+.message-text{grid-row:2}
+.speaker-button{grid-column:2;grid-row:1/3;align-self:end;width:28px;height:28px;display:grid;place-items:center;padding:0;border:1px solid rgba(120,126,133,.25);border-radius:50%;background:rgba(255,255,255,.55);color:inherit;opacity:.76}
+.speaker-button:hover{opacity:1;background:rgba(255,255,255,.82)}
+.speaker-button svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.connect,.composer button,.login-card button{background:linear-gradient(145deg,#555b62,#25292e);color:#fff}
+.connect:disabled{background:linear-gradient(145deg,#e5e8e9,#d4d8da);color:#3e444a}
+.top-actions button,.theme-toggle{border:1px solid #d5d9dd;border-radius:9px;background:linear-gradient(145deg,#fff,#e7e9eb);padding:7px 12px;color:#30363d}
+.composer input,.login-card input{background:#fff;border-color:#d8dce0;color:var(--text)}
+.composer input:focus{border-color:#777f87;box-shadow:0 0 0 3px #e6e8ea}
+.ticket.active .ticket-name{color:#20252b}
+.error{background:#fff1f0;color:#9b2c25}
+.dark-theme{color:#e6e9ed;background:#111417;--muted:#a0a8b0;--line:#343a40;--blue:#d7dce1;--green:#6dc69a;--surface:#202429;--surface-soft:#292e33;--text:#e6e9ed;--received:#292e33;--received-text:#e7eaed;--agent-text:#f2f4f5}
+.dark-theme body{color:var(--text);background:linear-gradient(145deg,#111417,#1c2024 58%,#101215) fixed}
+.dark-theme .topbar,.dark-theme .queue,.dark-theme .session-head,.dark-theme .composer{background:linear-gradient(155deg,#24292e,#191d21);border-color:var(--line)}
+.dark-theme .brand,.dark-theme .welcome h2,.dark-theme .session-head h2{color:#edf0f2}
+.dark-theme .ticket,.dark-theme .login-card{background:linear-gradient(155deg,#292e33,#1d2125);border-color:#3a4046;color:var(--text)}
+.dark-theme .ticket:hover,.dark-theme .ticket.active{border-color:#777e85;background:linear-gradient(145deg,#333940,#24292e)}
+.dark-theme .pill{background:#353b41;color:#d4d9dd}
+.dark-theme .pill.waiting{background:#493c29;color:#f1c47b}
+.dark-theme .pill.connected{background:#214034;color:#a6e2c3}
+.dark-theme .welcome-icon{background:linear-gradient(145deg,#343a40,#22272c);color:#e0e4e7}
+.dark-theme .message,.dark-theme .message.user,.dark-theme .message.assistant{background:linear-gradient(145deg,#30363c,#22272c);border-color:#41474d;color:var(--received-text)}
+.dark-theme .message.agent{background:linear-gradient(145deg,#51575e,#292e33);border-color:#444a50;color:var(--agent-text)}
+.dark-theme .speaker-button{background:rgba(255,255,255,.08);border-color:#555c63}
+.dark-theme .speaker-button:hover{background:rgba(255,255,255,.17)}
+.dark-theme .connect,.dark-theme .composer button,.dark-theme .login-card button{background:linear-gradient(145deg,#e0e3e6,#aeb4ba);color:#181b1e}
+.dark-theme .connect:disabled{background:linear-gradient(145deg,#42484e,#2c3136);color:#d5d9dc}
+.dark-theme .top-actions button,.dark-theme .theme-toggle{background:linear-gradient(145deg,#353b41,#24292e);border-color:#484f56;color:#e4e7e9}
+.dark-theme .composer input,.dark-theme .login-card input{background:#171a1d;border-color:#42484e;color:#edf0f2}
+.dark-theme .composer input:focus{border-color:#9ca4ab;box-shadow:0 0 0 3px rgba(220,225,230,.12)}
+.dark-theme .ticket.active .ticket-name{color:#fff}
+.dark-theme .welcome{color:var(--muted)}
+.dark-theme .error{background:#3d2423;color:#ffb8b2;border-color:#693733}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
 <header class="topbar">
   <div class="brand">Saytm<small>STAFF INBOX</small></div>
-  <div class="top-actions"><a href="/">Customer app</a><button type="button" id="logout" hidden>Sign out</button></div>
+  <div class="top-actions"><a href="/">Customer app</a><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">☾</button><button type="button" id="logout" hidden>Sign out</button></div>
 </header>
 <main class="login-wrap" id="login-view">
   <form class="login-card" id="login-form">
@@ -102,7 +152,7 @@ button{cursor:pointer}
 <main class="layout" id="inbox-view" hidden>
   <aside class="queue">
     <div class="queue-head"><h1>Conversations</h1><span class="live">LIVE</span></div>
-    <p class="queue-note">Customers waiting for a human agent appear first. Select a conversation to view its history.</p>
+    <p class="queue-note">Waiting handoffs appear first. You can monitor active AI chats and intervene when needed.</p>
     <div id="queue-list"></div>
   </aside>
   <section class="main" id="chat-panel">
@@ -131,7 +181,7 @@ function showError(message,target='login-error'){
 function statusLabel(session){
   if(session.status==='waiting')return '<span class="pill waiting">Waiting</span>';
   if(session.status==='connected')return '<span class="pill connected">Connected</span>';
-  return `<span class="pill">${esc(session.stage)}</span>`;
+  return '<span class="pill">AI active</span>';
 }
 
 function renderQueue(){
@@ -148,6 +198,17 @@ function renderQueue(){
   queue.querySelectorAll('[data-sid]').forEach(button=>button.addEventListener('click',()=>openSession(button.dataset.sid)));
 }
 
+function speakText(text,language='en'){
+  if(!window.speechSynthesis)return;
+  speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance(String(text||'').replace(/\bSaytm\b/gi,'Say T M'));
+  const prefix=language==='hi'?'hi':'en';
+  utterance.lang=prefix==='hi'?'hi-IN':'en-IN';
+  const voice=speechSynthesis.getVoices().find(item=>item.lang?.toLowerCase().startsWith(prefix));
+  if(voice)utterance.voice=voice;
+  speechSynthesis.speak(utterance);
+}
+
 async function loadQueue(){
   sessions=await request('/api/admin/sessions');
   renderQueue();
@@ -156,23 +217,31 @@ async function loadQueue(){
 function renderConversation(session){
   const panel=$('chat-panel');
   const previousInput=panel.querySelector('#agent-input')?.value||'';
+  const control=session.agent_connected
+    ?'<button type="button" class="connect" disabled>Human agent active</button>'
+    :session.handoff
+      ?'<button type="button" class="connect" id="connect">Join conversation</button>'
+      :'<button type="button" class="connect intervene" id="intervene">Intervene in AI chat</button>';
   panel.innerHTML=`
     <div class="session-head">
       <div><h2>${esc(session.profile.name)} <span style="font-weight:400;color:#758596">· ${esc(session.profile.kind)}, ${esc(session.profile.city)}</span></h2>
         <div class="session-sub">Conversation ${esc(session.sid)} · ${session.consent?'Consent granted':'No consent recorded'} · ${esc(session.stage)}</div>
       </div>
-      ${session.handoff?`<button type="button" class="connect" id="connect" ${session.agent_connected?'disabled':''}>${session.agent_connected?'Connected':'Join conversation'}</button>`:''}
+      ${control}
     </div>
     <div class="chat" id="chat">
-      ${(session.transcript||[]).map(turn=>`<div class="message ${esc(turn.role)}"><span class="message-meta">${esc(turn.agent_name||({user:session.profile.name,assistant:'Saytm assistant'}[turn.role]||turn.role))} · ${esc(turn.ts||'')}</span>${esc(turn.text)}</div>`).join('')}
+      ${(session.transcript||[]).map(turn=>`<div class="message ${esc(turn.role)}"><span class="message-meta">${esc(turn.agent_name||({user:session.profile.name,assistant:'Saytm assistant'}[turn.role]||turn.role))} · ${esc(turn.ts||'')}</span><span class="message-text">${esc(turn.text)}</span><button type="button" class="speaker-button" data-speak="${esc(turn.text)}" data-lang="${esc(turn.lang||session.lang||'en')}" aria-label="Read message aloud" title="Read message aloud"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7m3-10a9 9 0 0 1 0 13"></path></svg></button></div>`).join('')}
     </div>
-    <form class="composer" id="composer"><input id="agent-input" placeholder="Write a reply to ${esc(session.profile.name)}…" autocomplete="off"><button type="submit">Send</button></form>
+    <p class="queue-note handoff-note" ${session.agent_connected?'hidden':''}>${session.handoff?'The AI has requested a human handoff. Join to pause the AI and reply.':'The AI is handling this chat. Intervene to pause it and take over.'}</p>
+    <form class="composer" id="composer" ${session.agent_connected?'':'hidden'}><input id="agent-input" placeholder="Write a reply to ${esc(session.profile.name)}…" autocomplete="off"><button type="submit">Send</button></form>
     <div class="error" id="chat-error" hidden role="alert"></div>`;
   const chat=$('chat');
   chat.scrollTop=chat.scrollHeight;
   $('agent-input').value=previousInput;
   $('composer').addEventListener('submit',sendMessage);
+  $('chat').querySelectorAll('[data-speak]').forEach(button=>button.addEventListener('click',()=>speakText(button.dataset.speak,button.dataset.lang)));
   $('connect')?.addEventListener('click',connectToCustomer);
+  $('intervene')?.addEventListener('click',interveneInChat);
   if(session.agent_connected){
     $('connect')?.setAttribute('title','You have joined this conversation');
   }
@@ -194,6 +263,17 @@ async function connectToCustomer(){
     await openSession(activeSid);
     await loadQueue();
   }catch(error){showError(error.message,'chat-error')}
+}
+
+async function interveneInChat(){
+  if(!activeSid)return;
+  const button=$('intervene');
+  if(button)button.disabled=true;
+  try{
+    await request('/api/admin/session/'+encodeURIComponent(activeSid)+'/intervene',{method:'POST',body:'{}'});
+    await openSession(activeSid);
+    await loadQueue();
+  }catch(error){showError(error.message,'chat-error');if(button)button.disabled=false}
 }
 
 async function sendMessage(event){
@@ -226,6 +306,23 @@ async function showInbox(){
   $('logout').hidden=false;
   await loadQueue();
 }
+
+$('theme-toggle').addEventListener('click',()=>{
+  const dark=!document.documentElement.classList.contains('dark-theme');
+  document.documentElement.classList.toggle('dark-theme',dark);
+  document.documentElement.classList.toggle('light-theme',!dark);
+  $('theme-toggle').textContent=dark?'☀':'☾';
+  $('theme-toggle').setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');
+  $('theme-toggle').title=dark?'Switch to light mode':'Switch to dark mode';
+  try{localStorage.setItem('saytm-theme',dark?'dark':'light')}catch(error){console.error('Could not save theme preference',error)}
+});
+let savedTheme='light';
+try{savedTheme=localStorage.getItem('saytm-theme')||'light'}catch(error){console.error('Could not load theme preference',error)}
+document.documentElement.classList.toggle('dark-theme',savedTheme==='dark');
+document.documentElement.classList.toggle('light-theme',savedTheme!=='dark');
+$('theme-toggle').textContent=savedTheme==='dark'?'☀':'☾';
+$('theme-toggle').setAttribute('aria-label',savedTheme==='dark'?'Switch to light mode':'Switch to dark mode');
+$('theme-toggle').title=savedTheme==='dark'?'Switch to light mode':'Switch to dark mode';
 
 $('login-form').addEventListener('submit',signIn);
 $('logout').addEventListener('click',async()=>{

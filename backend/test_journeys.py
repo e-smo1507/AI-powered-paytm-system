@@ -136,6 +136,30 @@ def test_two_way_agent_message():
     assert any(turn.get("role") == "agent" for turn in poll["new_turns"])
 
 
+def test_agent_can_intervene_before_handoff_and_pause_ai():
+    sid, _ = start("sunita", "en")
+    assert c.post("/api/admin/login", json={"username": "admin", "password": "saytm-demo"}).status_code == 200
+    assert c.get("/api/admin/sessions").json()[0]["status"] == "active"
+    premature = c.post("/api/agent/message", json={"sid": sid, "text": "Hello", "agent_name": "Support"})
+    assert premature.status_code == 409
+
+    intervened = c.post(f"/api/admin/session/{sid}/intervene", json={})
+    assert intervened.status_code == 200
+    details = c.get(f"/api/admin/session/{sid}").json()
+    assert details["handoff"] is True
+    assert details["agent_connected"] is True
+
+    before = len(details["transcript"])
+    customer_message = c.post("/api/chat", json={"sid": sid, "text": "I still need help", "lang": "en"}).json()
+    assert customer_message["reply"] == ""
+    after = c.get(f"/api/admin/session/{sid}").json()["transcript"]
+    assert len(after) == before + 1
+    assert after[-1]["role"] == "user"
+
+    agent_message = c.post("/api/agent/message", json={"sid": sid, "text": "I can help with that", "agent_name": "Support"})
+    assert agent_message.status_code == 200
+
+
 def test_admin_login_and_waiting_queue():
     sid, _ = start("meena", "en")
     say(sid, "talk to an agent", "en")

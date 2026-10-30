@@ -227,10 +227,11 @@ sequenceDiagram
     UI-->>User: Show waiting state in the existing customer chat
     Note over StaffInbox: Staff signs in to /admin
     StaffInbox->>Backend: GET /api/admin/sessions (authenticated)
-    Backend-->>StaffInbox: Waiting handoffs listed first
+    Backend-->>StaffInbox: Active AI chats and waiting handoffs, with handoffs listed first
     StaffInbox->>Backend: GET /api/admin/session/{sid} (authenticated)
     Backend-->>StaffInbox: Full session transcript, profile, and audit log
-    StaffInbox->>Backend: POST /api/admin/session/{sid}/connect
+    StaffInbox->>Backend: POST /api/admin/session/{sid}/connect (handoff) or /intervene (active AI chat)
+    Backend->>Backend: Pause AI replies and enable human-agent messages
     Backend-->>UI: Customer poll reports a connected agent
     Note over StaffInbox,UI: Staff replies in the inbox; the customer remains in the same chat
 ```
@@ -249,14 +250,20 @@ sequenceDiagram
 ### 4.2 Audit Log
 Session events continue to be recorded in the backend audit trail for operational traceability. The raw audit log is not exposed as a customer-facing chat control.
 
-### 4.3 Zen Mode (Cognitive Accessibility) Workflow
+### 4.3 Human-Agent Reply Controls
+The staff inbox shows active AI conversations for monitoring, but keeps the reply composer hidden until the AI requests a handoff or staff explicitly chooses **Intervene in AI chat**. Joining or intervening marks the session as human-connected; subsequent customer messages are recorded for the agent without invoking another AI reply. Human-authored messages are not read automatically; either side can use the message speaker button to hear a specific message.
+
+### 4.4 Display Theme
+The customer app and staff inbox share a persistent light/dark theme preference. The staff inbox uses neutral white/gray gradients in light mode and charcoal gradients in dark mode.
+
+### 4.5 Zen Mode (Cognitive Accessibility) Workflow
 1. User clicks **"🧘 Zen"** button or presses `Alt+Z` keyboard shortcut.
 2. JavaScript toggles CSS class `document.body.classList.toggle('zen')`.
 3. Background ambient glow fades in with a gentle 9-second ease-in-out breathing cycle (`@keyframes breathe`).
 4. Speech synthesis rate drops from `0.95` to `0.88`, ensuring clear, relaxed narration.
 5. Mode preference is saved to `localStorage.setItem('paytm-zen', '1')` and restored automatically on next visit.
 
-### 4.4 Official RBI Key Fact Statement (KFS) Inspection & Print Workflow
+### 4.6 Official RBI Key Fact Statement (KFS) Inspection & Print Workflow
 1. When loan offer is presented or signed, user clicks **"📄 View Official RBI KFS"**.
 2. Frontend requests `GET /api/kfs/{sid}`.
 3. Backend produces official disclosure payload: effective APR, 6-month amortization preview, 3-day cooling-off declarations, and nodal officer contacts.
