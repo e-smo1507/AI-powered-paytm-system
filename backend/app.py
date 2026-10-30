@@ -1,10 +1,12 @@
 """Saytm Voice Assistant orchestrator. Run: uvicorn backend.app:app --reload"""
 import json
+import os
+import secrets
 import time
 import uuid
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
@@ -19,6 +21,10 @@ ROOT = Path(__file__).parent
 FRONT = ROOT.parent / "frontend"
 AUDIT_FILE = ROOT / "audit.jsonl"
 SESSIONS: dict = {}
+ADMIN_SESSIONS: dict[str, float] = {}
+ADMIN_USERNAME = os.getenv("SAYTM_ADMIN_USERNAME") or "admin"
+ADMIN_PASSWORD = os.getenv("SAYTM_ADMIN_PASSWORD") or "saytm-demo"
+ADMIN_SESSION_TTL = 8 * 60 * 60
 
 app = FastAPI(title="Saytm Voice Assistant")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -163,6 +169,19 @@ class AgentMsgIn(BaseModel):
     action: str | None = None
 
 
+class AdminLoginIn(BaseModel):
+    username: str
+    password: str
+
+
+def require_admin(request: Request):
+    token = request.cookies.get("saytm_admin")
+    expires_at = ADMIN_SESSIONS.get(token or "")
+    if not expires_at or expires_at <= time.time():
+        ADMIN_SESSIONS.pop(token or "", None)
+        raise HTTPException(401, "Admin login required")
+
+
 def S(sid):
     if sid not in SESSIONS:
         raise HTTPException(404, "unknown session")
@@ -192,6 +211,7 @@ def reply(s, sid, lang, text, cards=None, chip_key=None):
         "chips": chips(chip_key or s["stage"], lang),
         "stage": s["stage"],
         "handoff": s["handoff"],
+        "consent_active": bool(s.get("consent") and not s["consent"].get("revoked")),
         "sid": sid,
     }
 
@@ -291,7 +311,8 @@ def start(b: StartIn):
     sid = uuid.uuid4().hex[:8]
     SESSIONS[sid] = dict(
         user=b.user, lang=b.lang, stage="idle", amount=None, tenure=36, consent=None,
-        decision=None, unknown=0, transcript=[], audit=[], handoff=False, plan=None, product=None,
+        decision=None, unknown=0, transcript=[], audit=[], handoff=False, agent_connected=False,
+        plan=None, product=None,
     )
     audit(sid, "session_start", user=b.user)
     msg = T("greet", b.lang, n=u["name"])
@@ -464,7 +485,8 @@ def get_audit(sid: str):
 
 
 @app.get("/api/session/{sid}")
-def get_session(sid: str):
+def get_session(sid: str, request: Request):
+    require_admin(request)
     s = S(sid)
     u = USERS[s["user"]]
     return {
@@ -473,6 +495,7 @@ def get_session(sid: str):
         "profile": {"name": u["name"], "kind": u["kind"], "city": u["city"]},
         "stage": s["stage"],
         "handoff": s["handoff"],
+        "agent_connected": s["agent_connected"],
         "transcript": s["transcript"],
         "decision": s["decision"],
         "consent": s["consent"],
@@ -481,22 +504,14 @@ def get_session(sid: str):
 
 
 @app.get("/api/sessions")
-def list_sessions():
-    out = []
-    for sid, s in SESSIONS.items():
-        u = USERS[s["user"]]
-        out.append({
-            "sid": sid,
-            "name": u["name"],
-            "stage": s["stage"],
-            "handoff": s["handoff"],
-            "turns": len(s["transcript"]),
-        })
-    return list(reversed(out))
+def list_sessions(request: Request):
+    require_admin(request)
+    return list_sessions_data()
 
 
 @app.post("/api/agent/message")
-def agent_message(b: AgentMsgIn):
+def agent_message(b: AgentMsgIn, request: Request):
+    require_admin(request)
     s = S(b.sid)
     t = (b.text or "").strip()
     if not t:
@@ -507,6 +522,8 @@ def agent_message(b: AgentMsgIn):
         "text": t,
         "ts": time.strftime("%H:%M:%S"),
     }
+    if s["handoff"]:
+        s["agent_connected"] = True
     s["transcript"].append(turn)
     audit(b.sid, "agent_turn", agent=b.agent_name, text=t, action=b.action)
 
@@ -526,6 +543,106 @@ def agent_message(b: AgentMsgIn):
         audit(b.sid, "special_rate_applied", new_rate=12.0, emi=new_emi)
 
     return {"ok": True, "turn": turn, "stage": s["stage"], "decision": s["decision"]}
+
+
+@app.post("/api/admin/login")
+def admin_login(b: AdminLoginIn, request: Request, response: Response):
+    if not (
+        secrets.compare_digest(b.username, ADMIN_USERNAME)
+        and secrets.compare_digest(b.password, ADMIN_PASSWORD)
+    ):
+        raise HTTPException(401, "Incorrect admin username or password")
+
+    now = time.time()
+    for token, expires_at in list(ADMIN_SESSIONS.items()):
+        if expires_at <= now:
+            ADMIN_SESSIONS.pop(token, None)
+    token = secrets.token_urlsafe(32)
+    ADMIN_SESSIONS[token] = now + ADMIN_SESSION_TTL
+    response.set_cookie(
+        "saytm_admin",
+        token,
+        max_age=ADMIN_SESSION_TTL,
+        httponly=True,
+        secure=request.url.scheme == "https",
+        samesite="strict",
+        path="/",
+    )
+    return {"ok": True, "username": ADMIN_USERNAME}
+
+
+@app.post("/api/admin/logout")
+def admin_logout(request: Request, response: Response):
+    token = request.cookies.get("saytm_admin")
+    ADMIN_SESSIONS.pop(token or "", None)
+    response.delete_cookie("saytm_admin", path="/", httponly=True, samesite="strict")
+    return {"ok": True}
+
+
+@app.get("/api/admin/me")
+def admin_me(request: Request):
+    require_admin(request)
+    return {"username": ADMIN_USERNAME}
+
+
+@app.get("/api/admin/sessions")
+def admin_sessions(request: Request):
+    require_admin(request)
+    return list_sessions_data()
+
+
+def list_sessions_data():
+    out = []
+    for sid, s in SESSIONS.items():
+        u = USERS[s["user"]]
+        out.append({
+            "sid": sid,
+            "name": u["name"],
+            "stage": s["stage"],
+            "handoff": s["handoff"],
+            "agent_connected": s["agent_connected"],
+            "status": "connected" if s["agent_connected"] else "waiting" if s["handoff"] else "active",
+            "turns": len(s["transcript"]),
+        })
+    return sorted(out, key=lambda session: (not session["handoff"], session["agent_connected"], session["sid"]))
+
+
+@app.get("/api/admin/session/{sid}")
+def admin_session(sid: str, request: Request):
+    require_admin(request)
+    s = S(sid)
+    u = USERS[s["user"]]
+    return {
+        "sid": sid,
+        "user": s["user"],
+        "profile": {"name": u["name"], "kind": u["kind"], "city": u["city"]},
+        "stage": s["stage"],
+        "handoff": s["handoff"],
+        "agent_connected": s["agent_connected"],
+        "transcript": s["transcript"],
+        "decision": s["decision"],
+        "consent": s["consent"],
+        "audit": s["audit"],
+    }
+
+
+@app.post("/api/admin/session/{sid}/connect")
+def admin_connect(sid: str, request: Request):
+    require_admin(request)
+    s = S(sid)
+    if not s["handoff"]:
+        raise HTTPException(409, "This customer has not requested a human agent")
+    if not s["agent_connected"]:
+        s["agent_connected"] = True
+        turn = {
+            "role": "agent",
+            "agent_name": "Saytm Support",
+            "text": "A human agent has joined the conversation.",
+            "ts": time.strftime("%H:%M:%S"),
+        }
+        s["transcript"].append(turn)
+        audit(sid, "agent_connected")
+    return {"ok": True, "agent_connected": True}
 
 
 @app.get("/api/kfs/{sid}")
@@ -602,6 +719,7 @@ def poll_session(sid: str, turns: int = 0):
         "sid": sid,
         "stage": s["stage"],
         "handoff": s["handoff"],
+        "agent_connected": s["agent_connected"],
         "total_turns": len(transcript),
         "new_turns": new_turns,
         "decision": s.get("decision"),
@@ -631,4 +749,9 @@ def index():
 
 @app.get("/agent")
 def agent_page():
-    return FileResponse(FRONT / "agent.html")
+    return FileResponse(FRONT / "admin.html")
+
+
+@app.get("/admin")
+def admin_page():
+    return FileResponse(FRONT / "admin.html")

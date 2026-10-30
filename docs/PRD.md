@@ -104,7 +104,7 @@ To empower India's 30+ million merchants and next-billion users to access financ
 
 ### 4.1 User Types
 1. **Customer (Borrower / Policyholder):** Accesses `/` mini-app interface; converses via voice or text; grants or revokes consent; reviews offers; signs agreements.
-2. **Human Support Agent:** Accesses `/agent` desk; reviews transferred sessions; reads real-time transcripts, decision state, and audit logs to continue customer assistance without repeated questioning.
+2. **Human Support Agent:** Signs in at `/admin`, reviews the waiting queue, and reads transcripts, decision state, and audit logs before joining a customer conversation.
 3. **Auditor / Compliance Officer:** Inspects `/api/audit/{sid}` and `backend/audit.jsonl` to ensure all decisions trace back to approved rules and verified consent timestamps.
 
 ### 4.2 Primary Use Cases & User Stories
@@ -190,15 +190,15 @@ To empower India's 30+ million merchants and next-billion users to access financ
 - **Processing Logic:** Verifies active eligibility; generates unique identifier (`PTM-L-XXXX-XXXX` for loans, `PTM-H-XXXX-XXXX` for insurance); transitions stage to `done`. Informs user of statutory cooling-off (3 days for loans, 15 days free-look for insurance).
 - **Acceptance Criteria:** Returns digital receipt card with transaction reference code.
 
-### FR-010: Human Handoff & Agent Desk
-- **Description:** Transfers unresolved or user-requested sessions to a dedicated agent management view.
-- **File Reference:** `backend/app.py:handoff()`, `frontend/agent.html`
+### FR-010: Human Handoff & Staff Inbox
+- **Description:** Keeps the customer on the current chat in a waiting state while authorized staff review and join the conversation from a separate inbox.
+- **File Reference:** `backend/app.py:handoff()`, `frontend/admin.html`
 - **Trigger Conditions:**
   1. User explicitly requests human ("talk to agent", "insaan se baat karni hai").
   2. RAG confidence threshold failure on financial query.
   3. Two consecutive unparsed/unrecognized utterances.
-- **Processing Logic:** Sets `s["handoff"] = True`, stages transcript in session, and notifies agent interface. Agent desk polls `/api/sessions` every 4 seconds and renders complete chat history, decision payload, and audit trail.
-- **Acceptance Criteria:** Agent view reflects updated session with yellow `HANDOFF` badge; agent sees prior dialogue without requiring user repetition.
+- **Processing Logic:** Sets `s["handoff"] = True` and keeps the customer in a waiting state. Staff sign in at `/admin`, review waiting sessions first, and explicitly join before replying.
+- **Acceptance Criteria:** The customer never navigates away on handoff; authenticated staff see the full prior conversation without requiring user repetition.
 
 ### FR-011: Tamper-Evident Audit Logging
 - **Description:** Logs all critical lifecycle events for regulatory compliance.
@@ -237,7 +237,10 @@ flowchart TD
     
     NLU --> CheckHandoff{Handoff requested or 2x unknown?}
     CheckHandoff -- Yes --> TriggerHandoff[Trigger Human Handoff]
-    TriggerHandoff --> AgentDesk[Agent Desk notified: /agent]
+    TriggerHandoff --> CustomerWait[Customer stays in chat and sees waiting status]
+    CustomerWait --> StaffInbox[Authenticated staff inbox: /admin]
+    StaffInbox --> JoinChat[Staff joins and replies]
+    JoinChat --> CustomerChat[Customer sees reply in current chat]
     
     CheckHandoff -- No --> RouteIntent{Classify Intent & State}
     
@@ -304,7 +307,7 @@ flowchart TD
 graph TD
     subgraph Client [Client Browser - Chrome/Edge]
         UI[Paytm Mini-App UI index.html]
-        AD[Agent Desk UI agent.html]
+        AD[Staff Inbox UI admin.html]
         STT[Web Speech Recognition]
         TTS[Speech Synthesis API]
     end
@@ -352,8 +355,8 @@ graph TD
 | **FastAPI (0.115.0)** | Web Framework & REST API | `backend/app.py` | High-performance asynchronous endpoint routing, automatic Pydantic request validation, native CORS support |
 | **Uvicorn (0.30.6)** | ASGI Web Server | Server execution command | Lightweight, production-grade asynchronous server for Python |
 | **Pydantic (via FastAPI)**| Data Validation & Serialization | `backend/app.py` | Type safety and validation of incoming API payloads |
-| **HTML5 & CSS3** | User Interface & Styling | `frontend/index.html`, `frontend/agent.html` | Zero-dependency, ultra-fast loading, fully responsive layout mimicking native Paytm mini-app |
-| **Vanilla JavaScript (ES6+)** | Frontend Logic & DOM | `frontend/index.html`, `frontend/agent.html` | Minimal bundle size, zero build/compile step, high maintainability |
+| **HTML5 & CSS3** | User Interface & Styling | `frontend/index.html`, `frontend/admin.html` | Zero-dependency, responsive customer and staff interfaces |
+| **Vanilla JavaScript (ES6+)** | Frontend Logic & DOM | `frontend/index.html`, `frontend/admin.html` | Minimal bundle size, zero build/compile step, high maintainability |
 | **Web Speech API (`SpeechRecognition`)** | Speech-to-Text (STT) | `frontend/index.html` (lines 215–228) | Real-time in-browser speech recognition in `hi-IN` and `en-IN` without external API cost |
 | **Web Speech API (`speechSynthesis`)** | Text-to-Speech (TTS) | `frontend/index.html` (lines 131–140) | Zero-latency spoken responses using native platform voices |
 | **JSON / JSON Lines (JSONL)**| Data Storage & Audit Persistence | `backend/data/*.json`, `backend/audit.jsonl` | Human-readable, dependency-free local data storage suitable for prototype validation and auditing |
@@ -553,7 +556,7 @@ The current system uses a flat-file JSON and append-only JSONL storage strategy,
   ```
 
 ### 10.9 `POST /api/agent/message`
-- **Purpose:** Enables two-way real-time communication from the Human Agent Desk (`/agent`) directly into the customer's chat session, with optional special rate overrides.
+- **Purpose:** Enables authenticated staff to reply in the `/admin` inbox directly into the customer's current chat session, with optional special rate overrides.
 - **Request Body:**
   ```json
   { "sid": "a1b2c3d4", "text": "I have authorized an exclusive rate reduction.", "action": "special_rate", "agent_name": "Neha (Paytm Credit Specialist)" }
@@ -608,7 +611,7 @@ The current system uses a flat-file JSON and append-only JSONL storage strategy,
 - **Quick Reply Chips (`#chips`):** Horizontally scrollable contextual recommendation pills.
 - **Input Bar:** Microphone trigger button, text input field, and send button.
 
-#### 2. Human Agent Desk (`frontend/agent.html`)
+#### 2. Staff Inbox (`frontend/admin.html`)
 - **Left Sidebar:** Auto-refreshing list of active sessions with customer name, turn count, and prominent yellow `HANDOFF` indicator.
 - **Main Panel:** Detailed customer profile, active stage, consent metadata, scrollable historical transcript, raw JSON decision payload, and complete audit log.
 
@@ -636,10 +639,10 @@ All 10 end-to-end journey tests pass synchronously:
 4. `test_insurance_clause_and_buy`: Querying policy waiting periods, comparing Basic vs Plus plans, requesting purchase, granting consent, and e-signing.
 5. `test_rahul_declined`: Evaluation of subprime user (score 598) and verification of proper credit score decline reason.
 6. `test_meena_kyc`: Evaluation of unverified user and verification of missing KYC decline reason.
-7. `test_handoff_and_agent`: Explicit user request to speak to an agent; verification of session flagging on `/agent` desk.
+7. `test_handoff_and_agent`: Explicit user request for support; verification of the waiting handoff state and staff queue.
 8. `test_low_confidence`: Two consecutive unanswerable out-of-domain queries ("dinosaur bites", "unicorn fever") triggering automatic human handoff.
 9. `test_kfs_generation`: Official RBI Key Fact Statement data model generation with APR, amortisation schedule, and statutory disclosures.
-10. `test_two_way_agent_message`: Two-way real-time agent message delivery and 12% APR partner rate override via `/api/agent/message`.
+10. `test_two_way_agent_message`: Authenticated staff message delivery and 12% APR partner rate override via `/api/agent/message`.
 
 ---
 
@@ -656,7 +659,7 @@ All 10 end-to-end journey tests pass synchronously:
 | **FR-007** | Clause-Grounded RAG | **Implemented** | `backend/rag.py:retrieve()` | Swap TF-IDF for fine-tuned SLM / Vector DB embeddings |
 | **FR-008** | Policy Comparison Card | **Implemented** | `backend/app.py:compare_card()` | Support dynamic comparison across >2 products |
 | **FR-009** | Mock e-Signature & Soundbox | **Implemented** | `backend/partners.py:esign()`, `frontend/index.html` | Integrate Aadhaar e-Sign / DigiLocker |
-| **FR-010** | Two-Way Human Agent Desk | **Implemented** | `frontend/agent.html`, `backend/app.py:agent_message()` | Multi-agent concurrency routing |
+| **FR-010** | Authenticated Staff Inbox & Handoff | **Implemented** | `frontend/admin.html`, `backend/app.py:admin_connect()` | Durable staff identity and persistent queue |
 | **FR-011** | Audit Trail Logging | **Implemented** | `backend/app.py:audit()`, `audit.jsonl` | Ship logs to secure centralized ELK/CloudWatch stream |
 | **FR-012** | Voice Engine with Audio Waveform| **Implemented** | `frontend/index.html:startMic(), stopMic()` | Add backend streaming Whisper STT for non-Chromium browsers |
 | **FR-013** | Zen Mode Accessibility | **Implemented** | `frontend/index.html:48-82, 142-152` | Add screen-reader ARIA live region optimizations |
@@ -688,7 +691,7 @@ All 10 end-to-end journey tests pass synchronously:
 ### Phase 2: Core Enhancements (Sprint 3–4)
 - Integrate Bhashini or Whisper STT for native Indian dialect recognition (Bhojpuri, Marathi, Tamil, Bengali).
 - Implement downloadable Key Fact Statement (KFS) PDF generation.
-- Enable two-way live messaging between the Human Agent Desk (`/agent`) and the user session.
+- Enable two-way live messaging between the authenticated Staff Inbox (`/admin`) and the customer chat.
 
 ### Phase 3: Partner Integrations (Sprint 5–6)
 - Connect to Account Aggregator (AA) framework for live bank statement fetching with user consent.
@@ -733,11 +736,10 @@ uvicorn backend.app:app --reload --port 8000
 
 ### 19.2 Verification & Health Checks
 - Open `http://localhost:8000` to launch customer mini-app.
-- Open `http://localhost:8000/agent` to launch agent desk.
-- Run automated test suite: `python -m backend.test_journeys`.
+- Open `http://localhost:8000/admin` to sign in to the staff inbox. Local demo credentials are `admin` / `saytm-demo`.
+- Run automated test suite: `python -m pytest backend/test_journeys.py -q`.
 
 ---
 
 ## 20. Final Project Summary
 Paytm Voice Assistant represents a paradigm shift in financial inclusion for Bharat. By treating conversation as the primary user interface and anchoring every financial figure in deterministic business logic, the application removes the linguistic, cognitive, and procedural barriers that prevent millions of merchants and first-time digital citizens from securing capital and health insurance. It bridges the gap between state-of-the-art conversational AI and mission-critical financial compliance.
-

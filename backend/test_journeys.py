@@ -86,6 +86,8 @@ def test_handoff_and_agent():
     sid, _ = start("sunita", "en")
     r = say(sid, "talk to an agent", "en")
     assert r["handoff"] is True
+    assert any(card["type"] == "handoff" for card in r["cards"])
+    assert c.post("/api/admin/login", json={"username": "admin", "password": "saytm-demo"}).status_code == 200
     sess = c.get(f"/api/session/{sid}").json()
     assert sess["handoff"] is True
     assert c.get("/api/sessions").json()[0]["sid"] == sid
@@ -117,6 +119,7 @@ def test_two_way_agent_message():
     say(sid, "I need a 2 lakh loan", "en")
     say(sid, "yes", "en")
     say(sid, "talk to an agent", "en")
+    assert c.post("/api/admin/login", json={"username": "admin", "password": "saytm-demo"}).status_code == 200
     # Agent sends message and special rate override
     r = c.post(
         "/api/agent/message",
@@ -131,6 +134,52 @@ def test_two_way_agent_message():
     # Customer polls and receives agent message
     poll = c.get(f"/api/poll/{sid}?turns=0").json()
     assert any(turn.get("role") == "agent" for turn in poll["new_turns"])
+
+
+def test_admin_login_and_waiting_queue():
+    sid, _ = start("meena", "en")
+    say(sid, "talk to an agent", "en")
+    unauthenticated = TestClient(app)
+    assert unauthenticated.get("/api/admin/sessions").status_code == 401
+    assert c.post("/api/admin/login", json={"username": "admin", "password": "wrong"}).status_code == 401
+    assert c.post("/api/admin/login", json={"username": "admin", "password": "saytm-demo"}).status_code == 200
+    queue = c.get("/api/admin/sessions")
+    assert queue.status_code == 200
+    assert queue.json()[0]["sid"] == sid
+    assert queue.json()[0]["status"] == "waiting"
+    details = c.get(f"/api/admin/session/{sid}").json()
+    assert details["handoff"] is True
+    assert c.post(f"/api/admin/session/{sid}/connect").json()["agent_connected"] is True
+    poll = c.get(f"/api/poll/{sid}?turns=0").json()
+    assert poll["agent_connected"] is True
+
+
+def test_admin_page_is_available():
+    assert c.get("/admin").status_code == 200
+
+
+def test_customer_app_starts_with_welcome_and_no_chat():
+    response = c.get("/")
+    assert response.status_code == 200
+    assert 'id="chat-area" hidden' in response.text
+    assert 'data-user="sunita"' in response.text
+    assert 'data-user="rahul"' in response.text
+    assert 'data-user="meena"' in response.text
+    assert 'id="user"' not in response.text
+    assert 'id="login"' not in response.text
+    assert 'href="/admin" target="_blank"' in response.text
+
+
+def test_kyc_help_enters_waiting_handoff():
+    sid, _ = start("meena", "en")
+    say(sid, "I need a 2 lakh loan", "en")
+    say(sid, "yes", "en")
+    r = say(sid, "talk to an agent for KYC help", "en")
+    assert r["handoff"] is True
+    assert r["stage"] == "handoff"
+    assert any(card["type"] == "handoff" for card in r["cards"])
+    poll = c.get(f"/api/poll/{sid}").json()
+    assert poll["agent_connected"] is False
 
 
 def test_empty_request_does_not_create_handoff():

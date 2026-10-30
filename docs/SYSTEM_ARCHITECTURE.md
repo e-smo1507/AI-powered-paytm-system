@@ -19,7 +19,7 @@ The Paytm Voice Assistant is architected specifically for high-stakes fintech do
 graph TB
     subgraph ClientLayer ["Client Presentation Tier (Browser / WebView)"]
         UI["Paytm Mini-App Client<br/>(frontend/index.html)"]
-        Desk["Human Agent Escalation Desk<br/>(frontend/agent.html)"]
+        Desk["Authenticated Staff Inbox<br/>(frontend/admin.html)"]
         MicAPI["Web Speech API (SpeechRecognition)<br/>hi-IN / en-IN"]
         TTSAPI["SpeechSynthesis API<br/>Dynamic Rate / Locale Pitch"]
         Storage["Browser LocalStorage<br/>(Zen Mode State)"]
@@ -27,9 +27,9 @@ graph TB
 
     subgraph GatewayLayer ["API & Transport Tier (FastAPI + ASGI)"]
         CORS["CORSMiddleware (allow_origins='*')"]
-        StaticRoute["StaticFiles Mount (/static, /, /agent)"]
-        APIRouter["FastAPI REST Endpoints<br/>(/api/start, /api/chat, /api/sign, /api/kfs, /api/agent/message, /api/poll, ...)"]
-        PydanticModels["Pydantic Inbound Schema Validation<br/>(StartIn, ChatIn, SidIn, AgentMsgIn)"]
+        StaticRoute["Page Routes (/static, /, /admin, /agent alias)"]
+        APIRouter["FastAPI REST Endpoints<br/>(customer APIs, authenticated /api/admin/*, /api/agent/message, /api/poll, ...)"]
+        PydanticModels["Pydantic Inbound Schema Validation<br/>(StartIn, ChatIn, SidIn, AgentMsgIn, AdminLoginIn)"]
     end
 
     subgraph ServiceLayer ["Core Orchestration & Intelligence Services"]
@@ -54,7 +54,7 @@ graph TB
     UI -->|Spoken Response| TTSAPI
     UI <--> Storage
     UI -->|HTTP POST JSON / Poll| CORS
-    Desk <-->|Two-Way Live Messaging & Poll| CORS
+    Desk <-->|Authenticated Queue, Join & Replies| CORS
     CORS --> StaticRoute
     CORS --> APIRouter
     APIRouter --> PydanticModels
@@ -76,7 +76,7 @@ graph TB
 
 ## 3. Subsystem Breakdown
 
-### 3.1 Client Tier (`frontend/index.html`, `frontend/agent.html`)
+### 3.1 Client Tier (`frontend/index.html`, `frontend/admin.html`)
 The frontend is built as a zero-dependency, ultra-lightweight client suitable for embedding inside the Paytm Super-App WebView or standard desktop/mobile browsers.
 
 - **Audio Engine:** 
@@ -86,14 +86,20 @@ The frontend is built as a zero-dependency, ultra-lightweight client suitable fo
   - `cards()` evaluates card schemas (`consent`, `guide`, `offer`, `ins_quote`, `clause`, `compare`, `esign`, `receipt`, `decline`, `handoff`).
   - `chips()` creates quick-reply pills based on current conversation context.
 - **Zen Mode Engine:**
-  - Injected via CSS variables on `.zen`. Modulates palette, suppresses sharp rectangular borders, triggers CSS keyframe breathing glow (`@keyframes breathe`), and slows voice playback rate from 0.95x to 0.88x.
-- **Agent Desk:**
-  - Minimalist operations dashboard (`frontend/agent.html`) polling `/api/sessions` every 4,000ms. Renders real-time transcripts, raw rule decision outputs, and audit trail for handed-off sessions.
+  - Uses the same responsive customer layout as standard mode on mobile and desktop, with a calmer palette, ambient breathing glow, and slower narration.
+- **Welcome & Account Selection:**
+  - Opens without a selected customer session; speaks one short welcome line and starts a chat only after an account is selected and continued.
+- **Staff Inbox:**
+  - `/admin` presents a sign-in screen and live handoff queue. Authenticated staff can join a customer session and reply without sending the customer to another page. `/agent` is a compatibility alias.
 
 ---
 
 ### 3.2 Orchestrator & State Machine (`backend/app.py`)
 The orchestrator maintains multi-turn conversation states inside memory dictionary `SESSIONS`.
+
+- Staff credentials are configurable with `SAYTM_ADMIN_USERNAME` and `SAYTM_ADMIN_PASSWORD`; the local demo defaults are not for public deployment.
+- Successful staff login creates an eight-hour HttpOnly, SameSite=Strict cookie. Queue, session detail, connect, and staff-message endpoints validate this cookie.
+- Handoff state is returned to the customer poller so the customer remains in a waiting state until staff joins.
 
 ```mermaid
 stateDiagram-v2
@@ -299,4 +305,3 @@ sequenceDiagram
 ### 5.3 IRDAI Disclosure Alignment
 - **Contractual Clause Attribution:** Every insurance claim regarding exclusions, waiting periods, or room rent limits is cited directly from standard policy wording, including clause reference IDs.
 - **Free-Look Cancellation:** All insurance confirmation receipts communicate the 15-day free-look cancellation window.
-

@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f3f6fa">
+<title>Saytm · Staff inbox</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{font-family:"DM Sans",system-ui,sans-serif;color:#142a3d;background:#f3f6fa;font-synthesis:none;text-rendering:optimizeLegibility;--muted:#758596;--line:#e4eaf0;--blue:#0878c9;--green:#14805e}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+.topbar{height:74px;padding:0 28px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.brand{font:600 22px Fraunces,Georgia,serif;color:#143653}
+.brand small{display:block;font:500 11px "DM Sans",sans-serif;letter-spacing:.1em;color:var(--mut);text-transform:uppercase}
+.top-actions{display:flex;align-items:center;gap:14px;color:var(--muted);font-size:13px}
+.top-actions a{color:var(--blue);text-decoration:none}
+.top-actions button{border:1px solid var(--line);border-radius:9px;background:#fff;padding:7px 12px;color:#42596d}
+.layout{height:calc(100vh - 74px);min-height:500px;display:grid;grid-template-columns:340px minmax(0,1fr)}
+.queue{min-height:0;overflow:auto;background:#fff;border-right:1px solid var(--line);padding:22px 18px}
+.queue-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.queue-head h1{font-size:17px;margin:0}
+.live{font-size:11px;color:var(--green);font-weight:700}
+.live:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#20a576;margin-right:6px}
+.queue-note{font-size:12px;line-height:1.55;color:var(--muted);margin:0 0 18px}
+.ticket{width:100%;text-align:left;border:1px solid var(--line);border-radius:13px;background:#fff;padding:13px;margin:8px 0;color:inherit;transition:border-color .15s,background .15s}
+.ticket:hover,.ticket.active{border-color:#86c4ef;background:#f5fbff}
+.ticket-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ticket-name{font-weight:700;font-size:14px}
+.ticket-meta{margin-top:7px;color:var(--muted);font-size:11px}
+.pill{border-radius:99px;background:#edf2f6;padding:4px 8px;font-size:10px;font-weight:700;color:#5a6e80;text-transform:uppercase;white-space:nowrap}
+.pill.waiting{background:#fff0d9;color:#9a5a00}
+.pill.connected{background:#e5f6ef;color:#187453}
+.empty-queue{padding:18px 6px;font-size:13px;line-height:1.55;color:var(--muted)}
+.main{min-width:0;min-height:0;display:flex;flex-direction:column}
+.welcome{margin:auto;max-width:440px;padding:40px;text-align:center;color:var(--muted)}
+.welcome-icon{width:58px;height:58px;margin:0 auto 15px;border-radius:19px;background:#e5f3fd;color:var(--blue);display:grid;place-items:center;font-size:25px}
+.welcome h2{color:#19354d;margin:0 0 8px;font-size:21px}
+.welcome p{line-height:1.6;margin:0}
+.session-head{background:#fff;border-bottom:1px solid var(--line);padding:20px 28px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.session-head h2{font-size:17px;margin:0 0 4px}
+.session-sub{font-size:12px;color:var(--muted)}
+.connect{border:0;border-radius:10px;padding:10px 15px;background:#0878c9;color:#fff;font-weight:700;white-space:nowrap}
+.connect:disabled{background:#e5f6ef;color:#187453;cursor:default}
+.chat{min-height:0;flex:1;overflow:auto;padding:20px clamp(14px,4vw,48px);display:flex;flex-direction:column;gap:9px}
+.message{max-width:min(76%,680px);padding:12px 15px;border-radius:15px;background:#fff;border:1px solid var(--line);line-height:1.5;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.message.user{align-self:flex-end;background:#0878c9;border-color:#0878c9;color:#fff;border-bottom-right-radius:4px}
+.message.agent{align-self:flex-start;background:#eaf6f0;border-color:#d6ecdf;color:#254938;border-bottom-left-radius:4px}
+.message.assistant{align-self:flex-start;border-bottom-left-radius:4px}
+.message-meta{display:block;font-size:10px;opacity:.72;margin-bottom:3px}
+.composer{display:flex;gap:10px;padding:14px 22px 18px;background:#fff;border-top:1px solid var(--line)}
+.composer input{flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:12px 14px;outline:none}
+.composer input:focus{border-color:#7bbbe7;box-shadow:0 0 0 3px #e6f4ff}
+.composer button{border:0;border-radius:11px;background:#0878c9;color:#fff;padding:0 20px;font-weight:700}
+.error{margin:12px 20px;padding:10px 12px;background:#fff1f0;color:#9b2c25;border:1px solid #ffd8d4;border-radius:9px;font-size:13px}
+.login-wrap{min-height:calc(100vh - 74px);display:grid;place-items:center;padding:24px}
+.login-card{width:min(420px,100%);background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px;box-shadow:0 20px 55px rgba(29,55,80,.08)}
+.login-card h1{font:600 30px Fraunces,Georgia,serif;margin:0 0 8px;color:#153a59}
+.login-card p{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 22px}
+.login-card label{display:block;font-weight:600;font-size:12px;margin:13px 0 6px}
+.login-card input{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px}
+.login-card button{width:100%;margin-top:18px;border:0;border-radius:10px;background:#0878c9;color:#fff;padding:12px;font-weight:700}
+.login-hint{margin-top:14px!important;font-size:11px!important}
+[hidden]{display:none!important}
+@media(max-width:760px){
+  .topbar{height:62px;padding:0 16px}
+  .layout{height:auto;min-height:calc(100vh - 62px);display:flex;flex-direction:column}
+  .queue{max-height:250px;min-height:0;border-right:0;border-bottom:1px solid var(--line);padding:14px}
+  .queue-head{margin-bottom:8px}
+  .queue-note{margin-bottom:8px}
+  .ticket{display:inline-block;vertical-align:top;width:min(230px,78vw);margin:5px 6px 5px 0}
+  .main{min-height:52vh;flex:1}
+  .session-head{padding:14px 16px}
+  .session-head h2{font-size:15px}
+  .connect{padding:9px 10px;font-size:12px}
+  .chat{padding:15px 12px}
+  .message{max-width:92%}
+  .composer{padding:10px 12px max(12px,env(safe-area-inset-bottom))}
+  .composer button{padding:0 14px}
+  .login-wrap{min-height:calc(100vh - 62px)}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Saytm<small>STAFF INBOX</small></div>
+  <div class="top-actions"><a href="/">Customer app</a><button type="button" id="logout" hidden>Sign out</button></div>
+</header>
+<main class="login-wrap" id="login-view">
+  <form class="login-card" id="login-form">
+    <h1>Welcome back.</h1>
+    <p>Sign in to review customer conversations and respond to requests for human support.</p>
+    <label for="username">Username</label><input id="username" name="username" autocomplete="username" required>
+    <label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required>
+    <button type="submit">Sign in to inbox</button>
+    <p class="login-hint">Local demo credentials: <b>admin</b> / <b>saytm-demo</b>. Configure <code>SAYTM_ADMIN_USERNAME</code> and <code>SAYTM_ADMIN_PASSWORD</code> before launch to change them.</p>
+    <div class="error" id="login-error" hidden role="alert"></div>
+  </form>
+</main>
+<main class="layout" id="inbox-view" hidden>
+  <aside class="queue">
+    <div class="queue-head"><h1>Conversations</h1><span class="live">LIVE</span></div>
+    <p class="queue-note">Customers waiting for a human agent appear first. Select a conversation to view its history.</p>
+    <div id="queue-list"></div>
+  </aside>
+  <section class="main" id="chat-panel">
+    <div class="welcome"><div class="welcome-icon">◌</div><h2>Select a conversation</h2><p>Choose a customer from the inbox. Their full conversation will appear here so they don’t need to repeat themselves.</p></div>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let activeSid=null;
+let sessions=[];
+const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+
+async function request(path,options={}){
+  const response=await fetch(path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})}});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.detail||response.statusText||'Request failed');
+  return data;
+}
+
+function showError(message,target='login-error'){
+  const error=$(target);
+  error.textContent=message;
+  error.hidden=false;
+}
+
+function statusLabel(session){
+  if(session.status==='waiting')return '<span class="pill waiting">Waiting</span>';
+  if(session.status==='connected')return '<span class="pill connected">Connected</span>';
+  return `<span class="pill">${esc(session.stage)}</span>`;
+}
+
+function renderQueue(){
+  const queue=$('queue-list');
+  if(!sessions.length){
+    queue.innerHTML='<p class="empty-queue">No customer conversations yet. New chats will appear here.</p>';
+    return;
+  }
+  queue.innerHTML=sessions.map(session=>`
+    <button type="button" class="ticket ${session.sid===activeSid?'active':''}" data-sid="${esc(session.sid)}">
+      <span class="ticket-row"><span class="ticket-name">${esc(session.name)}</span>${statusLabel(session)}</span>
+      <span class="ticket-meta">${esc(session.sid)} · ${session.turns} messages</span>
+    </button>`).join('');
+  queue.querySelectorAll('[data-sid]').forEach(button=>button.addEventListener('click',()=>openSession(button.dataset.sid)));
+}
+
+async function loadQueue(){
+  sessions=await request('/api/admin/sessions');
+  renderQueue();
+}
+
+function renderConversation(session){
+  const panel=$('chat-panel');
+  const previousInput=panel.querySelector('#agent-input')?.value||'';
+  panel.innerHTML=`
+    <div class="session-head">
+      <div><h2>${esc(session.profile.name)} <span style="font-weight:400;color:#758596">· ${esc(session.profile.kind)}, ${esc(session.profile.city)}</span></h2>
+        <div class="session-sub">Conversation ${esc(session.sid)} · ${session.consent?'Consent granted':'No consent recorded'} · ${esc(session.stage)}</div>
+      </div>
+      ${session.handoff?`<button type="button" class="connect" id="connect" ${session.agent_connected?'disabled':''}>${session.agent_connected?'Connected':'Join conversation'}</button>`:''}
+    </div>
+    <div class="chat" id="chat">
+      ${(session.transcript||[]).map(turn=>`<div class="message ${esc(turn.role)}"><span class="message-meta">${esc(turn.agent_name||({user:session.profile.name,assistant:'Saytm assistant'}[turn.role]||turn.role))} · ${esc(turn.ts||'')}</span>${esc(turn.text)}</div>`).join('')}
+    </div>
+    <form class="composer" id="composer"><input id="agent-input" placeholder="Write a reply to ${esc(session.profile.name)}…" autocomplete="off"><button type="submit">Send</button></form>
+    <div class="error" id="chat-error" hidden role="alert"></div>`;
+  const chat=$('chat');
+  chat.scrollTop=chat.scrollHeight;
+  $('agent-input').value=previousInput;
+  $('composer').addEventListener('submit',sendMessage);
+  $('connect')?.addEventListener('click',connectToCustomer);
+  if(session.agent_connected){
+    $('connect')?.setAttribute('title','You have joined this conversation');
+  }
+}
+
+async function openSession(sid){
+  activeSid=sid;
+  renderQueue();
+  try{
+    const session=await request('/api/admin/session/'+encodeURIComponent(sid));
+    renderConversation(session);
+  }catch(error){showError(error.message,'login-error')}
+}
+
+async function connectToCustomer(){
+  if(!activeSid)return;
+  try{
+    await request('/api/admin/session/'+encodeURIComponent(activeSid)+'/connect',{method:'POST',body:'{}'});
+    await openSession(activeSid);
+    await loadQueue();
+  }catch(error){showError(error.message,'chat-error')}
+}
+
+async function sendMessage(event){
+  event.preventDefault();
+  const input=$('agent-input');
+  const text=input.value.trim();
+  if(!text||!activeSid)return;
+  input.value='';
+  input.disabled=true;
+  try{
+    await request('/api/agent/message',{method:'POST',body:JSON.stringify({sid:activeSid,text,agent_name:'Saytm Support'})});
+    await openSession(activeSid);
+    await loadQueue();
+  }catch(error){showError(error.message,'chat-error');const currentInput=$('agent-input');currentInput.value=text;currentInput.disabled=false}
+}
+
+async function signIn(event){
+  event.preventDefault();
+  $('login-error').hidden=true;
+  try{
+    await request('/api/admin/login',{method:'POST',body:JSON.stringify({username:$('username').value,password:$('password').value})});
+    await showInbox();
+  }catch(error){showError(error.message)}
+}
+
+async function showInbox(){
+  await request('/api/admin/me');
+  $('login-view').hidden=true;
+  $('inbox-view').hidden=false;
+  $('logout').hidden=false;
+  await loadQueue();
+}
+
+$('login-form').addEventListener('submit',signIn);
+$('logout').addEventListener('click',async()=>{
+  await request('/api/admin/logout',{method:'POST',body:'{}'});
+  activeSid=null;
+  $('inbox-view').hidden=true;
+  $('logout').hidden=true;
+  $('login-view').hidden=false;
+});
+
+showInbox().catch(()=>{});
+setInterval(async()=>{
+  if($('inbox-view').hidden)return;
+  try{
+    await loadQueue();
+    if(activeSid){
+      const session=await request('/api/admin/session/'+encodeURIComponent(activeSid));
+      const count=$('chat')?.children.length||0;
+      if(session.transcript.length!==count)renderConversation(session);
+    }
+  }catch(error){
+    if(error.message==='Admin login required'){
+      $('inbox-view').hidden=true;
+      $('logout').hidden=true;
+      $('login-view').hidden=false;
+    }
+  }
+},3000);
+</script>
+</body>
+</html>

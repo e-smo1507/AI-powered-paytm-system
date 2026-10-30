@@ -8,32 +8,31 @@
 ```mermaid
 sequenceDiagram
     autonumber
-    actor User as User (Sunita / Rahul / Meena)
+    actor User as Customer
     participant Browser as Browser Client (index.html)
     participant Server as FastAPI Server (backend/app.py)
-    participant Storage as backend/data/users.json
+    participant Storage as Demo customer profiles
 
     User->>Browser: Opens http://localhost:8000
     Browser->>Browser: Loads HTML, CSS, Hind fonts, initializes DOM
     Browser->>Browser: Reads localStorage('paytm-zen') -> restores Zen state
-    Browser->>Server: POST /api/start {user: "sunita", lang: "hi"}
-    Server->>Storage: Load user record for "sunita"
+    Browser->>Browser: Render welcome; speak one short welcome line
+    User->>Browser: Open profile menu and select customer account
+    Browser->>Server: POST /api/start {user, lang}
+    Server->>Storage: Load selected demo customer profile
     Server->>Server: Create new session in SESSIONS[sid]
     Server->>Server: Audit event: session_start
-    Server-->>Browser: JSON {sid, reply, cards: [guide], chips: [...], profile}
-    Browser->>Browser: Render assistant greeting bubble
-    Browser->>Browser: Render Proactive Guide Card
-    Browser->>Browser: Render Quick-Reply Chips
-    Browser->>Browser: SpeechSynthesis: Speak greeting aloud in Hindi
+    Server-->>Browser: JSON {sid, reply, cards, chips, profile}
+    Browser->>Browser: Render chat and account greeting
 ```
 
 ### Detailed Startup Steps:
 1. **Client Loading:** The browser requests `GET /`, serving `frontend/index.html`.
 2. **State Hydration:** JavaScript inspects `localStorage.getItem('paytm-zen')`. If set to `1`, the document body is decorated with class `.zen`, enabling calm colors and the breathing glow background.
-3. **Session Genesis:** The client automatically issues `POST /api/start` with the default persona (`sunita`) and language (`hi`).
-4. **Backend Orchestration:** `app.py:start()` generates a unique 8-character session ID (`sid`), allocates a fresh state dictionary in `SESSIONS[sid]`, and pulls customer telemetry from `backend/data/users.json`.
-5. **Proactive Financial Guidance:** If the customer record contains a `hint` (e.g. Sunita's upcoming festival inventory requirement), a personalized greeting and a purple-accented Guide Card are generated.
-6. **Vocal Greeting:** The browser invokes `say(greeting)` via the Web Speech Synthesis API, greeting the customer by name.
+3. **Welcome:** The customer sees a short welcome and hears one spoken welcome line; no profile is selected and no customer session is created yet.
+4. **Session Genesis:** Selecting an account in the profile menu immediately issues `POST /api/start`.
+5. **Backend Orchestration:** `app.py:start()` generates a unique 8-character session ID (`sid`), creates `SESSIONS[sid]`, and loads the selected demo profile.
+6. **Proactive Financial Guidance:** If the selected customer has a `hint`, the backend returns a personalized greeting and guide card. The personalized greeting is read aloud when the chat starts.
 
 ---
 
@@ -215,7 +214,7 @@ sequenceDiagram
     actor User as Customer
     participant UI as Customer Mini-App
     participant Backend as FastAPI Orchestrator
-    participant AgentDesk as Agent Desk (/agent)
+    participant StaffInbox as Staff Inbox (/admin)
 
     User->>UI: Voice: "are dinosaur bites covered in this policy?"
     UI->>Backend: POST /api/chat {text: "...", lang: 'en'}
@@ -225,12 +224,15 @@ sequenceDiagram
     Backend-->>UI: Stage: handoff | Handoff Card ("Connecting you to a human agent now...")
     UI-->>User: Speaks handoff disclosure
 
-    Note over AgentDesk: Agent Desk polls /api/sessions every 4s
-    AgentDesk->>Backend: GET /api/sessions
-    Backend-->>AgentDesk: Session list with flag: HANDOFF
-    AgentDesk->>Backend: GET /api/session/{sid}
-    Backend-->>AgentDesk: Full session transcript, user profile, and audit log
-    Note over AgentDesk: Human agent reads context; customer never repeats themselves
+    UI-->>User: Show waiting state in the existing customer chat
+    Note over StaffInbox: Staff signs in to /admin
+    StaffInbox->>Backend: GET /api/admin/sessions (authenticated)
+    Backend-->>StaffInbox: Waiting handoffs listed first
+    StaffInbox->>Backend: GET /api/admin/session/{sid} (authenticated)
+    Backend-->>StaffInbox: Full session transcript, profile, and audit log
+    StaffInbox->>Backend: POST /api/admin/session/{sid}/connect
+    Backend-->>UI: Customer poll reports a connected agent
+    Note over StaffInbox,UI: Staff replies in the inbox; the customer remains in the same chat
 ```
 
 ---
@@ -244,11 +246,8 @@ sequenceDiagram
 4. Backend writes `audit(sid, "consent_revoked")`.
 5. Frontend informs user: *"आपकी डेटा-मंज़ूरी वापस ले ली गई है।"* (Your data consent has been revoked).
 
-### 4.2 Audit Log Inspection Workflow
-1. User clicks **"Audit log"** in tools bar (`frontend/index.html:214`).
-2. Client requests `GET /api/audit/{sid}`.
-3. Backend returns raw array of chronological session audit records.
-4. Client opens native HTML5 `<dialog id="dlg">` displaying formatted JSONL records with timestamps, events, and parameters.
+### 4.2 Audit Log
+Session events continue to be recorded in the backend audit trail for operational traceability. The raw audit log is not exposed as a customer-facing chat control.
 
 ### 4.3 Zen Mode (Cognitive Accessibility) Workflow
 1. User clicks **"🧘 Zen"** button or presses `Alt+Z` keyboard shortcut.
@@ -263,16 +262,15 @@ sequenceDiagram
 3. Backend produces official disclosure payload: effective APR, 6-month amortization preview, 3-day cooling-off declarations, and nodal officer contacts.
 4. Native `<dialog id="kfs_dlg">` displays the formatted KFS with a **"🖨️ Print / Save PDF"** button invoking `window.print()`.
 
-### 4.5 Two-Way Human Agent Desk Intervention Workflow
-1. When session escalates, agent opens `frontend/agent.html` and selects the flagged customer.
-2. Agent reviews historical dialogue, credit telemetry, and audit trail.
-3. Agent enters a reply in the live composer or clicks **"⚡ Offer 12% Special Partner APR"**.
-4. Agent client posts to `POST /api/agent/message` with `{sid, text, action}`.
-5. Customer mini-app polls `/api/poll/{sid}`, receives the agent's turn, renders an agent badge (`👤 Neha (Paytm Credit Specialist)`), and reads the message aloud.
+### 4.5 Staff Inbox & Human Handoff Workflow
+1. A customer requests a human or a guarded answer triggers `handoff()`. The customer sees a waiting state and stays on the current chat page.
+2. Staff opens `/admin`, signs in, and selects a waiting chat from the live queue.
+3. Staff clicks **Join conversation**; the backend records the connection and the customer chat updates its waiting status.
+4. Staff replies through `POST /api/agent/message`; this endpoint and the inbox/session endpoints require the admin session cookie.
+5. The customer mini-app polls `/api/poll/{sid}`, renders the staff message, and reads it aloud when read-aloud is enabled.
 
 ### 4.6 Real-Time Audio Waveform & Iconic Paytm Soundbox Chime Workflow
 1. User clicks the microphone button: `startMic()` requests audio stream via `navigator.mediaDevices.getUserMedia`.
 2. Real-time `AudioContext` frequency analyser updates the heights of 7 visualizer bars, providing responsive feedback while listening.
 3. If an error occurs (permission denied, network timeout), friendly guidance alerts appear with one-click quick prompt chips.
 4. Upon e-signing, `playSoundbox()` synthesizes a melodic fintech chime (740Hz $\to$ 1108Hz) via Web Audio API, followed by an official spoken Paytm voice receipt.
-

@@ -1,24 +1,26 @@
 # Paytm Voice Assistant (Build for India AI Hackathon, Track 2)
 
 > **Voice-first loans + insurance journeys that talk back.**  
-> Explain / Decide / Guide / Hand over · Spoken Hindi + Indian English · Deterministic Financial Rules Engine · RBI Digital Lending KFS · Iconic Paytm Soundbox Chime · Real-Time Two-Way Human Agent Desk.
+> Explain / Decide / Guide / Hand over · Spoken Hindi + Indian English · Deterministic Financial Rules Engine · RBI Digital Lending KFS · Iconic Paytm Soundbox Chime · Responsive customer app and staff inbox.
 
 ---
 
 ## 🌟 Standout Features Added
 
-1. **🎙️ Bulletproof Voice Engine with Live Audio Waveform:**
+1. **🎙️ Responsive Voice-First Customer App:**
    - Real-time Web Audio API frequency analyser renders dynamic pulsing visualizer bars while listening.
    - Comprehensive error recovery (friendly permission guidance, network timeout recovery, clean toggle on/off).
-   - Instant "Quick Voice" prompt chips allowing seamless one-click demonstration across all environments.
+   - Responsive desktop and mobile layouts in both standard and Zen modes.
+   - Starts on a short welcome; customers select a demo account before a chat or account data is opened.
 2. **🔔 Iconic Paytm Soundbox Audio Experience:**
    - Dual-tone synthesizer chime (740Hz $\to$ 1108Hz) on loan sanction and policy issuance, followed by official spoken voice receipt.
 3. **📄 Official RBI Key Fact Statement (KFS) Modal & PDF Export:**
    - Interactive disclosure meeting RBI digital lending guidelines with APR, itemized fee/GST breakdown, 6-month amortisation preview table, statutory 3-day cooling-off notice, and printable layout.
 4. **⚡ Live Interactive Re-Pricing Pills:**
    - Instant re-pricing buttons directly inside the offer card (`12m`, `24m`, `36m`, `48m`) demonstrating instantaneous deterministic calculation.
-5. **👥 Two-Way Interactive Human Agent Desk (`/agent`):**
-   - Real-time agent console allowing human representatives to send live messages directly into the customer's chat and authorize special 12% APR partner discounts with one click.
+5. **👥 Staff Inbox (`/admin`):**
+   - Staff sign in to a separate inbox, see waiting customer handoffs first, join a conversation, and reply without navigating the customer away.
+   - Customers see a waiting state until staff joins; KYC declines offer a direct request for human help.
 6. **🧘 Zen Mode (Cognitive Accessibility):**
    - Distraction-free palette, soft ambient breathing glow, slower narration playback rate (`Alt+Z`).
 
@@ -42,31 +44,36 @@ uvicorn backend.app:app --reload --port 8000
 ```
 
 - Customer Mini-App: **http://localhost:8000** (Open in Chrome or Edge for voice input)
-- Two-Way Agent Desk: **http://localhost:8000/agent**
+- Staff Inbox: **http://localhost:8000/admin**
+- Local demo staff sign-in: `admin` / `saytm-demo`
+
+Set `SAYTM_ADMIN_USERNAME` and `SAYTM_ADMIN_PASSWORD` in the server environment to change the demo sign-in credentials. The built-in credentials are for local demos only; configure your own before exposing the app beyond localhost.
 
 ---
 
 ## Interactive Demo Journeys
 
 1. **Sunita (Kirana Merchant, Kanpur) · Full Loan & Reprice:**
+   - Open the profile menu and choose **Sunita**; the chat starts immediately.
    - Click the microphone and say: `Mujhe dukaan ke liye 2 lakh ka loan chahiye` (or tap the **2L Loan** voice chip).
    - Voice assistant asks for consent $\to$ Say `haan` $\to$ Instant approved offer at 17% p.a.
    - Tap **24m Reprice** $\to$ Rules engine dynamically recalculates EMI from ₹7,131 to ₹9,888.
    - Click **📄 View Official RBI KFS** to inspect APR, fees, and amortisation preview.
    - Say `haan aage badho` $\to$ Click **e-sign se pushti karein** $\to$ Hear the **Paytm Soundbox chime** and voice approval.
 2. **Rahul (Food Vendor, Noida) · Explainable Underwriting Decline:**
-   - Select **Rahul** from the header dropdown.
+   - Open the profile menu and choose **Rahul**; the chat starts immediately.
    - Say `I need a 2 lakh loan` $\to$ `yes` $\to$ Assistant explains decline due to credit score (598 < 650 threshold).
 3. **Meena (New User, Jaipur) · Missing KYC Guardrail:**
-   - Select **Meena** $\to$ Say `I need a 50 thousand loan` $\to$ Declines with clear guidance to complete video KYC first.
+   - Open the profile menu and choose **Meena** $\to$ Say `I need a 50 thousand loan` $\to$ Declines with clear guidance to complete video KYC first.
+   - Choose **Talk to an agent about KYC** to wait in the customer chat while support joins.
 4. **Health Insurance Q&A & Purchase:**
    - Say `waiting period kya hai?` $\to$ Cites exact policy clauses (SHB-4.1 & SHP-4.1).
    - Say `dono plan compare karo` $\to$ Renders side-by-side comparison matrix.
    - Say `Plus le lo` $\to$ Grants KYC consent $\to$ Issues policy receipt with 15-day free-look guarantee.
-5. **Two-Way Agent Intervention:**
-   - Say `agent se baat karo` $\to$ Handoff card links to `/agent`.
-   - Open `/agent` in a new tab $\to$ Type a message or click **⚡ Offer 12% Special Partner APR**.
-   - Watch the customer mini-app update in real time with the human agent's response!
+5. **Human Agent Handoff:**
+   - Say `agent se baat karo` or choose the KYC help option $\to$ the customer stays on the chat and sees a waiting state.
+   - Open `/admin` in a separate tab and sign in $\to$ choose a waiting chat and click **Join conversation**.
+   - Reply in the staff inbox and watch the customer chat update in real time.
 
 ---
 
@@ -74,19 +81,20 @@ uvicorn backend.app:app --reload --port 8000
 
 | Component | File Path | Architectural Responsibility |
 | :--- | :--- | :--- |
-| **Mini-App UI** | [`frontend/index.html`](file:///c:/Users/lenovo/Downloads/paytm-voice-assistant/paytm-voice-assistant/frontend/index.html) | Voice recognition, Web Audio visualizer, Soundbox chime, KFS modal, chat, Zen mode |
-| **Agent Desk** | [`frontend/agent.html`](file:///c:/Users/lenovo/Downloads/paytm-voice-assistant/paytm-voice-assistant/frontend/agent.html) | Live two-way agent intervention, rate overrides, transcripts, audit logs |
-| **Orchestrator** | [`backend/app.py`](file:///c:/Users/lenovo/Downloads/paytm-voice-assistant/paytm-voice-assistant/backend/app.py) | Multi-turn state machine, consent lifecycle, KFS generator, agent bridge |
-| **Bilingual NLU**| [`backend/nlu.py`](file:///c:/Users/lenovo/Downloads/paytm-voice-assistant/paytm-voice-assistant/backend/nlu.py) | Devanagari numerals translation, colloquial Hindi number words (`do lakh`, `50k`), tenures |
-| **Rules Engine** | [`backend/rules.py`](file:///c:/Users/lenovo/Downloads/paytm-voice-assistant/paytm-voice-assistant/backend/rules.py) | Reducing-balance EMI, 40% FOIR cap with binary search shrink, risk-based pricing |
-| **Clause RAG** | [`backend/rag.py`](file:///c:/Users/lenovo/Downloads/paytm-voice-assistant/paytm-voice-assistant/backend/rag.py) | Pure-Python TF-IDF search over policy wording; triggers human handoff on low confidence |
-| **Partner Stubs**| [`backend/partners.py`](file:///c:/Users/lenovo/Downloads/paytm-voice-assistant/paytm-voice-assistant/backend/partners.py) | Telemetry mocks: KYC verification, bureau scores, 12-month Paytm UPI inflows, e-sign |
+| **Mini-App UI** | [`frontend/index.html`](./frontend/index.html) | Responsive welcome, account selection, voice input, chat, and Zen mode |
+| **Staff Inbox** | [`frontend/admin.html`](./frontend/admin.html) | Staff login, live handoff queue, customer transcripts, and two-way replies |
+| **Orchestrator** | [`backend/app.py`](./backend/app.py) | Multi-turn state machine, consent lifecycle, KFS generator, staff inbox API |
+| **Bilingual NLU**| [`backend/nlu.py`](./backend/nlu.py) | Devanagari numerals translation, colloquial Hindi number words (`do lakh`, `50k`), tenures |
+| **Rules Engine** | [`backend/rules.py`](./backend/rules.py) | Reducing-balance EMI, 40% FOIR cap with binary search shrink, risk-based pricing |
+| **Clause RAG** | [`backend/rag.py`](./backend/rag.py) | Pure-Python TF-IDF search over policy wording; triggers human handoff on low confidence |
+| **Partner Stubs**| [`backend/partners.py`](./backend/partners.py) | Telemetry mocks: KYC verification, bureau scores, 12-month Paytm UPI inflows, e-sign |
 
 ---
 
-## Automated Journey Tests (10/10 Passing)
+## Automated Journey Tests
 
 ```bash
-python -m backend.test_journeys
+pip install -r requirements-dev.txt
+python -m pytest backend/test_journeys.py -q
 ```
-Verifies Sunita loan happy path, 24m live repricing, Devanagari Hindi parsing, insurance comparison, subprime/KYC declines, human handoffs, low-confidence safeguards, RBI KFS generation, and two-way agent messaging.
+Verifies Sunita loan happy path, live repricing, Hindi parsing, insurance flows, underwriting declines, customer handoffs, staff authentication, the waiting queue, and two-way agent messaging.

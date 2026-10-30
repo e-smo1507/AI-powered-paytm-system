@@ -1804,3 +1804,16 @@
 {"t": "21:23:08", "sid": "c86032c0", "event": "session_start", "user": "rahul"}
 {"t": "21:23:09", "sid": "f0ff3ba2", "event": "session_start", "user": "rahul"}
 {"t": "21:23:09", "sid": "a6518ebb", "event": "session_start", "user": "rahul"}
+{"t": "22:09:32", "sid": "0de57a9b", "event": "user_turn", "text": "ठीक है फिर 1001 रुपए का लोन दे दो"}
+{"t": "22:09:32", "sid": "0de57a9b", "event": "decision", "amount": 1001, "eligible": false, "reasons": ["min_amount"], "emi": 0}
+{"t": "22:09:39", "sid": "0de57a9b", "event": "user_turn", "text": "नहीं मैं"}
+{"t": "22:09:39", "sid": "0de57a9b", "event": "handoff", "reason": "repeated_misunderstanding"}
+{"t": "22:09:49", "sid": "0de57a9b", "event": "user_turn", "text": "1001 का लोन चाहिए"}
+{"t": "22:09:49", "sid": "0de57a9b", "event": "handoff", "reason": "user_request"}
+{"t": "22:10:03", "sid": "0de57a9b", "event": "user_turn", "text": "नहीं 1001 रुपए 1001 का लोन चाहिए"}
+{"t": "22:10:03", "sid": "0de57a9b", "event": "handoff", "reason": "user_request"}
+{"t": "22:10:12", "sid": "0de57a9b", "event": "user_turn", "text": "10000"}
+{"t": "22:10:12", "sid": "0de57a9b", "event": "handoff", "reason": "user_request"}
+{"t": "22:10:21", "sid": "0de57a9b", "event": "agent_turn", "agent": "Saytm Support", "text": "ji boliye", "action": null}
+{"t": "22:16:39", "sid": "7bd42dcf", "event": "session_start", "user": "rahul"}
+{"t": "22:16:55", "sid": "7bd42dcf", "event": "user_turn", "text": "2 लाख करोड़"}
