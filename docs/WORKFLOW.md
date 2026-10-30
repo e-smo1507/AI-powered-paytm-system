@@ -62,10 +62,10 @@ flowchart LR
 
 ## 3. Core Journey Workflows
 
-### Journey 1: Sunita · Complete Merchant Loan & Dynamic Repricing Flow
+### Journey 1: Sunita · Merchant Loan Review & Dynamic Repricing Flow
 
 - **Persona Context:** Sunita, 34, Kanpur. Kirana merchant with 26-month platform vintage, ₹89,333 average monthly inflows, bureau score 724, and completed KYC.
-- **Goal:** Secure ₹2,00,000 working capital before Diwali, adjust tenure from 36 to 24 months, and complete e-sign.
+- **Goal:** Request review for a ₹2,00,000 working-capital loan after adjusting tenure from 36 to 24 months.
 
 ```mermaid
 sequenceDiagram
@@ -98,14 +98,15 @@ sequenceDiagram
 
     Sunita->>UI: Voice: "Haan aage badho"
     UI->>Backend: POST /api/chat {text: "haan aage badho", lang: 'hi'}
-    Backend-->>UI: Stage: esign | e-Sign Confirmation Card
-    UI-->>Sunita: Speaks: "Badhiya. Neeche Key Fact Statement dekhein aur e-sign se pushti karein."
+    Backend-->>UI: Stage: esign | e-Sign Review Request Card
+    UI-->>Sunita: Speaks: "Review the Key Fact Statement; sending an e-sign request asks a human agent to review it."
 
-    Sunita->>UI: Taps "e-sign से पुष्टि करें"
+    Sunita->>UI: Taps "e-sign अनुरोध भेजें"
     UI->>Backend: POST /api/sign {sid}
-    Backend->>Backend: Generate reference: PTM-L-XXXX-XXXX
-    Backend-->>UI: Stage: done | Receipt Card + 3-Day Cooling-Off Notice
-    UI-->>Sunita: Speaks: "Ho gaya! ₹2,00,000 ka loan manzoor hai..."
+    Backend->>Backend: Mark signature review pending; queue for a human agent
+    Backend-->>UI: Stage: signature_review | Waiting-for-approval Card
+    UI-->>Sunita: Speaks: "Your e-sign request is waiting for human-agent approval; the loan is not active yet."
+    StaffInbox->>Backend: Review request and reply to customer
 ```
 
 ---
@@ -158,13 +159,17 @@ sequenceDiagram
     Backend->>Backend: Decision: eligible=False, reasons=['kyc', 'score', 'vintage']
     Backend-->>UI: Stage: idle | Decline Card (Reasons: KYC incomplete, score below limit, vintage too short)
     UI-->>Meena: Speaks: "Sorry, I can't offer a loan right now. Reason: KYC is incomplete..."
+    Meena->>UI: Requests KYC review
+    UI->>Backend: POST /api/kyc/review {sid}
+    Backend-->>UI: Stage: kyc_review | Waiting-for-human-approval Card
+    UI-->>Meena: Speaks: "Your KYC request is waiting for human-agent approval. Do not send identity documents in chat."
 ```
 
 ---
 
-### Journey 4: Health Insurance Clause Inquiry, Comparison & Purchase Flow
+### Journey 4: Health Insurance Clause Inquiry, Comparison & Purchase Review Flow
 
-- **Goal:** Inquire about pre-existing disease waiting periods, compare Basic vs Plus plans, select Plus, and e-sign policy.
+- **Goal:** Inquire about pre-existing disease waiting periods, compare Basic vs Plus plans, select Plus, and request human review of the e-sign.
 
 ```mermaid
 sequenceDiagram
@@ -193,11 +198,12 @@ sequenceDiagram
     UI->>Backend: POST /api/chat {text: "haan", lang: 'hi'}
     Backend-->>UI: Stage: ins_quote | Quote Card (₹12,900/yr, ₹10 lakh cover) + e-Sign Card
     
-    User->>UI: Taps "e-sign से पुष्टि करें"
+    User->>UI: Taps "e-sign अनुरोध भेजें"
     UI->>Backend: POST /api/sign {sid}
-    Backend->>Backend: Generate reference: PTM-H-XXXX-XXXX
-    Backend-->>UI: Stage: done | Policy Receipt Card + 15-Day Free-Look Notice
-    UI-->>User: Speaks: "पॉलिसी सक्रिय है। 15 दिन फ्री-लुक में रद्द कर सकते हैं।"
+    Backend->>Backend: Mark signature review pending; queue for a human agent
+    Backend-->>UI: Stage: signature_review | Waiting-for-approval Card
+    UI-->>User: Speaks: "Your e-sign request is waiting for human-agent approval; the policy is not active yet."
+    StaffInbox->>Backend: Review request and reply to customer
 ```
 
 ---
@@ -276,8 +282,9 @@ The customer app and staff inbox share a persistent light/dark theme preference.
 4. Staff replies through `POST /api/agent/message`; this endpoint and the inbox/session endpoints require the admin session cookie.
 5. The customer mini-app polls `/api/poll/{sid}`, renders the staff message, and reads it aloud when read-aloud is enabled.
 
-### 4.6 Real-Time Audio Waveform & Iconic Paytm Soundbox Chime Workflow
-1. User clicks the microphone button: `startMic()` requests audio stream via `navigator.mediaDevices.getUserMedia`.
-2. Real-time `AudioContext` frequency analyser updates the heights of 7 visualizer bars, providing responsive feedback while listening.
-3. If an error occurs (permission denied, network timeout), friendly guidance alerts appear with one-click quick prompt chips.
-4. Upon e-signing, `playSoundbox()` synthesizes a melodic fintech chime (740Hz $\to$ 1108Hz) via Web Audio API, followed by an official spoken Paytm voice receipt.
+### 4.6 Voice Input and Output Controls
+1. The microphone uses the browser Speech Recognition API; unsupported browsers and permission or network errors receive an on-screen explanation.
+2. The volume slider controls speech synthesis and remembers the chosen level. Its speaker button mutes and stops any active narration.
+3. The **Read aloud** toggle controls automatic assistant narration. Each message also has a speaker button that toggles playback for that specific message.
+4. Changing the language or theme reads the welcome line in the selected language. Speech spells Saytm as “Say, tee-em” with a brief pause.
+5. A KYC or e-sign request waits for human review; it does not play an approval chime or generate an approval receipt.

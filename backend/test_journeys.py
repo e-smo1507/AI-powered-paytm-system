@@ -27,13 +27,18 @@ def test_sunita_loan_esign():
     assert any(x["type"] == "offer" for x in r["cards"])
     offer = next(x for x in r["cards"] if x["type"] == "offer")
     assert offer["eligible"] and offer["amount"] == 200000
+    assert c.post("/api/sign", json={"sid": sid}).status_code == 409
     r = say(sid, "haan, samjhao")
     assert r["stage"] == "fees"
     r = say(sid, "haan aage badho")
     assert r["stage"] == "esign"
-    r = c.post("/api/sign", json={"sid": sid}).json()
-    assert r["stage"] == "done"
-    assert "PTM-L" in r["reply"]
+    response = c.post("/api/sign", json={"sid": sid})
+    assert response.status_code == 200, response.text
+    r = response.json()
+    assert r["stage"] == "signature_review"
+    assert r["handoff"] is True
+    assert any(card == {"type": "review_pending", "review_type": "signature"} for card in r["cards"])
+    assert "मानव एजेंट की मंज़ूरी" in r["reply"]
 
 
 def test_reprice_24_months():
@@ -63,9 +68,13 @@ def test_insurance_clause_and_buy():
     assert r["stage"] == "ins_consent"
     r = say(sid, "yes", "en")
     assert r["stage"] == "ins_quote"
-    r = c.post("/api/sign", json={"sid": sid}).json()
-    assert r["stage"] == "done"
-    assert "PTM-H" in r["reply"]
+    response = c.post("/api/sign", json={"sid": sid})
+    assert response.status_code == 200, response.text
+    r = response.json()
+    assert r["stage"] == "signature_review"
+    assert r["handoff"] is True
+    assert any(card == {"type": "review_pending", "review_type": "signature"} for card in r["cards"])
+    assert "human-agent approval" in r["reply"]
 
 
 def test_rahul_declined():
@@ -204,6 +213,29 @@ def test_kyc_help_enters_waiting_handoff():
     assert any(card["type"] == "handoff" for card in r["cards"])
     poll = c.get(f"/api/poll/{sid}").json()
     assert poll["agent_connected"] is False
+
+
+def test_kyc_review_waits_for_human_approval():
+    sid, _ = start("meena", "en")
+    assert c.post("/api/kyc/review", json={"sid": sid}).status_code == 409
+    say(sid, "I need a 2 lakh loan", "en")
+    decline = say(sid, "yes", "en")
+    assert "kyc" in decline["cards"][0]["reasons"]
+
+    response = c.post("/api/kyc/review", json={"sid": sid})
+    assert response.status_code == 200, response.text
+    result = response.json()
+    assert result["stage"] == "kyc_review"
+    assert result["handoff"] is True
+    assert any(card == {"type": "review_pending", "review_type": "kyc"} for card in result["cards"])
+    assert "human-agent approval" in result["reply"]
+    assert c.post("/api/kyc/review", json={"sid": sid}).status_code == 409
+
+    assert c.post("/api/admin/login", json={"username": "admin", "password": "saytm-demo"}).status_code == 200
+    queued = next(item for item in c.get("/api/admin/sessions").json() if item["sid"] == sid)
+    assert queued["review_type"] == "kyc"
+    details = c.get(f"/api/admin/session/{sid}").json()
+    assert details["review_type"] == "kyc"
 
 
 def test_empty_request_does_not_create_handoff():

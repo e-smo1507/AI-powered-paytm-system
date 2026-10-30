@@ -13,7 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from . import nlu
-from .partners import PLANS, USERS, decide_plan, esign, fetch_bureau, fetch_inflows, fetch_kyc
+from .partners import PLANS, USERS, decide_plan, fetch_bureau, fetch_inflows, fetch_kyc
 from .rag import retrieve, CL
 from .rules import decide
 
@@ -90,12 +90,16 @@ C = {
         "en": "In plain words: processing fee {f} + GST {g}, so you receive {d}. Total interest is {i} and you repay {p} in all. No hidden foreclosure fee. Shall we go ahead?",
     },
     "esign": {
-        "hi": "बढ़िया। नीचे Key Fact Statement देखें और e-sign से पुष्टि करें।",
-        "en": "Great. Review the Key Fact Statement below and confirm with e-sign.",
+        "hi": "नीचे Key Fact Statement देखें। e-sign अनुरोध भेजने पर मानव एजेंट इसकी समीक्षा करेगा; अभी लोन मंज़ूर या सक्रिय नहीं होगा।",
+        "en": "Review the Key Fact Statement below. Sending an e-sign request asks a human agent to review it; the loan is not approved or active yet.",
     },
-    "done": {
-        "hi": "हो गया! {a} का लोन मंज़ूर है। 3 दिन की कूलिंग-ऑफ अवधि में आप बिना जुर्माने के रद्द कर सकते हैं। संदर्भ: {ref}",
-        "en": "Done! Your {a} loan is approved. You can cancel within a 3-day cooling-off period without penalty. Ref: {ref}",
+    "kyc_review_pending": {
+        "hi": "आपका KYC अनुरोध मानव एजेंट की मंज़ूरी के लिए भेज दिया गया है। एजेंट सुरक्षित KYC प्रक्रिया के लिए आपका मार्गदर्शन करेगा। कृपया पहचान दस्तावेज़ इस चैट में न भेजें।",
+        "en": "Your KYC request is waiting for human-agent approval. An agent will guide you through the secure KYC process; please don't send identity documents in this chat.",
+    },
+    "signature_review_pending": {
+        "hi": "आपका e-sign अनुरोध मानव एजेंट की मंज़ूरी के लिए भेज दिया गया है। एजेंट समीक्षा पूरी होने तक लोन या पॉलिसी सक्रिय नहीं होगी।",
+        "en": "Your e-sign request is waiting for human-agent approval. The loan or policy will not be activated until an agent completes the review.",
     },
     "inelig": {
         "hi": "माफ़ कीजिए, अभी मैं लोन नहीं दे पा रहा। कारण: {r}। मैं आपको एजेंट से जोड़ सकता हूँ।",
@@ -196,10 +200,10 @@ def chips(stage, lang):
         "consent": ["हाँ, सहमत हूँ", "नहीं"] if h else ["Yes, I agree", "No thanks"],
         "offer": ["हाँ, समझाओ", "24 महीने में", "एजेंट से बात करो"] if h else ["Yes, explain", "Use 24 months", "Talk to an agent"],
         "fees": ["हाँ, आगे बढ़ो", "एजेंट से बात करो"] if h else ["Yes, go ahead", "Talk to an agent"],
-        "esign": ["e-sign करो"] if h else ["e-sign now"],
+        "esign": ["e-sign अनुरोध भेजें"] if h else ["Send e-sign request"],
         "ins": ["वेटिंग पीरियड क्या है?", "कमरे के किराये की सीमा?", "Plus ले लो"] if h else ["What is the waiting period?", "Room rent limit?", "Take Plus"],
         "ins_consent": ["हाँ", "नहीं"] if h else ["Yes", "No"],
-        "ins_quote": ["e-sign करो", "Basic बताओ"] if h else ["e-sign now", "Tell me about Basic"],
+        "ins_quote": ["e-sign अनुरोध भेजें", "Basic बताओ"] if h else ["Send e-sign request", "Tell me about Basic"],
     }.get(stage, [])
 
 
@@ -314,7 +318,7 @@ def start(b: StartIn):
     SESSIONS[sid] = dict(
         user=b.user, lang=b.lang, stage="idle", amount=None, tenure=36, consent=None,
         decision=None, unknown=0, transcript=[], audit=[], handoff=False, agent_connected=False,
-        plan=None, product=None,
+        plan=None, product=None, review_type=None,
     )
     audit(sid, "session_start", user=b.user)
     msg = T("greet", b.lang, n=u["name"])
@@ -403,10 +407,10 @@ def chat(b: ChatIn):
             return reply(s, sid, lang, T("esign", lang), [offer_card(s), {"type": "esign", "kind": "loan"}])
 
     if st == "esign" and (yes or nlu.has_phrase(t, ["esign", "e-sign", "sign", "साइन"])):
-        return do_sign(s, sid, lang, "loan")
+        return submit_signature_for_review(s, sid, lang, "loan")
 
     if st in ("ins_quote", "ins_esign") and (yes or nlu.has_phrase(t, ["esign", "e-sign", "sign", "साइन"])):
-        return do_sign(s, sid, lang, "insurance")
+        return submit_signature_for_review(s, sid, lang, "insurance")
 
     if nlu.has_phrase(t, nlu.BUY) or decide_plan(t):
         plan = decide_plan(t) or s.get("plan") or "plus"
@@ -455,22 +459,29 @@ def chat(b: ChatIn):
     return reply(s, sid, lang, T("unk", lang), [], "idle")
 
 
-def do_sign(s, sid, lang, kind):
+def create_human_review(s, sid, lang, review_type):
+    s["handoff"] = True
+    s["stage"] = f"{review_type}_review"
+    s["review_type"] = review_type
+    audit(sid, "human_review_requested", review_type=review_type)
+    message = T(f"{review_type}_review_pending", lang)
+    return reply(
+        s,
+        sid,
+        lang,
+        message,
+        [{"type": "review_pending", "review_type": review_type}],
+        "none",
+    )
+
+
+def submit_signature_for_review(s, sid, lang, kind):
     if kind == "loan":
-        if not s.get("decision") or not s["decision"].get("eligible"):
+        if s.get("stage") != "esign" or not s.get("decision") or not s["decision"].get("eligible"):
             raise HTTPException(409, "nothing to sign")
-        d = s["decision"]
-        ref = esign("loan", d["amount"])
-        s["stage"] = "done"
-        s["ref"] = ref
-        audit(sid, "esigned", kind="loan", ref=ref, amount=d["amount"], emi=d["emi"])
-        return reply(s, sid, lang, T("done", lang, a=inr(d["amount"]), ref=ref), [{"type": "receipt", "ref": ref, "kind": "loan", "amount": d["amount"]}], "none")
-    p = PLANS[s.get("plan") or "plus"]
-    ref = esign("insurance", p["premium"])
-    s["stage"] = "done"
-    s["ref"] = ref
-    audit(sid, "esigned", kind="insurance", ref=ref, plan=p["name"])
-    return reply(s, sid, lang, T("ins_done", lang, ref=ref), [{"type": "receipt", "ref": ref, "kind": "insurance", "amount": p["premium"]}], "none")
+    elif s.get("stage") not in ("ins_quote", "ins_esign") or not s.get("plan"):
+        raise HTTPException(409, "nothing to sign")
+    return create_human_review(s, sid, lang, "signature")
 
 
 @app.post("/api/consent/revoke")
@@ -488,10 +499,25 @@ def revoke(b: SidIn):
 def sign(b: SidIn):
     s = S(b.sid)
     lang = s.get("lang") or "hi"
-    if s["stage"] not in ("offer", "fees", "esign", "ins_quote", "ins_esign"):
+    if s["stage"] not in ("esign", "ins_quote", "ins_esign"):
         raise HTTPException(409, "nothing to sign")
     kind = "insurance" if s["stage"] in ("ins_quote", "ins_esign") else "loan"
-    return do_sign(s, b.sid, lang, kind)
+    return submit_signature_for_review(s, b.sid, lang, kind)
+
+
+@app.post("/api/kyc/review")
+def request_kyc_review(b: SidIn):
+    s = S(b.sid)
+    lang = s.get("lang") or "hi"
+    consent = s.get("consent")
+    if not consent or consent.get("revoked") or consent.get("snapshot", {}).get("kyc") is not False:
+        raise HTTPException(409, "KYC review requires active consent and an incomplete KYC record")
+    decision = s.get("decision") or {}
+    if s.get("stage") != "idle" or "kyc" not in decision.get("reasons", []):
+        raise HTTPException(409, "KYC review is only available after an incomplete-KYC eligibility result")
+    if s.get("review_type"):
+        raise HTTPException(409, "A human review is already pending")
+    return create_human_review(s, b.sid, lang, "kyc")
 
 
 @app.get("/api/audit/{sid}")
@@ -618,6 +644,7 @@ def list_sessions_data():
             "sid": sid,
             "name": u["name"],
             "stage": s["stage"],
+            "review_type": s.get("review_type"),
             "handoff": s["handoff"],
             "agent_connected": s["agent_connected"],
             "status": "connected" if s["agent_connected"] else "waiting" if s["handoff"] else "active",
@@ -636,6 +663,7 @@ def admin_session(sid: str, request: Request):
         "user": s["user"],
         "profile": {"name": u["name"], "kind": u["kind"], "city": u["city"]},
         "stage": s["stage"],
+        "review_type": s.get("review_type"),
         "lang": s.get("lang", "en"),
         "handoff": s["handoff"],
         "agent_connected": s["agent_connected"],
@@ -659,6 +687,7 @@ def admin_connect(sid: str, request: Request):
             "agent_name": "Saytm Support",
             "text": "A human agent has joined the conversation.",
             "ts": time.strftime("%H:%M:%S"),
+            "review_type": s.get("review_type"),
             "lang": s.get("lang", "en"),
         }
         s["transcript"].append(turn)

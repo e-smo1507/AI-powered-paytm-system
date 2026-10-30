@@ -49,6 +49,8 @@ uvicorn backend.app:app --reload --port 8000
 
 Set `SAYTM_ADMIN_USERNAME` and `SAYTM_ADMIN_PASSWORD` in the server environment to change the demo sign-in credentials. The built-in credentials are for local demos only; configure your own before exposing the app beyond localhost.
 
+Demo conversations are kept in server memory: refreshing a browser page does not clear them, but stopping and starting the backend process does. The audit log is stored separately and does not restore conversations into the inbox.
+
 ---
 
 ## Interactive Demo Journeys
@@ -59,17 +61,17 @@ Set `SAYTM_ADMIN_USERNAME` and `SAYTM_ADMIN_PASSWORD` in the server environment 
    - Voice assistant asks for consent $\to$ Say `haan` $\to$ Instant approved offer at 17% p.a.
    - Tap **24m Reprice** $\to$ Rules engine dynamically recalculates EMI from ₹7,131 to ₹9,888.
    - Click **📄 View Official RBI KFS** to inspect APR, fees, and amortisation preview.
-   - Say `haan aage badho` $\to$ Click **e-sign se pushti karein** $\to$ Hear the **Paytm Soundbox chime** and voice approval.
+   - Say `haan aage badho` $\to$ Click **Send e-sign request** $\to$ the request waits for human-agent review; it is not automatically approved.
 2. **Rahul (Food Vendor, Noida) · Explainable Underwriting Decline:**
    - Open the profile menu and choose **Rahul**; the chat starts immediately.
    - Say `I need a 2 lakh loan` $\to$ `yes` $\to$ Assistant explains decline due to credit score (598 < 650 threshold).
 3. **Meena (New User, Jaipur) · Missing KYC Guardrail:**
    - Open the profile menu and choose **Meena** $\to$ Say `I need a 50 thousand loan` $\to$ Declines with clear guidance to complete video KYC first.
-   - Choose **Talk to an agent about KYC** to wait in the customer chat while support joins.
+   - Choose **Request KYC review** to send the request for human-agent review. Do not send identity documents in chat.
 4. **Health Insurance Q&A & Purchase:**
    - Say `waiting period kya hai?` $\to$ Cites exact policy clauses (SHB-4.1 & SHP-4.1).
    - Say `dono plan compare karo` $\to$ Renders side-by-side comparison matrix.
-   - Say `Plus le lo` $\to$ Grants KYC consent $\to$ Issues policy receipt with 15-day free-look guarantee.
+   - Say `Plus le lo` $\to$ Grants KYC consent $\to$ request e-sign review; the policy remains inactive until human review.
 5. **Human Agent Handoff:**
    - Say `agent se baat karo` or choose the KYC help option $\to$ the customer stays on the chat and sees a waiting state.
    - Open `/admin` in a separate tab and sign in $\to$ the AI-requested handoff appears in the queue; click **Join conversation** to pause the AI and reply.

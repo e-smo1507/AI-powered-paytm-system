@@ -14,6 +14,8 @@ button,input{font:inherit}
 button{cursor:pointer}
 .topbar{height:74px;padding:0 28px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
 .brand{font:600 22px Fraunces,Georgia,serif;color:#143653}
+.brand-wordmark{font:900 25px/1 Arial,Helvetica,sans-serif;letter-spacing:-.085em;color:#27323b}
+.brand-accent{color:#287a4b}
 .brand small{display:block;font:500 11px "DM Sans",sans-serif;letter-spacing:.1em;color:var(--mut);text-transform:uppercase}
 .top-actions{display:flex;align-items:center;gap:14px;color:var(--muted);font-size:13px}
 .top-actions a{color:var(--blue);text-decoration:none}
@@ -33,6 +35,7 @@ button{cursor:pointer}
 .pill{border-radius:99px;background:#edf2f6;padding:4px 8px;font-size:10px;font-weight:700;color:#5a6e80;text-transform:uppercase;white-space:nowrap}
 .pill.waiting{background:#fff0d9;color:#9a5a00}
 .pill.connected{background:#e5f6ef;color:#187453}
+.pill.review{background:#eee8f5;color:#62428a}
 .empty-queue{padding:18px 6px;font-size:13px;line-height:1.55;color:var(--muted)}
 .main{min-width:0;min-height:0;display:flex;flex-direction:column}
 .welcome{margin:auto;max-width:440px;padding:40px;text-align:center;color:var(--muted)}
@@ -147,12 +150,24 @@ body{color:var(--text);background:linear-gradient(145deg,#fff 0%,#f4f5f6 55%,#e9
 .top-actions .theme-toggle{width:40px;height:40px;display:grid;place-items:center;padding:0;border:1px solid #aeb8c2;border-radius:12px;background:#fff;color:#26384a;font-size:19px;box-shadow:0 2px 6px rgba(26,42,58,.08)}
 .top-actions .theme-toggle:hover{background:#edf3f8;border-color:#718396}
 .dark-theme .top-actions .theme-toggle{background:#20334b;border-color:#58708c;color:#f0f6ff}
+.message.user{background:linear-gradient(145deg,#e4f0fb,#dce9f7);border-color:#c4d9ed;color:#24425d}
+.message.user .message-meta{color:#315c7d}
+.message.assistant{background:linear-gradient(145deg,#f5f6f7,#e9ecef);border-color:#d8dde2;color:#333b43}
+.message.assistant .message-meta{color:#59636e}
+.message.agent{background:linear-gradient(145deg,#e8f4ec,#dcece2);border-color:#c4ddcb;color:#254d39}
+.dark-theme .message.user{background:linear-gradient(145deg,#25445f,#1d374d);border-color:#3e607b;color:#e3effb}
+.dark-theme .message.user .message-meta{color:#b4d2ec}
+.dark-theme .message.assistant{background:linear-gradient(145deg,#303740,#252b33);border-color:#454d57;color:#e8ecf1}
+.dark-theme .message.assistant .message-meta{color:#bec6cf}
+.dark-theme .message.agent{background:linear-gradient(145deg,#214034,#1b332a);border-color:#315c48;color:#e1f3e8}
+.top-actions .theme-toggle{border:1.5px solid #53677d;background:#fff;color:#1e293b}
+.dark-theme .top-actions .theme-toggle{background:#243548;border-color:#7890a8;color:#f4f7fb}
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">Saytm<small>STAFF INBOX</small></div>
+  <div class="brand"><span class="brand-wordmark">Say<span class="brand-accent">tm</span></span><small>STAFF INBOX</small></div>
   <div class="top-actions"><a href="/">Customer app</a><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">☾</button><button type="button" id="logout" hidden>Sign out</button></div>
 </header>
 <main class="login-wrap" id="login-view">
@@ -197,9 +212,15 @@ function showError(message,target='login-error'){
 }
 
 function statusLabel(session){
-  if(session.status==='waiting')return '<span class="pill waiting">Waiting</span>';
-  if(session.status==='connected')return '<span class="pill connected">Connected</span>';
-  return '<span class="pill">AI active</span>';
+  const status=session.status==='waiting'
+    ?'<span class="pill waiting">Waiting</span>'
+    :session.status==='connected'
+      ?'<span class="pill connected">Connected</span>'
+      :'<span class="pill">AI active</span>';
+  const review=session.review_type
+    ?`<span class="pill review">${session.review_type==='kyc'?'KYC review':'Signature review'}</span>`
+    :'';
+  return `${status}${review}`;
 }
 
 function renderQueue(){
@@ -241,7 +262,7 @@ function speakText(text,language='en',button=null){
     return;
   }
   stopSpeech();
-  const utterance=new SpeechSynthesisUtterance(String(text||'').replace(/\bSaytm\b/gi,'Say-tum'));
+  const utterance=new SpeechSynthesisUtterance(String(text||'').replace(/\bSaytm\b/gi,'Say, tee-em'));
   const prefix=language==='hi'?'hi':'en';
   utterance.lang=prefix==='hi'?'hi-IN':'en-IN';
   const voice=speechSynthesis.getVoices().find(item=>item.lang?.toLowerCase().startsWith(prefix));
@@ -276,7 +297,7 @@ function renderConversation(session){
   panel.innerHTML=`
     <div class="session-head">
       <div><h2>${esc(session.profile.name)} <span style="font-weight:400;color:#758596">· ${esc(session.profile.kind)}, ${esc(session.profile.city)}</span></h2>
-        <div class="session-sub">Conversation ${esc(session.sid)} · ${session.consent?'Consent granted':'No consent recorded'} · ${esc(session.stage)}</div>
+        <div class="session-sub">Conversation ${esc(session.sid)} · ${session.consent?'Consent granted':'No consent recorded'} · ${esc(session.stage)}${session.review_type?` · ${session.review_type==='kyc'?'KYC review pending':'Signature review pending'}`:''}</div>
       </div>
       ${control}
     </div>

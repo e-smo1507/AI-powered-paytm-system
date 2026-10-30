@@ -14,6 +14,8 @@ body{font-family:Hind,system-ui,sans-serif;background:linear-gradient(180deg,#cf
 .app{width:100%;max-width:460px;height:100%;display:flex;flex-direction:column;background:var(--bg);box-shadow:0 0 0 1px var(--line)}
 header{padding:10px 14px;display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,#002e6e,#00baf2);color:#fff}
 .logo{font-family:Fraunces,serif;font-size:18px;flex:1;line-height:1.15}
+.logo-wordmark{font-family:Arial,Helvetica,sans-serif;font-size:25px;font-weight:900;letter-spacing:-.085em;line-height:1;color:#f8fafc}
+.logo-accent{color:#a7d7bd}
 .logo small{display:block;font:500 11px Hind;opacity:.9}
 select,.seg button{font:500 12px Hind;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:8px;padding:5px 7px}
 option{color:#10243e}
@@ -326,7 +328,7 @@ body.zen{background:#e9efec}
 body.zen .app{background:#f7faf8;border-color:#e0e9e3;box-shadow:0 12px 38px rgba(35,67,51,.08)}
 body.zen .workspace{grid-template-columns:minmax(0,1fr)}
 body.zen .welcome-panel{position:fixed;z-index:11;left:18px;bottom:18px;padding:0;border:0;background:transparent}
-body.zen .welcome-panel>*:not(.welcome-bottom){display:none}
+body.zen .welcome-panel>*:not(.welcome-bottom):not(.voice-controls){display:none}
 body.zen .welcome-bottom{padding:0;margin:0}
 body.zen .welcome-bottom>span,body.zen .welcome-bottom>br{display:none}
 body.zen .desktop-profile{margin:0}
@@ -340,7 +342,7 @@ body.zen .bot{background:#fff;border-color:#e5ece7}
 body.zen .me{background:#e5f0e9;color:#25483a;border:1px solid #d9e7dd}
 body.zen .card{max-width:700px;padding:18px;border-radius:18px;background:#fff;box-shadow:none}
 body.zen .guide{display:none}
-body.zen .vhelp,body.zen #chips{display:none}
+body.zen .vhelp{display:none}
 body.zen .tools{justify-content:flex-end;border:0;background:transparent;padding:5px 28px;color:#687b70}
 body.zen form#f{width:min(100%,900px);margin:0 auto 18px;padding:12px 20px;background:#fff;border:1px solid #e1e9e3;border-radius:18px}
 body.zen form#f input{background:#f5f8f6;border:0;box-shadow:none}
@@ -405,13 +407,279 @@ body.zen .conversation-head{display:none}
 .theme-toggle{width:40px;height:40px;display:grid;place-items:center;padding:0;border:1px solid #aeb8c2;border-radius:12px;background:#fff;color:#26384a;font:600 19px/1 Hind;box-shadow:0 2px 6px rgba(26,42,58,.08);cursor:pointer}
 .theme-toggle:hover{background:#edf3f8;border-color:#718396}
 .zen-toggle[aria-pressed="true"]{color:#fff}
+@media(min-width:761px){
+  body.zen .app{max-width:1320px}
+  body.zen header{min-height:78px;padding:14px 26px;gap:8px}
+}
+.zen-toggle{min-width:132px;white-space:nowrap;flex:none}
+.welcome-bottom{width:100%;align-items:flex-start}
+.welcome-bottom #welcome-foot{max-width:30ch}
+.desktop-profile{width:100%}
+.desktop-profile summary{min-width:190px;min-height:68px;gap:12px}
+.desktop-profile .profile-copy{text-align:left}
+.theme-toggle{border:1.5px solid #53677d;background:#fff;color:#1e293b;box-shadow:0 2px 8px rgba(26,42,58,.15)}
+.theme-toggle:hover{background:#edf3f8;border-color:#334e68}
+html.light-theme .theme-toggle,html.light-theme body.zen .theme-toggle{background:#fff;border-color:#53677d;color:#1e293b}
+html.dark-theme .theme-toggle,html.dark-theme body.zen .theme-toggle{background:#243548;border-color:#7890a8;color:#f4f7fb}
+.welcome-speak{min-width:142px}
+.welcome-speak.is-speaking{background:#e8f2f7;border-color:#537a95}
+html.light-theme body.zen{--ink:#1f382c;--mut:#4d6758;--line:#cbd9ce;--blue:#2f654c;--me:#e0ede4;--me-t:#1f382c}
+html.light-theme body.zen .welcome-panel,
+html.light-theme body.zen .welcome-panel *,
+html.light-theme body.zen .conversation,
+html.light-theme body.zen .conversation *,
+html.light-theme body.zen #log,
+html.light-theme body.zen #log *{color:#1f382c}
+html.light-theme body.zen .logo{color:#1f382c}
+html.light-theme body.zen .logo small{color:#4d6758}
+html.light-theme body.zen .welcome-icon{background:#e5eee7;color:#2f654c}
+html.light-theme body.zen .welcome-panel p,
+html.light-theme body.zen .welcome-bottom,
+html.light-theme body.zen .conversation-subtitle,
+html.light-theme body.zen .empty-state p,
+html.light-theme body.zen .card .s,
+html.light-theme body.zen th,
+html.light-theme body.zen .profile-copy small{color:#4d6758}
+html.light-theme body.zen .bot,
+html.light-theme body.zen .card,
+html.light-theme body.zen .profile-popover{background:#fff;color:#1f382c}
+html.light-theme body.zen .me{background:#e0ede4;color:#1f382c}
+html.light-theme body.zen .zen-toggle[aria-pressed="true"]{background:#2f654c;border-color:#2f654c;color:#fff}
+html.dark-theme body.zen{--ink:#e7f0e9;--mut:#b8cbbd;--line:#3a5142;--blue:#a4d5b5;--me:#294a36;--me-t:#f1f8f3}
+html.dark-theme body.zen .welcome-panel,
+html.dark-theme body.zen .welcome-panel *,
+html.dark-theme body.zen .conversation,
+html.dark-theme body.zen .conversation *,
+html.dark-theme body.zen #log,
+html.dark-theme body.zen #log *{color:#e7f0e9}
+html.dark-theme body.zen .logo{color:#e7f0e9}
+html.dark-theme body.zen .logo small{color:#b8cbbd;opacity:1}
+html.dark-theme body.zen .welcome-icon{background:#293c30;color:#e7f0e9}
+html.dark-theme body.zen .welcome-panel p,
+html.dark-theme body.zen .welcome-bottom,
+html.dark-theme body.zen .conversation-subtitle,
+html.dark-theme body.zen .empty-state p,
+html.dark-theme body.zen .card .s,
+html.dark-theme body.zen th,
+html.dark-theme body.zen .profile-copy small{color:#b8cbbd}
+html.dark-theme body.zen .bot,
+html.dark-theme body.zen .card,
+html.dark-theme body.zen .profile-popover{background:#1b2a20;color:#e7f0e9}
+html.dark-theme body.zen .me{background:#294a36;color:#f1f8f3}
+html.dark-theme body.zen .zen-toggle[aria-pressed="true"]{background:#315c45;border-color:#48755b;color:#eff8f2}
+html.dark-theme body:not(.zen){--blue:#83b9cb;--sky:#72b2c2;--me:#2e5365}
+html.dark-theme body:not(.zen) .me{background:linear-gradient(145deg,#315a6d,#28495b);border-color:#426b7c;color:#eff7fa}
+html.dark-theme body:not(.zen) .btn,
+html.dark-theme body:not(.zen) .send,
+html.dark-theme body:not(.zen) .zen-toggle[aria-pressed="true"],
+html.dark-theme body:not(.zen) .seg button.on{background:linear-gradient(145deg,#347889,#285e70);border-color:#4b91a0;color:#fff}
+html.dark-theme body:not(.zen) .mic{background:#1e3544;color:#9dd6e0;border-color:#527586}
+html.dark-theme body:not(.zen) .theme-toggle{background:#20334b;border-color:#7890a8;color:#f4f7fb}
+html.dark-theme body:not(.zen) .welcome-speak{background:#1b3042;border-color:#58758b;color:#e2eef6}
+@media(max-width:760px){.zen-toggle{min-width:100px}}
+body.zen .welcome-panel .voice-controls{position:fixed;left:18px;bottom:88px;z-index:12}
+.voice-controls{display:flex;align-items:center;gap:10px;width:min(270px,calc(100vw - 32px));margin-top:12px;padding:7px 11px;border:1px solid #cbd9e5;border-radius:999px;background:rgba(255,255,255,.92);box-shadow:0 3px 12px rgba(27,52,82,.1)}
+.voice-mute{width:36px;height:36px;display:grid;place-items:center;flex:none;padding:0;border:1px solid #c4d2de;border-radius:50%;background:#f2f6f9;color:#34516b;cursor:pointer}
+.voice-mute:hover{background:#e5eef5}
+.voice-mute svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.voice-volume{flex:1;min-width:55px;width:100%;height:24px;padding:0;border:0;border-radius:0;background:transparent;accent-color:#416b54;cursor:pointer}
+.voice-volume:focus-visible{outline:2px solid #416b54;outline-offset:3px}
+.voice-volume-value{min-width:36px;color:#405366;font-size:11px;font-variant-numeric:tabular-nums;text-align:right}
+#chips:empty{display:none}
+body.zen #chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:0 20px 10px}
+.tools .read-aloud-toggle{width:max-content;display:flex;align-items:center;gap:10px;padding:7px 11px;border:1px solid #d5e0e9;border-radius:999px;background:#f7fafc;color:#344b60;font-size:13px;font-weight:600;cursor:pointer}
+.tools .read-aloud-toggle svg{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tools .read-aloud-toggle input{appearance:none;position:relative;flex:none;width:40px;height:23px;margin:0;padding:0;border:1px solid #aebdca;border-radius:999px;background:#dce4eb;cursor:pointer;transition:background .18s,border-color .18s}
+.tools .read-aloud-toggle input::before{content:"";position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .18s}
+.tools .read-aloud-toggle input:checked{background:#416b54;border-color:#416b54}
+.tools .read-aloud-toggle input:checked::before{transform:translateX(17px)}
+.tools .read-aloud-toggle input:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+html.light-theme body.zen header .logo{color:#1f382c}
+html.light-theme body.zen header .logo small{color:#4d6758;opacity:1}
+html.light-theme body.zen .voice-controls{background:#fff;border-color:#b9cbbf;box-shadow:0 3px 14px rgba(31,56,44,.12)}
+html.light-theme body.zen .voice-mute{background:#edf4ef;border-color:#b8cbbd;color:#294c39}
+html.light-theme body.zen .voice-volume-value{color:#3e5b49}
+html.light-theme body.zen .tools .read-aloud-toggle{background:#fff;border-color:#cbd9ce;color:#294c39}
+html.dark-theme body.zen header .logo{color:#f0f5f1}
+html.dark-theme body.zen header .logo small{color:#c1d0c5;opacity:1}
+html.dark-theme body.zen .voice-controls{background:#1b2a20;border-color:#4b6251;box-shadow:0 3px 16px rgba(0,0,0,.28)}
+html.dark-theme body.zen .voice-mute{background:#293c30;border-color:#617b67;color:#e7f0e9}
+html.dark-theme body.zen .voice-volume{accent-color:#a4d5b5}
+html.dark-theme body.zen .voice-volume-value{color:#d1dfd5}
+html.dark-theme body.zen .tools .read-aloud-toggle{background:#1b2a20;border-color:#4b6251;color:#e7f0e9}
+html.dark-theme body.zen .tools .read-aloud-toggle input:checked{background:#477352;border-color:#77a784}
+html.dark-theme body:not(.zen){--ink:#eceeef;--mut:#b8bdc2;--bg:#181a1c;--card:#25282b;--blue:#d4d7da;--sky:#969ca1;--bot:#282b2e;--me:#41464a;--me-t:#f5f6f7;--agent:#29332e;--agent-t:#e1ece5;--line:#3e4246;--ok:#9cb7a5;--warn:#c0a885}
+html.dark-theme body:not(.zen){background:linear-gradient(145deg,#101112,#222528 58%,#121314);color:#eceeef}
+html.dark-theme body:not(.zen) .app{background:linear-gradient(155deg,#25282b,#181a1c);border-color:#3a3e42;box-shadow:0 24px 70px rgba(0,0,0,.48)}
+html.dark-theme body:not(.zen) header,html.dark-theme body:not(.zen) .conversation-head,html.dark-theme body:not(.zen) .tools,html.dark-theme body:not(.zen) #chips,html.dark-theme body:not(.zen) .vhelp,html.dark-theme body:not(.zen) form#f{background:linear-gradient(160deg,#292c2f,#1d1f21);border-color:#3c4145}
+html.dark-theme body:not(.zen) .logo,html.dark-theme body:not(.zen) .conversation-title,html.dark-theme body:not(.zen) .empty-state h2{color:#f0f1f2}
+html.dark-theme body:not(.zen) .logo small,html.dark-theme body:not(.zen) .conversation-subtitle{color:#b6bcc1}
+html.dark-theme body:not(.zen) .welcome-panel{background:linear-gradient(155deg,#303438,#222629 72%,#1d2421);border-color:#3d4246}
+html.dark-theme body:not(.zen) .welcome-panel h1{color:#f0f1f2}
+html.dark-theme body:not(.zen) .welcome-panel p,html.dark-theme body:not(.zen) .welcome-bottom{color:#c0c5c9}
+html.dark-theme body:not(.zen) .welcome-note{background:linear-gradient(145deg,#35393d,#282b2e);color:#dce0e3;border-color:#4a4e52}
+html.dark-theme body:not(.zen) .conversation,html.dark-theme body:not(.zen) #log{background:linear-gradient(155deg,#17191b,#202326)}
+html.dark-theme body:not(.zen) .card,html.dark-theme body:not(.zen) .bot{background:linear-gradient(145deg,#303438,#25282b);border-color:#44494d;color:#eef0f1}
+html.dark-theme body:not(.zen) .me{background:linear-gradient(145deg,#555b60,#3b4044);border-color:#666d72;color:#fff}
+html.dark-theme body:not(.zen) .agent-m{background:linear-gradient(145deg,#293b32,#202c26);border-color:#476151;color:#e5efe8}
+html.dark-theme body:not(.zen) .btn,html.dark-theme body:not(.zen) .send,html.dark-theme body:not(.zen) .zen-toggle[aria-pressed="true"],html.dark-theme body:not(.zen) .seg button.on{background:linear-gradient(145deg,#73797e,#4b5054);border-color:#8b9196;color:#fff}
+html.dark-theme body:not(.zen) .btn.ghost{background:linear-gradient(145deg,#35393d,#25282b);border-color:#555b60;color:#e5e7e9}
+html.dark-theme body:not(.zen) .mic{background:linear-gradient(145deg,#41464a,#2e3235);color:#e1e4e6;border-color:#62686d}
+html.dark-theme body:not(.zen) .theme-toggle,html.dark-theme body:not(.zen) .seg button{background:linear-gradient(145deg,#454a4e,#2e3235);border-color:#696f74;color:#f0f1f2}
+html.dark-theme body:not(.zen) .welcome-icon,html.dark-theme body:not(.zen) .profile-avatar{background:linear-gradient(145deg,#474c50,#2f3336);color:#e5e7e9;border-color:#62686d}
+html.dark-theme body:not(.zen) .welcome-speak,html.dark-theme body:not(.zen) .voice-controls{background:linear-gradient(145deg,#363a3e,#25282b);border-color:#555b60;color:#e5e7e9}
+html.dark-theme body:not(.zen) .voice-mute{background:#41464a;border-color:#666c71;color:#f0f1f2}
+html.dark-theme body:not(.zen) .voice-volume-value{color:#d1d5d8}
+html.dark-theme body:not(.zen) .tools .read-aloud-toggle{background:#303438;border-color:#53595e;color:#eef0f1}
+html.dark-theme body:not(.zen) .tools .read-aloud-toggle input:checked{background:#687078;border-color:#a3a9ae}
+body.zen #chips:empty{display:none}
+body.zen .message-meta{opacity:1}
+html.light-theme body.zen{--ink:#203b30;--mut:#4d6758;--line:#d5e2d9;--blue:#32694f;--me:#e0ede4;--me-t:#203b30;--sky:#6d9d7c;--ok:#32694f;--warn:#795b32}
+html.light-theme body.zen .welcome-panel h1,
+html.light-theme body.zen .conversation-title,
+html.light-theme body.zen .empty-state h2,
+html.light-theme body.zen .empty-state p,
+html.light-theme body.zen .card,
+html.light-theme body.zen .bot,
+html.light-theme body.zen .me,
+html.light-theme body.zen .message-meta,
+html.light-theme body.zen .message-text,
+html.light-theme body.zen th,
+html.light-theme body.zen td,
+html.light-theme body.zen .profile-option,
+html.light-theme body.zen .profile-action{color:#203b30}
+html.light-theme body.zen .welcome-panel p,
+html.light-theme body.zen .welcome-bottom,
+html.light-theme body.zen .conversation-subtitle,
+html.light-theme body.zen .card .s,
+html.light-theme body.zen th,
+html.light-theme body.zen .profile-copy small{color:#4d6758}
+html.light-theme body.zen .me{background:#e0ede4;border-color:#cddfd2}
+html.light-theme body.zen .bot,
+html.light-theme body.zen .card,
+html.light-theme body.zen .tools .read-aloud-toggle,
+html.light-theme body.zen #chips button{background:#fff;color:#203b30}
+html.dark-theme body:not(.zen){--ink:#eceeef;--mut:#b8bdc2;--bg:#181a1c;--card:#25282b;--blue:#d4d7da;--sky:#969ca1;--bot:#282b2e;--me:#41464a;--me-t:#f5f6f7;--agent:#29332e;--agent-t:#e1ece5;--line:#3e4246;--ok:#9cb7a5;--warn:#c0a885}
+html.dark-theme body:not(.zen){background:linear-gradient(145deg,#101112,#222528 58%,#121314);color:#eceeef}
+html.dark-theme body:not(.zen) .app{background:linear-gradient(155deg,#25282b,#181a1c);border-color:#3a3e42}
+html.dark-theme body:not(.zen) header,
+html.dark-theme body:not(.zen) .conversation-head,
+html.dark-theme body:not(.zen) .tools,
+html.dark-theme body:not(.zen) #chips,
+html.dark-theme body:not(.zen) form#f{background:linear-gradient(160deg,#292c2f,#1d1f21);border-color:#3c4145}
+html.dark-theme body:not(.zen) .conversation,
+html.dark-theme body:not(.zen) #log{background:linear-gradient(155deg,#17191b,#202326)}
+html.dark-theme body:not(.zen) .me{background:linear-gradient(145deg,#555b60,#3b4044);border-color:#666d72;color:#fff}
+html.dark-theme body:not(.zen) .btn,
+html.dark-theme body:not(.zen) .send,
+html.dark-theme body:not(.zen) .zen-toggle[aria-pressed="true"],
+html.dark-theme body:not(.zen) .seg button.on{background:linear-gradient(145deg,#555b60,#3b4044);border-color:#666d72;color:#fff}
+html.dark-theme body:not(.zen) .theme-toggle{background:#303438;border-color:#72787d;color:#f0f1f2}
+html.dark-theme body.zen{--ink:#e7f0e9;--mut:#b8cbbd;--line:#3a5142;--blue:#a4d5b5;--me:#294a36;--me-t:#f1f8f3}
+html.dark-theme body.zen .welcome-panel h1,
+html.dark-theme body.zen .conversation-title,
+html.dark-theme body.zen .empty-state h2,
+html.dark-theme body.zen .empty-state p,
+html.dark-theme body.zen .card,
+html.dark-theme body.zen .bot,
+html.dark-theme body.zen .me,
+html.dark-theme body.zen .message-meta,
+html.dark-theme body.zen .message-text,
+html.dark-theme body.zen th,
+html.dark-theme body.zen td,
+html.dark-theme body.zen .profile-option,
+html.dark-theme body.zen .profile-action{color:#e7f0e9}
+html.dark-theme body.zen .welcome-panel p,
+html.dark-theme body.zen .welcome-bottom,
+html.dark-theme body.zen .conversation-subtitle,
+html.dark-theme body.zen .card .s,
+html.dark-theme body.zen th,
+html.dark-theme body.zen .profile-copy small{color:#b8cbbd}
+html.dark-theme body.zen .bot,
+html.dark-theme body.zen .card,
+html.dark-theme body.zen .tools .read-aloud-toggle,
+html.dark-theme body.zen #chips button{background:#1b2a20;color:#e7f0e9;border-color:#4b6251}
+html.dark-theme body.zen .me{background:#294a36;color:#f1f8f3}
+html.dark-theme body.zen .theme-toggle{background:#1c2b21;border-color:#718579;color:#e7f0e9}
+@media(max-width:760px){body.zen .welcome-panel .voice-controls{left:12px;bottom:78px;width:min(230px,calc(100vw - 24px))}}
+body.zen .welcome-panel .voice-controls{top:82px;bottom:auto}
+body.zen #log{padding-top:92px}
+html.light-theme body.zen header,
+html.light-theme body.zen .conversation,
+html.light-theme body.zen .conversation-head,
+html.light-theme body.zen .tools,
+html.light-theme body.zen #chips,
+html.light-theme body.zen #log,
+html.light-theme body.zen form#f{background:#f7faf8}
+html.light-theme body.zen header .logo{color:#203b30}
+html.light-theme body.zen header .logo small{color:#4d6758;opacity:1}
+html.dark-theme body.zen header,
+html.dark-theme body.zen .conversation,
+html.dark-theme body.zen .conversation-head,
+html.dark-theme body.zen .tools,
+html.dark-theme body.zen #chips,
+html.dark-theme body.zen #log,
+html.dark-theme body.zen form#f{background:#142019}
+html.dark-theme body.zen header .logo{color:#e7f0e9}
+html.dark-theme body.zen header .logo small{color:#b8cbbd;opacity:1}
+@media(max-width:760px){
+  body.zen .welcome-panel .voice-controls{left:12px;top:126px;bottom:auto;width:min(230px,calc(100vw - 24px))}
+  body.zen #log{padding-top:92px}
+}
+html.light-theme body:not(.zen) .logo-wordmark{color:#27323b}
+html.dark-theme body:not(.zen) .logo-wordmark,
+html.dark-theme body.zen .logo-wordmark{color:#f0f1f2}
+html.light-theme body.zen .logo-wordmark{color:#203b30}
+body.zen .conversation-head{display:flex;justify-content:center;min-height:auto;padding:16px 24px 4px}
+body.zen .conversation-head>div{display:block;text-align:center}
+body.zen .conversation-head .conversation-title{font-size:18px}
+body.zen .conversation-head .conversation-subtitle{margin-top:2px}
+body.zen .welcome-panel{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+body.zen .welcome-panel .voice-controls{position:relative;inset:auto;width:52px;min-height:52px;gap:0;overflow:hidden;margin:0;padding:7px;transition:width .2s ease}
+body.zen .welcome-panel .voice-controls:hover,
+body.zen .welcome-panel .voice-controls:focus-within{width:min(270px,calc(100vw - 32px));gap:10px}
+body.zen .voice-controls .voice-volume,
+body.zen .voice-controls .voice-volume-value{width:0;min-width:0;flex:0 0 0;opacity:0;pointer-events:none;transition:opacity .15s ease,width .2s ease}
+body.zen .voice-controls:hover .voice-volume,
+body.zen .voice-controls:focus-within .voice-volume{width:auto;min-width:55px;flex:1;opacity:1;pointer-events:auto}
+body.zen .voice-controls:hover .voice-volume-value,
+body.zen .voice-controls:focus-within .voice-volume-value{width:36px;min-width:36px;flex:0 0 36px;opacity:1}
+body.zen .welcome-panel .welcome-bottom{width:auto;margin:0;padding:0}
+body.zen .desktop-profile{width:auto}
+body.zen .desktop-profile summary{min-width:190px}
+html.light-theme body:not(.zen) .bot{background:#f0f2f4;border-color:#cdd3d8;color:#252a30}
+html.light-theme body:not(.zen) .agent-m{background:#dff1e5;border:1px solid #9dc9aa;border-left:5px solid #287a4b;color:#194b2f}
+html.light-theme body:not(.zen) .agent-m .message-meta{color:#285c3c}
+html.dark-theme body:not(.zen) .bot{background:linear-gradient(145deg,#303438,#25282b);border-color:#555b60;color:#f0f1f2}
+html.dark-theme body:not(.zen) .agent-m{background:linear-gradient(145deg,#24382d,#1c2a22);border:1px solid #54725d;border-left:5px solid #85b792;color:#e5f1e8}
+html.dark-theme body:not(.zen) .agent-m .message-meta{color:#c0ddc8}
+html.dark-theme body:not(.zen) .profile-option:hover,
+html.dark-theme body:not(.zen) .profile-action:hover{background:#3a3f43;color:#fff}
+html.dark-theme body:not(.zen) .profile-option[aria-current="true"]{background:#343a3e;color:#f0f1f2}
+html.dark-theme body:not(.zen) .profile-option[aria-current="true"]:hover{background:#454b50;color:#fff}
+html.dark-theme body:not(.zen) .profile-divider{background:#555b60}
+html.dark-theme body:not(.zen) #chips button{background:#303438;border-color:#6d7479;color:#eef0f1}
+html.dark-theme body:not(.zen) form#f input{background:#292c2f!important;border-color:#555b60!important;color:#f0f1f2}
+html.dark-theme body:not(.zen) form#f input:focus{border-color:#aeb4b9!important;box-shadow:0 0 0 3px rgba(190,196,201,.16)}
+html.dark-theme body:not(.zen) form#f input:focus-visible{outline:2px solid #aeb4b9;outline-offset:1px}
+html.dark-theme body:not(.zen) form#f input::placeholder{color:#aeb4b9}
+html.light-theme body.zen .agent-m{background:#e2f1e7;border:1px solid #a9ceb2;border-left:5px solid #287a4b;color:#194b2f}
+html.dark-theme body.zen .agent-m{background:#24382d;border:1px solid #54725d;border-left:5px solid #85b792;color:#e5f1e8}
+html.dark-theme body.zen .agent-m .message-meta{color:#c0ddc8}
+@media(max-width:760px){
+  body.zen .welcome-panel .voice-controls{left:auto;top:auto;bottom:auto;width:52px}
+  body.zen .welcome-panel .voice-controls:hover,
+  body.zen .welcome-panel .voice-controls:focus-within{width:min(230px,calc(100vw - 24px))}
+}
+html.dark-theme body:not(.zen) .eyebrow{color:#c1c5c8}
 </style>
 </head>
 <body>
 <div class="zen-glow" aria-hidden="true"></div>
 <div class="app">
 <header>
-  <div class="logo">Saytm<small id="who">Voice-first banking, at your pace</small></div>
+  <div class="logo"><span class="logo-wordmark">Say<span class="logo-accent">tm</span></span><small>Voice-first banking, at your pace</small></div>
   <div class="header-actions">
   <button type="button" class="zen-toggle" id="zen" aria-pressed="false" title="Calm, distraction-free mode (Alt+Z)">Zen mode</button>
   <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">☾</button>
@@ -440,7 +708,14 @@ body.zen .conversation-head{display:none}
   <span class="eyebrow" id="welcome-eyebrow">आपका रोज़मर्रा का money companion</span>
   <h1 id="welcome-heading">नमस्ते, स्वागत है।</h1>
   <p id="welcome-copy">लोन और स्वास्थ्य बीमा के बारे में सरल, भरोसेमंद मदद — अपनी भाषा में, अपनी गति से।</p>
-  <button type="button" class="welcome-speak" id="welcome-speak" aria-label="Read welcome aloud" title="Read welcome aloud"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l5 4V6l-5 4H4z"></path><path d="M16 9a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"></path></svg><span id="welcome-speak-label">Welcome audio</span></button>
+  <div class="voice-controls" id="voice-controls">
+    <button type="button" class="voice-mute" id="voice-mute" aria-label="Mute voice" aria-pressed="false" title="Mute voice">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l5 4V6l-5 4H4z"></path><path d="M16 9a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"></path></svg>
+    </button>
+    <label class="sr-only" for="voice-volume">Voice volume</label>
+    <input class="voice-volume" type="range" id="voice-volume" min="0" max="1" step=".05" value=".8" aria-label="Voice volume">
+    <output class="voice-volume-value" id="voice-volume-value" for="voice-volume">80%</output>
+  </div>
   <div class="welcome-note" id="welcome-note">आपकी जानकारी तभी देखी जाएगी जब आप स्पष्ट अनुमति देंगे। शुरू करने के लिए प्रोफ़ाइल मेनू से ग्राहक खाता चुनें।</div>
   <div class="welcome-bottom">
     <span id="welcome-foot">सुरक्षित बातचीत · आपकी अनुमति, आपका नियंत्रण</span>
@@ -467,18 +742,12 @@ body.zen .conversation-head{display:none}
 <div id="chat-area" hidden>
 <div id="log" aria-live="polite"></div>
 <div class="tools">
-  <label><input type="checkbox" id="speak" checked> <span id="speak-label">बोलकर सुनाएँ</span></label>
+  <label class="read-aloud-toggle">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l5 4V6l-5 4H4z"></path><path d="M16 9a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"></path></svg>
+    <span id="speak-label">बोलकर सुनाएँ</span><input type="checkbox" id="speak" checked aria-label="Read assistant replies aloud">
+  </label>
 </div>
 <div id="chips"></div>
-<div class="vhelp" id="vhelp">
-  <small style="color:var(--mut);align-self:center;margin-right:2px">Quick query:</small>
-  <button type="button" onclick="send('Mujhe dukaan ke liye 2 lakh ka loan chahiye')">2L Loan</button>
-  <button type="button" onclick="send('24 mahine mein')">24m Reprice</button>
-  <button type="button" onclick="send('waiting period kya hai?')">Waiting Period</button>
-  <button type="button" onclick="send('dono plan compare karo')">Compare Plans</button>
-  <button type="button" onclick="send('Plus le lo')">Take Plus</button>
-  <button type="button" onclick="send('agent se baat karo')">Talk to Agent</button>
-</div>
 <div class="vwrap" id="vwrap" style="display:none">
   <div class="vbars">
     <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
@@ -504,6 +773,7 @@ const $=id=>document.getElementById(id);
 let sid, lang='hi', busy=false, zen=false, turnsRendered=0, startTask=null, activeUser=null, consentActive=false;
 let micStream=null, audioCtx=null, analyser=null, animId=null, currentRec=null;
 let activeUtterance=null, activeSpeechButton=null, activeSpeechLang=lang;
+let voiceVolume=.8, previousVoiceVolume=.8, voiceMuted=false;
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 const fmtN = typeof Intl !== 'undefined' && Intl.NumberFormat ? new Intl.NumberFormat('en-IN').format : n => {
   const s = String(Math.round(n));
@@ -512,8 +782,8 @@ const fmtN = typeof Intl !== 'undefined' && Intl.NumberFormat ? new Intl.NumberF
 };
 const inr = n => '₹' + fmtN(Math.round(n || 0));
 const L = {
-  hi:{ph:'बोलिए या लिखिए...',loc:'hi-IN',consent:'मैं सहमत हूँ',no:'सहमत नहीं',sign:'e-sign से पुष्टि करें',hand:'एजेंट को पूरी बातचीत दिख रही है'},
-  en:{ph:'Speak or type...',loc:'en-IN',consent:'I agree',no:'No thanks',sign:'Confirm with e-sign',hand:'Agent can see the full conversation'}
+  hi:{ph:'बोलिए या लिखिए...',loc:'hi-IN',consent:'मैं सहमत हूँ',no:'सहमत नहीं',sign:'e-sign अनुरोध भेजें',hand:'एजेंट को पूरी बातचीत दिख रही है'},
+  en:{ph:'Speak or type...',loc:'en-IN',consent:'I agree',no:'No thanks',sign:'Send e-sign request',hand:'Agent can see the full conversation'}
 };
 
 async function api(p,b){
@@ -576,15 +846,15 @@ function setSpeakerButton(button,speaking,voiceLang){
   if(!button)return;
   button.classList.toggle('is-speaking',speaking);
   button.setAttribute('aria-pressed',speaking?'true':'false');
-  const isWelcome=button.id==='welcome-speak';
   const label=speaking
     ?(voiceLang==='hi'?'पढ़ना रोकें':'Stop reading aloud')
-    :(isWelcome?(voiceLang==='hi'?'स्वागत संदेश सुनें':'Read welcome aloud'):(voiceLang==='hi'?'यह संदेश सुनें':'Read this message aloud'));
+    :(voiceLang==='hi'?'यह संदेश सुनें':'Read this message aloud');
   button.setAttribute('aria-label',label);
   button.title=button.getAttribute('aria-label');
-  button.innerHTML=speaking
+  const icon=speaking
     ?'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"></rect></svg>'
-    :'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l5 4V6l-5 4H4z"></path><path d="M16 9a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"></path></svg>'+(isWelcome?`<span id="welcome-speak-label">${voiceLang==='hi'?'स्वागत सुनें':'Welcome audio'}</span>`:'');
+    :'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l5 4V6l-5 4H4z"></path><path d="M16 9a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"></path></svg>';
+  button.innerHTML=icon;
 }
 
 function stopSpeech(){
@@ -595,18 +865,18 @@ function stopSpeech(){
 }
 
 function say(t,manual=false,voiceLang=lang,button=null){
-  if((!manual&&!$('speak').checked)||!window.speechSynthesis)return;
+  if(voiceMuted||(!manual&&!$('speak').checked)||!window.speechSynthesis)return;
   if(button&&button===activeSpeechButton&&activeUtterance){
     stopSpeech();
     return;
   }
   stopSpeech();
-  const spokenText=t.replace(/\bSaytm\b/gi,'Say, T. M.').replace(
+  const spokenText=t.replace(/\bSaytm\b/gi,'Say, tee-em').replace(
     'A human agent has taken over the conversation. The AI assistant is paused.',
     voiceLang==='hi'?'एक मानव एजेंट ने बातचीत संभाल ली है। AI सहायक अभी रुका हुआ है.':'A human agent has taken over the conversation. The AI assistant is paused.'
   );
   const u=new SpeechSynthesisUtterance(spokenText);
-  u.lang=L[voiceLang].loc;u.rate=zen?.88:.95;
+  u.lang=L[voiceLang].loc;u.rate=zen?.88:.95;u.volume=voiceVolume;
   const voices=speechSynthesis.getVoices();
   const v=voices.find(x=>x.lang&&x.lang.toLowerCase().startsWith(L[voiceLang].loc.slice(0,2)));
   if(v)u.voice=v;
@@ -625,40 +895,52 @@ function say(t,manual=false,voiceLang=lang,button=null){
   speechSynthesis.speak(u);
 }
 
-function playSoundbox(kind, amount, ref){
+function updateVoiceControls(){
+  const mute=$('voice-mute');
+  const slider=$('voice-volume');
+  const value=$('voice-volume-value');
+  if(!mute||!slider||!value)return;
+  const muted=voiceMuted||voiceVolume===0;
+  const muteLabel=lang==='hi'?(muted?'आवाज़ चालू करें':'आवाज़ म्यूट करें'):(muted?'Unmute voice':'Mute voice');
+  mute.setAttribute('aria-label',muteLabel);
+  mute.setAttribute('aria-pressed',muted?'true':'false');
+  mute.title=muteLabel;
+  mute.innerHTML=muted
+    ?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l5 4V6l-5 4H4z"></path><path d="m16 9 5 6m0-6-5 6"></path></svg>'
+    :'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l5 4V6l-5 4H4z"></path><path d="M16 9a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"></path></svg>';
+  slider.value=String(voiceVolume);
+  slider.setAttribute('aria-valuetext',muted?(lang==='hi'?'म्यूट':'Muted'):`${Math.round(voiceVolume*100)}%`);
+  value.textContent=muted?(lang==='hi'?'म्यूट':'Muted'):`${Math.round(voiceVolume*100)}%`;
+}
+
+function saveVoicePreferences(){
   try{
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const now = ctx.currentTime;
-    const osc1 = ctx.createOscillator();
-    const gain1 = ctx.createGain();
-    osc1.type = 'sine';
-    osc1.frequency.setValueAtTime(740, now);
-    gain1.gain.setValueAtTime(0.25, now);
-    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
-    osc1.connect(gain1);
-    gain1.connect(ctx.destination);
-    osc1.start(now);
-    osc1.stop(now + 0.16);
+    localStorage.setItem('saytm-voice-volume',String(previousVoiceVolume));
+    localStorage.setItem('saytm-voice-muted',voiceMuted||voiceVolume===0?'1':'0');
+  }catch(error){console.error('Could not save voice preferences',error)}
+}
 
-    const osc2 = ctx.createOscillator();
-    const gain2 = ctx.createGain();
-    osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(1108, now + 0.14);
-    gain2.gain.setValueAtTime(0.3, now + 0.14);
-    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.52);
-    osc2.connect(gain2);
-    gain2.connect(ctx.destination);
-    osc2.start(now + 0.14);
-    osc2.stop(now + 0.52);
-  }catch(e){}
+function setVoiceVolume(value){
+  const next=Number(value);
+  if(!Number.isFinite(next))return;
+  voiceVolume=Math.max(0,Math.min(1,next));
+  if(voiceVolume===0){voiceMuted=true;stopSpeech()}
+  else{previousVoiceVolume=voiceVolume;voiceMuted=false}
+  updateVoiceControls();
+  saveVoicePreferences();
+}
 
-  setTimeout(()=>{
-    const f=n=>'₹'+fmtN(Math.round(n||0));
-      const announcement = lang==='hi'
-        ? (kind==='loan'?`Saytm: ${f(amount)} का लोन मंज़ूर हो गया!`:`Saytm: आपकी पॉलिसी सक्रिय हो गई!`)
-        : (kind==='loan'?`Saytm: Your loan of ${f(amount)} is approved!`:`Saytm: Your policy is active!`);
-    say(announcement);
-  }, 400);
+function toggleVoiceMute(){
+  if(voiceMuted||voiceVolume===0){
+    voiceVolume=previousVoiceVolume||.8;
+    voiceMuted=false;
+  }else{
+    previousVoiceVolume=voiceVolume;
+    voiceMuted=true;
+    stopSpeech();
+  }
+  updateVoiceControls();
+  saveVoicePreferences();
 }
 
 function chips(a){$('chips').innerHTML='';(a||[]).forEach(c=>{const b=document.createElement('button');b.type='button';b.textContent=c;b.onclick=()=>send(c);$('chips').append(b)})}
@@ -689,8 +971,8 @@ function setTheme(theme){
 }
 
 function speakWelcome(){
-  const text=lang==='hi'?'नमस्ते, Saytm में आपका स्वागत है।':'Hello, welcome to Saytm.';
-  say(text,true,lang,$('welcome-speak'));
+  const text=lang==='hi'?'नमस्ते, Say, tee-em में आपका स्वागत है।':'Hello, welcome to Say, tee-em.';
+  say(text,true,lang);
 }
 
 function apply(r){
@@ -717,7 +999,6 @@ function cards(cs){(cs||[]).forEach(c=>{
   if(c.type==='consent'){
     add('card',`<h4>${lang==='hi'?'डेटा की मंज़ूरी':'Data consent'}</h4><div class="s">${(c.scope||[]).map(esc).join(' · ')}<br>${lang==='hi'?'उद्देश्य सीमित · कभी भी वापस लें':'Purpose-limited · revocable anytime'}</div><button class="btn" data-a="y">${L[lang].consent}</button><button class="btn ghost" data-a="n">${L[lang].no}</button>`).onclick=e=>{const a=e.target.dataset.a;if(a)send(a==='y'?(lang==='hi'?'हाँ':'yes'):(lang==='hi'?'नहीं':'no'))};
   }
-  if(c.type==='guide') add('card guide',`<h4>${lang==='hi'?'सुझाव · सही समय':'Guide · right moment'}</h4><div class="s">${esc(c.hint)}</div>`);
   if(c.type==='offer' && c.eligible){
     add('card',`<h4>${lang==='hi'?'आपका ऑफ़र (Key Fact Statement)':'Your offer (Key Fact Statement)'}</h4>
       <div class="kv">
@@ -746,17 +1027,35 @@ function cards(cs){(cs||[]).forEach(c=>{
   if(c.type==='compare') add('card',`<table><tr><th></th><th>Basic</th><th>Plus</th></tr>${c.rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</table>`);
   if(c.type==='esign'){
     const el=add('card',`<h4>e-Sign</h4><div class="s">${lang==='hi'?'Key facts पढ़ें। कूलिंग-ऑफ / फ्री-लुक लागू।':'Review key facts. Cooling-off / free-look applies.'}</div><button class="btn" data-sg="1">${L[lang].sign}</button>`);
-    el.querySelector('[data-sg]').onclick=async ev=>{ev.target.disabled=true;try{apply(await api('sign',{sid}))}catch(err){add('card err',esc(err.message))}};
+    el.querySelector('[data-sg]').onclick=async ev=>{
+      const button=ev.currentTarget;
+      button.disabled=true;
+      try{
+        apply(await api('sign',{sid}));
+        button.textContent=lang==='hi'?'अनुरोध भेज दिया गया':'Request sent';
+      }catch(err){button.disabled=false;add('card err',esc(err.message))}
+    };
   }
-  if(c.type==='receipt'){
-    add('card cite',`<h4>✅ ${esc(c.ref)}</h4><div class="s">${esc(c.kind)} · ${inr(c.amount)}</div><button type="button" class="btn ghost" style="padding:5px 9px;font-size:12px;margin:6px 0 0" onclick="openKFS('${sid}')">📄 ${lang==='hi'?'डाउनलोड KFS रसीद':'Download KFS Receipt'}</button>`);
-    playSoundbox(c.kind, c.amount, c.ref);
+  if(c.type==='review_pending'){
+    const title=c.review_type==='kyc'?(lang==='hi'?'KYC समीक्षा लंबित':'KYC review pending'):(lang==='hi'?'e-sign समीक्षा लंबित':'e-sign review pending');
+    const detail=c.review_type==='kyc'
+      ?(lang==='hi'?'मानव एजेंट आपकी KYC जानकारी की समीक्षा करेगा। कृपया पहचान दस्तावेज़ इस चैट में न भेजें।':'A human agent will review your KYC request. Please do not send identity documents in this chat.')
+      :(lang==='hi'?'मानव एजेंट की मंज़ूरी मिलने तक आपका लोन या पॉलिसी सक्रिय नहीं होगा।':'Your loan or policy will remain inactive until a human agent approves the request.');
+    add('card hand review-pending',`<h4>${esc(title)}</h4><div class="s">${esc(detail)}</div>`);
   }
   if(c.type==='decline'){
     const needsKyc=(c.reasons||[]).includes('kyc');
     const reasons=(c.reasons||[]).map(reason=>reason==='kyc'?(lang==='hi'?'KYC पूरा नहीं है':'KYC is incomplete'):esc(reason)).join(', ');
-    const card=add('card hand',`<h4>${lang==='hi'?'अभी पात्र नहीं':'Not eligible yet'}</h4><div class="s">${reasons}</div>${needsKyc?`<button type="button" class="btn" data-kyc-help>${lang==='hi'?'KYC में मदद के लिए agent से बात करें':'Talk to an agent about KYC'}</button>`:''}`);
-    card.querySelector('[data-kyc-help]')?.addEventListener('click',()=>send('talk to an agent for KYC help'));
+    const card=add('card hand',`<h4>${lang==='hi'?'अभी पात्र नहीं':'Not eligible yet'}</h4><div class="s">${reasons}</div>${needsKyc?`<button type="button" class="btn" data-kyc-help>${lang==='hi'?'KYC समीक्षा का अनुरोध करें':'Request KYC review'}</button>`:''}`);
+    card.querySelector('[data-kyc-help]')?.addEventListener('click',async event=>{
+      const button=event.currentTarget;
+      button.disabled=true;
+      try{
+        apply(await api('kyc/review',{sid}));
+        button.textContent=lang==='hi'?'अनुरोध भेज दिया गया':'Request sent';
+      }
+      catch(error){button.disabled=false;add('card err',esc(error.message))}
+    });
   }
   if(c.type==='handoff'){
     add('card hand',`<h4>👤 ${lang==='hi'?'मानव एजेंट से मदद':'Human support'}</h4><div class="s">${L[lang].hand}<br>${lang==='hi'?'कारण':'Reason'}: ${esc(c.reason)}</div><div class="s" data-handoff-status role="status" style="margin-top:8px"></div>`);
@@ -824,9 +1123,8 @@ async function start(user=activeUser,readWelcome=false){
     const r=await api('start',{user,lang});
     if(generation!==sessionGeneration)return;
     sid=r.sid;
-    $('who').textContent=`${r.profile.kind} · ${r.profile.city}`;
     $('conversation-title').textContent=lang==='hi'?`${r.profile.name} के साथ बातचीत`:`Chat with ${r.profile.name}`;
-    $('conversation-subtitle').textContent=lang==='hi'?'आपका खाता सुरक्षित रूप से जुड़ा है':'Your account is connected securely';
+    $('conversation-subtitle').textContent=`${r.profile.kind} · ${r.profile.city}`;
     $('empty-state').hidden=true;
     $('chat-area').hidden=false;
     turnsRendered=1;
@@ -989,7 +1287,7 @@ function setLanguage(next){
   $('conversation-title').textContent=lang==='hi'?'आपकी बातचीत':'Your conversation';
   $('conversation-subtitle').textContent=sid?(lang==='hi'?'आपका खाता सुरक्षित रूप से जुड़ा है':'Your account is connected securely'):(lang==='hi'?'एक खाता चुनकर शुरू करें':'Choose an account to begin');
   $('speak-label').textContent=lang==='hi'?'बोलकर सुनाएँ':'Read aloud';
-  $('welcome-speak-label').textContent=lang==='hi'?'स्वागत सुनें':'Welcome audio';
+  updateVoiceControls();
   document.querySelectorAll('.profile-popover-label').forEach(label=>label.textContent=lang==='hi'?'खाता बदलें':'Switch profile');
   document.querySelectorAll('.staff-sign-in').forEach(link=>link.textContent=lang==='hi'?'स्टाफ साइन इन ↗':'Staff sign in ↗');
   document.querySelectorAll('.revoke-action').forEach(button=>button.textContent=lang==='hi'?'डेटा की सहमति वापस लें':'Revoke data consent');
@@ -1005,7 +1303,8 @@ $('theme-toggle').onclick=()=>{
   setTheme(document.documentElement.classList.contains('dark-theme')?'light':'dark');
   speakWelcome();
 };
-$('welcome-speak').onclick=speakWelcome;
+$('voice-mute').onclick=toggleVoiceMute;
+$('voice-volume').addEventListener('input',event=>setVoiceVolume(event.currentTarget.value));
 document.addEventListener('keydown',e=>{if(e.altKey&&!e.ctrlKey&&!e.metaKey&&e.key.toLowerCase()==='z'){e.preventDefault();setZen(!zen)}});
 document.querySelectorAll('[data-user]').forEach(button=>button.addEventListener('click',()=>{startTask=start(button.dataset.user)}));
 document.querySelectorAll('.revoke-action').forEach(button=>button.addEventListener('click',async()=>{
@@ -1025,6 +1324,7 @@ setInterval(async()=>{
   if(!sid) return;
   try{
     const poll = await (await fetch('/api/poll/'+sid+'?turns='+turnsRendered)).json();
+    if(poll.agent_connected||poll.handoff)chips([]);
     (poll.new_turns||[]).forEach(turn=>{
       if(turn.role==='agent'){
         const message=addMessage('m agent-m',turn.text,`${turn.agent_name||'Human Agent'} · ${turn.ts||''}`,turn.lang||lang);
@@ -1041,8 +1341,14 @@ setInterval(async()=>{
 if(window.speechSynthesis) speechSynthesis.onvoiceschanged=()=>{};
 let zenSaved=false;try{zenSaved=localStorage.getItem('paytm-zen')==='1'}catch(e){}
 let themeSaved='light';try{themeSaved=localStorage.getItem('saytm-theme')||'light'}catch(e){}
+try{
+  const savedVolume=Number(localStorage.getItem('saytm-voice-volume'));
+  if(Number.isFinite(savedVolume)&&savedVolume>0&&savedVolume<=1)voiceVolume=previousVoiceVolume=savedVolume;
+  voiceMuted=localStorage.getItem('saytm-voice-muted')==='1';
+}catch(error){console.error('Could not load voice preferences',error)}
 setTheme(themeSaved);
 setZen(zenSaved);
+updateVoiceControls();
 updateProfileMenu();
 if(window.speechSynthesis)speakWelcome();
 </script>
