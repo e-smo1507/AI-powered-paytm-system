@@ -14,7 +14,7 @@ if ! "$python" -c 'import uvicorn' >/dev/null 2>&1; then
   exit 1
 fi
 
-exec "$python" -m uvicorn backend.app:app \
-  --host "${HOST:-127.0.0.1}" \
+exec "$python" -m uvicorn main:app \
+  --host "${HOST:-0.0.0.0}" \
   --port "${PORT:-8000}" \
-  --reload
+  ${RELOAD:+--reload}

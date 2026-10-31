@@ -198,10 +198,27 @@ let sessions=[];
 let activeUtterance=null,activeSpeechButton=null;
 const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 
+function getApiBase() {
+  const q = new URLSearchParams(window.location.search).get('api');
+  if (q) return q.replace(/\/+$/, '');
+  const saved = localStorage.getItem('saytm-api-base');
+  if (saved) return saved.replace(/\/+$/, '');
+  if (window.__API_BASE__) return window.__API_BASE__.replace(/\/+$/, '');
+  if (location.protocol === 'file:') return 'http://localhost:8000';
+  return '';
+}
+
+function apiUrl(p) {
+  const base = getApiBase();
+  const path = p.startsWith('/') ? p : '/' + p;
+  return base ? `${base}${path}` : path;
+}
+
 async function request(path,options={}){
-  const response=await fetch(path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})}});
+  const target = apiUrl(path);
+  const response=await fetch(target,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})}});
   const data=await response.json().catch(()=>({}));
-  if(!response.ok)throw new Error(data.detail||response.statusText||'Request failed');
+  if(!response.ok)throw new Error(data.detail||response.statusText||`Request failed (${response.status})`);
   return data;
 }
 

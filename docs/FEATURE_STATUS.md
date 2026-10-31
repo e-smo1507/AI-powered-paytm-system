@@ -18,6 +18,7 @@ This status describes the current local prototype, not a production banking or i
 | Merchant notifications & WhatsApp reminders | Pre-due-date installment alerts (5d, 3d, 1d), WhatsApp Business API integration with realistic message previews, deep-link dispatch (`wa.me`), delivery logs, and staff trigger. | `backend/notifications.py`, `backend/app.py`, `frontend/index.html`, `frontend/admin.html` |
 | Loan alternatives & criteria guidance | Stepping-stone loan advisory (e.g. ₹5L now to build CIBIL for ₹20L later), bank criteria pass blueprints (CIBIL 750+ roadmap, FOIR / QR turnover), and alternative schemes (Mudra PMMY, daily QR deduction, secured MSME credit). | `backend/alternatives.py`, `backend/app.py`, `frontend/index.html` |
 | Loan protection & insurance cross-sell | Proactive recommendation of suitable health & shop shields (e.g. `SecureHealth Plus` / `Basic`) when a merchant gets a loan, protecting working capital and ensuring EMI repayment continuity. | `backend/alternatives.py`, `backend/app.py`, `frontend/index.html` |
+| Cloud deployment & dynamic API base | Multi-platform deployment ready (Render, Railway, Heroku, Vercel, Docker); dynamic backend URL discovery, query-param override (`?api=...`), in-app API settings dialog, and actionable connection error cards. | `Procfile`, `Dockerfile`, `vercel.json`, `api/index.py`, `main.py`, `app.py`, `frontend/index.html` |
 | Regression tests | Customer journeys, consent, rules, retrieval, staff login, waiting, intervention, and messaging. | `backend/test_journeys.py` |
 
 ## Prototype limitations

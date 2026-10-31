@@ -4288,6 +4288,9 @@
           <span class="notif-label" id="notif-label-text">सूचनाएँ</span>
           <span class="notif-badge" id="notif-badge">1</span>
         </button>
+        <button type="button" class="zen-toggle" id="api-btn" onclick="openApiModal()" title="Backend Connection Settings" style="min-width:auto;padding:4px 9px">
+          ⚡ API
+        </button>
         <button type="button" class="zen-toggle" id="zen" aria-pressed="false"
           title="Calm, distraction-free mode (Alt+Z)">Zen mode</button>
         <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode"
@@ -4457,6 +4460,24 @@
         onclick="window.print()">🖨️ Print / Save PDF</button><button class="btn ghost">Close</button></form>
   </dialog>
 
+  <dialog id="api_dlg" style="border:1px solid var(--line);border-radius:14px;padding:22px;max-width:440px;width:92%;background:var(--card);color:var(--ink);box-shadow:0 18px 48px rgba(0,0,0,0.2)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <h3 style="margin:0;font-size:16px;color:var(--blue);display:flex;align-items:center;gap:6px">
+        <span>⚡</span> बैकएंड API कनेक्शन (Backend API)
+      </h3>
+      <button type="button" onclick="$('api_dlg').close()" style="background:transparent;border:0;font-size:18px;cursor:pointer;color:var(--mut)">✕</button>
+    </div>
+    <p style="font-size:13px;line-height:1.55;color:var(--mut);margin:0 0 14px">
+      यदि आपका बैकएंड Render, Railway, AWS या किसी अन्य सर्वर पर डिप्लॉय है, तो उसका URL यहाँ दर्ज करें:
+    </p>
+    <label style="display:block;font-size:12.5px;font-weight:600;margin-bottom:6px">Backend Base URL:</label>
+    <input id="api_dlg_input" placeholder="e.g. https://your-backend.onrender.com" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font:14px Hind;box-sizing:border-box;background:var(--bg);color:var(--ink)">
+    <div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end;flex-wrap:wrap">
+      <button type="button" class="btn ghost" onclick="setBackendUrl('')" style="margin:0">रीसेट (Reset to Same Origin)</button>
+      <button type="button" class="btn" onclick="setBackendUrl($('api_dlg_input').value)" style="margin:0">सहेजें (Save & Connect)</button>
+    </div>
+  </dialog>
+
   <dialog id="notif_dlg" class="notif-dialog">
     <div class="notif-modal-head">
       <div style="display:flex;align-items:center;gap:10px">
@@ -4622,8 +4643,55 @@
       en: { ph: 'Speak or type...', loc: 'en-IN', consent: 'I agree', no: 'No thanks', sign: 'Send e-sign request', hand: 'Agent can see the full conversation' }
     };
 
+    function getApiBase() {
+      const q = new URLSearchParams(window.location.search).get('api');
+      if (q) {
+        localStorage.setItem('saytm-api-base', q.replace(/\/+$/, ''));
+        return q.replace(/\/+$/, '');
+      }
+      const saved = localStorage.getItem('saytm-api-base');
+      if (saved) return saved.replace(/\/+$/, '');
+      if (window.__API_BASE__) return window.__API_BASE__.replace(/\/+$/, '');
+      if (location.protocol === 'file:') return 'http://localhost:8000';
+      return '';
+    }
+
+    function apiUrl(p) {
+      const base = getApiBase();
+      const path = p.startsWith('/') ? p : '/' + p;
+      return base ? `${base}${path}` : path;
+    }
+
+    function setBackendUrl(url) {
+      const clean = (url || '').trim().replace(/\/+$/, '');
+      if (clean) {
+        localStorage.setItem('saytm-api-base', clean);
+      } else {
+        localStorage.removeItem('saytm-api-base');
+      }
+      location.reload();
+    }
+
+    function openApiModal() {
+      const dlg = $('api_dlg');
+      if (dlg) {
+        $('api_dlg_input').value = getApiBase();
+        dlg.showModal();
+      }
+    }
+
     async function api(p, b) {
-      const r = await fetch('/api/' + p, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) });
+      const endpoint = apiUrl('/api/' + p);
+      let r;
+      try {
+        r = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(b)
+        });
+      } catch (networkErr) {
+        throw new Error(`Cannot reach backend server (${networkErr.message || 'Network error'}). Target: ${endpoint}`);
+      }
       const j = await r.json().catch(() => ({}));
       if (!r.ok) {
         const detail = j.detail;
@@ -4633,8 +4701,8 @@
             return [location, item.msg || JSON.stringify(item)].filter(Boolean).join(': ');
           }).join('; ') :
             detail && typeof detail === 'object' ? (detail.message || JSON.stringify(detail)) :
-              r.statusText || 'Request failed';
-        throw new Error(message);
+              r.statusText || `HTTP ${r.status}`;
+        throw new Error(`Server returned ${r.status}: ${message}`);
       }
       return j;
     }
@@ -5379,13 +5447,33 @@
         if (generation !== sessionGeneration) return;
         $('empty-state').hidden = true;
         $('chat-area').hidden = false;
-        add('card err', 'Start failed: ' + esc(err.message) + '. Run <code>uvicorn backend.app:app --reload</code> and open http://localhost:8000');
+        $('log').innerHTML = `
+          <div class="card err" style="margin:16px 0;border-left:4px solid #ef4444">
+            <h4 style="margin:0 0 6px;color:#b91c1c;font-size:16px">⚠️ बैकएंड सर्वर से जुड़ नहीं पाया (Backend Connection Failed)</h4>
+            <div style="font-size:13.5px;line-height:1.6;color:#7f1d1d">
+              <p style="margin:4px 0 10px"><strong>त्रुटि (Error):</strong> ${esc(err.message)}</p>
+              <div style="background:#fff;border:1px solid #fecaca;border-radius:8px;padding:12px;margin:8px 0;color:#1e293b">
+                <b style="color:#b91c1c">समाधान (How to Fix):</b>
+                <ul style="margin:6px 0 12px 18px;padding:0;font-size:13px">
+                  <li><b>यदि आपने डिप्लॉय किया है (Separate Frontend/Backend):</b> अगर आपका बैकएंड Render, Railway, या AWS पर है, तो उसका URL नीचे दर्ज करें।</li>
+                  <li><b>क्लाउड सर्वर वेक-अप (Cold Start):</b> Render या Railway के मुफ्त सर्वर 30 से 50 सेकंड में शुरू होते हैं। 1 मिनट बाद पुनः लोड करें।</li>
+                  <li><b>लोकल पर चलाने के लिए (Local Server):</b> अपने प्रोजेक्ट फोल्डर में चलाएँ: <code>uvicorn main:app --reload --port 8000</code></li>
+                </ul>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px">
+                  <input id="custom-api-input" placeholder="https://your-backend.onrender.com" value="${esc(getApiBase())}" style="flex:1;min-width:220px;padding:8px 12px;font:14px Hind;border:1px solid #d1d5db;border-radius:8px">
+                  <button type="button" class="btn" style="margin:0;padding:8px 16px" onclick="setBackendUrl($('custom-api-input').value)">कनेक्ट करें (Connect)</button>
+                  ${getApiBase() ? `<button type="button" class="btn ghost" style="margin:0;padding:8px 12px" onclick="setBackendUrl('')">रीसेट (Default)</button>` : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
       }
     }
 
     async function openKFS(sessionSid) {
       try {
-        const r = await fetch('/api/kfs/' + sessionSid);
+        const r = await fetch(apiUrl('/api/kfs/' + sessionSid));
         if (!r.ok) return alert('No active loan statement found for this session yet.');
         const kfs = await r.json();
         $('kfs_content').innerHTML = `
@@ -5433,7 +5521,7 @@
 
     async function checkMerchantNotificationBadge(user = activeUser || 'sunita') {
       try {
-        const res = await fetch('/api/notifications/merchant/' + (user || 'sunita'));
+        const res = await fetch(apiUrl('/api/notifications/merchant/' + (user || 'sunita')));
         if (!res.ok) return;
         const data = await res.json();
         const badge = $('notif-badge');
@@ -5468,7 +5556,7 @@
     async function openNotificationModal(user = activeUser || 'sunita') {
       try {
         const targetUser = user || activeUser || 'sunita';
-        const res = await fetch('/api/notifications/merchant/' + targetUser);
+        const res = await fetch(apiUrl('/api/notifications/merchant/' + targetUser));
         if (!res.ok) throw new Error('Could not fetch merchant notifications');
         const data = await res.json();
         currentNotifData = data;
@@ -5643,7 +5731,7 @@
 
     async function fetchNotificationHistory() {
       try {
-        const r = await fetch('/api/notifications/history');
+        const r = await fetch(apiUrl('/api/notifications/history'));
         if (!r.ok) return;
         const data = await r.json();
         renderNotificationHistory(data.notifications || []);
@@ -5948,7 +6036,7 @@
       if (!sid) return;
       try {
         const t = (typeof turnsRendered === 'number' && !isNaN(turnsRendered)) ? turnsRendered : 0;
-        const res = await fetch('/api/poll/' + sid + '?turns=' + t);
+        const res = await fetch(apiUrl('/api/poll/' + sid + '?turns=' + t));
         if (!res.ok) {
           if (res.status === 404) {
             // Server restarted or session in-memory state reset
