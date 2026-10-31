@@ -16,6 +16,9 @@ from . import nlu
 from .partners import PLANS, USERS, decide_plan, fetch_bureau, fetch_inflows, fetch_kyc
 from .rag import retrieve, CL
 from .rules import decide
+from . import llm_agent
+from . import notifications
+from . import alternatives
 
 ROOT = Path(__file__).parent
 FRONT = ROOT.parent / "frontend"
@@ -192,13 +195,49 @@ def S(sid):
     return SESSIONS[sid]
 
 
-def chips(stage, lang):
-    h = lang == "hi"
+import datetime
+
+HINDI_MONTHS = {
+    1: "जनवरी", 2: "फ़रवरी", 3: "मार्च", 4: "अप्रैल",
+    5: "मई", 6: "जून", 7: "जुलाई", 8: "अगस्त",
+    9: "सितंबर", 10: "अक्टूबर", 11: "नवंबर", 12: "दिसंबर"
+}
+
+def get_emi_reminder(user_data: dict, lang: str = "hi") -> dict | None:
+    loan = user_data.get("active_loan")
+    if not loan:
+        return None
+    offset = loan.get("due_day_offset", 3)
+    due_dt = datetime.date.today() + datetime.timedelta(days=offset)
+    if lang == "hi":
+        month_name = HINDI_MONTHS.get(due_dt.month, due_dt.strftime("%B"))
+        due_date_str = f"{due_dt.day} {month_name} {due_dt.year}"
+    else:
+        due_date_str = due_dt.strftime("%d %b %Y")
     return {
-        "idle": ["मुझे 2 लाख का लोन चाहिए", "बीमा समझाओ", "दोनों प्लान की तुलना करो"] if h else ["I need a 2 lakh loan", "Explain health insurance", "Compare both plans"],
-        "amount": ["2 लाख", "50 हज़ार", "1 लाख"] if h else ["2 lakh", "50 thousand", "1 lakh"],
+        "type": "emi_reminder",
+        "loan_id": loan.get("loan_id", "LN-8821"),
+        "purpose": loan.get("purpose", "Merchant Loan"),
+        "amount": loan.get("emi_amount", 4850),
+        "due_date": due_date_str,
+        "days_left": offset,
+        "auto_debit": loan.get("auto_debit", True),
+        "account": loan.get("account", "Paytm Payments Bank ...5019"),
+        "status": "upcoming",
+        "phone": user_data.get("phone", "+919876543210"),
+        "merchant_name": user_data.get("name", "Merchant"),
+        "whatsapp_enabled": True,
+    }
+
+
+def chips(stage, lang, has_emi=False):
+    h = lang == "hi"
+    idle_chips = (["दुकान लोन ₹2 लाख", "मेरी EMI कब है?", "WhatsApp रिमाइंडर", "बीमा समझाओ"] if h else ["I need a 2 lakh loan", "When is my EMI due?", "WhatsApp Reminder", "Explain health insurance"]) if has_emi else (["मुझे 2 लाख का लोन चाहिए", "CIBIL कैसे सुधारें?", "20 लाख का लोन विकल्प", "बीमा समझाओ"] if h else ["I need a 2 lakh loan", "How to boost CIBIL?", "20 Lakh loan options", "Explain health insurance"])
+    return {
+        "idle": idle_chips,
+        "amount": ["2 लाख", "5 लाख", "20 लाख"] if h else ["2 lakh", "5 lakh", "20 lakh"],
         "consent": ["हाँ, सहमत हूँ", "नहीं"] if h else ["Yes, I agree", "No thanks"],
-        "offer": ["हाँ, समझाओ", "24 महीने में", "एजेंट से बात करो"] if h else ["Yes, explain", "Use 24 months", "Talk to an agent"],
+        "offer": ["हाँ, समझाओ", "बीमा सुरक्षा जोड़ें", "24 महीने में", "एजेंट से बात करो"] if h else ["Yes, explain", "Add Insurance Shield", "Use 24 months", "Talk to an agent"],
         "fees": ["हाँ, आगे बढ़ो", "एजेंट से बात करो"] if h else ["Yes, go ahead", "Talk to an agent"],
         "esign": ["e-sign अनुरोध भेजें"] if h else ["Send e-sign request"],
         "ins": ["वेटिंग पीरियड क्या है?", "कमरे के किराये की सीमा?", "Plus ले लो"] if h else ["What is the waiting period?", "Room rent limit?", "Take Plus"],
@@ -207,12 +246,14 @@ def chips(stage, lang):
     }.get(stage, [])
 
 
-def reply(s, sid, lang, text, cards=None, chip_key=None):
+def reply(s, sid, lang, text, cards=None, chip_key=None, has_emi=False):
     s["transcript"].append({"role": "assistant", "text": text, "ts": time.strftime("%H:%M:%S"), "lang": lang})
+    u = USERS.get(s.get("user"), {})
+    has_active_emi = has_emi or bool(u.get("active_loan"))
     return {
         "reply": text,
         "cards": cards or [],
-        "chips": chips(chip_key or s["stage"], lang),
+        "chips": chips(chip_key or s["stage"], lang, has_emi=has_active_emi),
         "stage": s["stage"],
         "lang": lang,
         "handoff": s["handoff"],
@@ -228,8 +269,24 @@ def offer_card(s):
 
 def offer_text(s, lang):
     d = s["decision"]
-    pre = T("reduced", lang, a=inr(d["amount"])) if d["amount"] < (s["amount"] or 0) or "foir" in d["reasons"] else ""
-    return pre + T("offer", lang, a=inr(d["amount"]), t=d["tenure"], e=inr(d["emi"]), r=d["rate"])
+    req = s.get("amount") or 0
+    pre = ""
+    if req >= 1_000_000 and d["amount"] < req:
+        if lang == "hi":
+            pre = f"आपने {inr(req)} के लोन का अनुरोध किया था। वर्तमान में बिना गारंटी डिजिटल लोन की स्वीकृत सीमा {inr(d['amount'])} है। सुझाव: आप अभी यह {inr(d['amount'])} का स्टार्टर लोन लेकर समय पर चुकाएँ ताकि CIBIL 750+ बने और बाद में 20 लाख के बड़े लोन की पात्रता मिल सके।\n\n"
+        else:
+            pre = f"You requested {inr(req)}. Instant collateral-free digital merchant loans are currently capped at {inr(d['amount'])}. Recommendation: Start with this {inr(d['amount'])} loan to build a 750+ CIBIL score, which qualifies you for the full {inr(req)} loan subsequently.\n\n"
+    elif d["amount"] < req or "foir" in d["reasons"]:
+        pre = T("reduced", lang, a=inr(d["amount"]))
+
+    base_offer = T("offer", lang, a=inr(d["amount"]), t=d["tenure"], e=inr(d["emi"]), r=d["rate"])
+
+    if lang == "hi":
+        ins_tip = f"\n\n🛡️ सुरक्षा सुझाव: इस लोन के साथ अपनी दुकान और परिवार को सुरक्षित रखने के लिए हमने 'Paytm SecureHealth Plus' (₹10 लाख स्वास्थ्य व EMI सुरक्षा) का सुझाव दिया है।"
+    else:
+        ins_tip = f"\n\n🛡️ Protection Tip: To safeguard your business working capital & loan EMIs against unexpected illness or shop disruption, we recommend pairing this loan with 'Paytm SecureHealth Plus'."
+
+    return pre + base_offer + ins_tip
 
 
 def run_decision(s, sid):
@@ -240,12 +297,44 @@ def run_decision(s, sid):
 
 
 def after_decision(s, sid, lang, d):
+    user_prof = USERS[s["user"]]
+    req_amt = s.get("amount") or 0
     if not d.eligible:
         s["stage"] = "idle"
         why = ", ".join(C["r"][r][lang] for r in d.reasons)
-        return reply(s, sid, lang, T("inelig", lang, r=why), [{"type": "decline", "reasons": d.reasons}], "idle")
+        cards = [{"type": "decline", "reasons": d.reasons}]
+
+        # 1. Bank Criteria Pass Guidance
+        criteria_card = alternatives.get_criteria_pass_guidance(user_prof, d.reasons, lang)
+        cards.append(criteria_card)
+
+        # 2. Alternative Loans & Stepping Stone options
+        alt_card = alternatives.get_loan_alternatives(user_prof, req_amt, d.dict(), lang)
+        cards.append(alt_card)
+
+        msg = T("inelig", lang, r=why)
+        if lang == "hi":
+            msg += "\n\n💡 बैंक मापदंड (Criteria) पास करने और वैकल्पिक लोन रास्ते के उपाय नीचे दिए गए हैं।"
+        else:
+            msg += "\n\n💡 Check below for actionable ways to clear bank criteria and explore alternative financing routes."
+
+        audit(sid, "loan_declined_alternatives_suggested", reasons=d.reasons)
+        return reply(s, sid, lang, msg, cards, "idle")
+
     s["stage"] = "offer"
-    return reply(s, sid, lang, offer_text(s, lang), [offer_card(s)])
+    cards = [offer_card(s)]
+
+    # If requested amount was high (e.g. 20 lakhs), add loan alternatives card
+    if req_amt >= 1_000_000 and req_amt > d.amount:
+        alt_card = alternatives.get_loan_alternatives(user_prof, req_amt, d.dict(), lang)
+        cards.append(alt_card)
+
+    # Proactively suggest suitable future protection insurance when merchant gets a loan
+    ins_rec = alternatives.get_loan_insurance_recommendation(d.dict(), user_prof, lang)
+    cards.append(ins_rec)
+    s["loan_insurance_rec"] = ins_rec
+
+    return reply(s, sid, lang, offer_text(s, lang), cards)
 
 
 def grant(s, sid, lang):
@@ -326,19 +415,162 @@ def start(b: StartIn):
     if u.get("hint"):
         msg += T("guide", b.lang, h=u["hint"])
         cards.append({"type": "guide", "event": u.get("life_event"), "hint": u["hint"]})
+
+    # Proactive merchant EMI reminder (3 and 5 days before due date)
+    emi_rem = get_emi_reminder(u, b.lang)
+    if emi_rem and emi_rem.get("days_left") in (1, 2, 3, 5):
+        if b.lang == "hi":
+            msg += f"\n\n🔔 ज़रूरी EMI रिमाइंडर: आपके {emi_rem['purpose']} की {inr(emi_rem['amount'])} की EMI {emi_rem['days_left']} दिन बाद ({emi_rem['due_date']}) को देय है। कृपया ऑटो-डेबिट के लिए बैंक खाते में पर्याप्त राशि रखें।"
+        else:
+            msg += f"\n\n🔔 Important EMI Reminder: Your {emi_rem['purpose']} EMI of {inr(emi_rem['amount'])} is due in {emi_rem['days_left']} days on {emi_rem['due_date']}. Please maintain sufficient balance for auto-debit."
+        cards.append(emi_rem)
+        audit(sid, "emi_reminder_displayed", loan_id=emi_rem["loan_id"], amount=emi_rem["amount"], days_left=emi_rem["days_left"])
+
     SESSIONS[sid]["transcript"].append({"role": "assistant", "text": msg, "ts": time.strftime("%H:%M:%S"), "lang": b.lang})
     return {
         "sid": sid,
         "reply": msg,
         "cards": cards,
-        "chips": chips("idle", b.lang),
+        "chips": chips("idle", b.lang, has_emi=bool(emi_rem)),
         "lang": b.lang,
         "profile": {"name": u["name"], "kind": u["kind"], "city": u["city"], "age": u.get("age")},
     }
 
 
+class EmiPayIn(BaseModel):
+    sid: str
+    loan_id: str | None = None
+
+
+@app.post("/api/emi/pay")
+def pay_emi(b: EmiPayIn):
+    s = S(b.sid)
+    lang = s.get("lang", "hi")
+    u = USERS.get(s["user"], {})
+    reminder = get_emi_reminder(u, lang)
+    if not reminder:
+        raise HTTPException(400, "No active loan found")
+    reminder["status"] = "paid"
+    s["emi_paid"] = True
+    audit(b.sid, "emi_paid", loan_id=reminder["loan_id"], amount=reminder["amount"])
+    ref = "PPB-EMI-" + uuid.uuid4().hex[:6].upper()
+    if lang == "hi":
+        msg = f"धन्यवाद! {inr(reminder['amount'])} की EMI का भुगतान सफलतापूर्वक प्राप्त हो गया है। रसीद संदर्भ: {ref}। आपके लोन का स्टेटस अपडेट कर दिया गया है।"
+    else:
+        msg = f"Thank you! Your EMI payment of {inr(reminder['amount'])} has been successfully processed. Receipt Ref: {ref}. Your loan record is up to date."
+    return reply(s, b.sid, lang, msg, [reminder], "idle")
+
+
+class WhatsAppSendIn(BaseModel):
+    user_id: str = "sunita"
+    phone: str | None = None
+    lang: str = "hi"
+    custom_message: str | None = None
+    sid: str | None = None
+
+
+@app.get("/api/notifications/merchant/{user_id}")
+def get_merchant_notifications(user_id: str, lang: str = "hi"):
+    if user_id not in USERS:
+        raise HTTPException(404, f"User '{user_id}' not found")
+    u = USERS[user_id]
+    due_info = notifications.get_merchant_due_info(u, lang)
+    if not due_info:
+        return {
+            "has_loan": False,
+            "user_id": user_id,
+            "merchant_name": u.get("name", user_id),
+            "phone": u.get("phone", ""),
+            "message": "No active loan found for this merchant",
+            "history": [h for h in notifications.NOTIFICATION_HISTORY if h.get("recipient_name") == u.get("name")],
+        }
+
+    phone = u.get("phone", "+919876543210")
+    due_hi = notifications.get_merchant_due_info(u, "hi")
+    due_en = notifications.get_merchant_due_info(u, "en")
+    msg_hi = notifications.format_whatsapp_reminder(u.get("name", "Merchant"), due_hi, "hi")
+    msg_en = notifications.format_whatsapp_reminder(u.get("name", "Merchant"), due_en, "en")
+    link_hi = notifications.generate_whatsapp_deep_link(phone, msg_hi)
+    link_en = notifications.generate_whatsapp_deep_link(phone, msg_en)
+
+    return {
+        "has_loan": True,
+        "user_id": user_id,
+        "merchant_name": u.get("name", user_id),
+        "phone": phone,
+        "due_info": due_info,
+        "preview": {
+            "hi": {"message": msg_hi, "wa_link": link_hi},
+            "en": {"message": msg_en, "wa_link": link_en},
+        },
+        "history": [h for h in notifications.NOTIFICATION_HISTORY if h.get("recipient_name") == u.get("name")],
+    }
+
+
+@app.post("/api/notifications/whatsapp/send")
+def send_whatsapp(b: WhatsAppSendIn):
+    if b.user_id not in USERS:
+        raise HTTPException(404, f"User '{b.user_id}' not found")
+    u = USERS[b.user_id]
+    due_info = notifications.get_merchant_due_info(u, b.lang)
+    if not due_info:
+        raise HTTPException(400, "Merchant does not have an active loan installment to remind.")
+
+    phone = b.phone or u.get("phone", "+919876543210")
+    record = notifications.send_whatsapp_notification(
+        merchant_name=u.get("name", b.user_id),
+        phone=phone,
+        due_info=due_info,
+        lang=b.lang,
+        custom_message=b.custom_message,
+    )
+
+    if b.sid and b.sid in SESSIONS:
+        audit(
+            b.sid,
+            "whatsapp_notification_sent",
+            phone=phone,
+            loan_id=due_info.get("loan_id"),
+            amount=due_info.get("amount"),
+            days_left=due_info.get("days_left"),
+            msg_id=record["id"],
+        )
+
+    return {
+        "ok": True,
+        "record": record,
+        "notification": {
+            "id": record["id"],
+            "status": "delivered",
+            "phone": record["phone"],
+            "recipient_name": record["recipient_name"],
+            "due_date": record["due_date"],
+            "amount": record["amount"],
+            "days_left": record["days_left"],
+            "wa_link": record["wa_link"],
+            "message": record["message"],
+            "sent_at": record["sent_at"],
+        },
+    }
+
+
+@app.get("/api/notifications/history")
+def get_notification_history():
+    return {
+        "count": len(notifications.NOTIFICATION_HISTORY),
+        "notifications": notifications.NOTIFICATION_HISTORY,
+    }
+
+
 @app.post("/api/chat")
 def chat(b: ChatIn):
+    if b.sid not in SESSIONS:
+        SESSIONS[b.sid] = dict(
+            user="sunita", lang=b.lang, created_at_ns=time.time_ns(), stage="idle", amount=None, tenure=36, consent=None,
+            decision=None, unknown=0, transcript=[], audit=[], handoff=False, agent_connected=False,
+            plan=None, product=None, review_type=None,
+        )
+        audit(b.sid, "session_auto_revived", user="sunita")
     s, sid, lang, t = S(b.sid), b.sid, b.lang, (b.text or "").strip()
     if not t:
         return reply(s, sid, lang, T("unk", lang), [], "idle")
@@ -419,6 +651,160 @@ def chat(b: ChatIn):
         s["stage"] = "ins_consent"
         return reply(s, sid, lang, T("ins_consent", lang, p=PLANS[plan]["name"]), [{"type": "consent", "scope": ["KYC name", "Age"]}])
 
+    # Check EMI reminder query
+    is_emi_query = (
+        nlu.has_phrase(t, ["emi", "ईएमआई", "installment", "किस्त", "kist"]) and (
+            nlu.has_phrase(t, ["reminder", "रिमाइंडर", "due", "देय", "date", "तारीख", "kab", "कब", "next", "अगली", "agla", "agli", "kitna", "कितना", "pay", "bharna", "payment", "status", "बकाया", "aaj", "kya"])
+            or len(nlu.tokens(t)) <= 3
+        )
+    ) or nlu.has_phrase(t, ["due date", "देय तिथि", "emi reminder", "next emi", "अगली emi", "मेरी emi", "meri emi", "my emi", "kab hai"])
+
+    if is_emi_query and st in ("idle", "amount"):
+        u = USERS.get(s["user"], {})
+        reminder = get_emi_reminder(u, lang)
+        if reminder:
+            if s.get("emi_paid"):
+                reminder["status"] = "paid"
+            audit(sid, "emi_inquiry", loan_id=reminder["loan_id"])
+            if reminder.get("status") == "paid":
+                msg = (
+                    f"आपकी {inr(reminder['amount'])} की EMI का भुगतान पहले ही सफलतापूर्वक हो चुका है। संदर्भ संख्या: PPB-EMI-PAID।"
+                    if lang == "hi" else
+                    f"Your EMI of {inr(reminder['amount'])} for this cycle has already been paid successfully. Ref: PPB-EMI-PAID."
+                )
+            elif lang == "hi":
+                msg = (
+                    f"आपकी अगली EMI {inr(reminder['amount'])} की है, जो {reminder['days_left']} दिन बाद ({reminder['due_date']}) को देय है। "
+                    f"आपके बैंक खाते ({reminder['account']}) से ऑटो-डेबिट सक्रिय है। कृपया खाते में पर्याप्त बैलेंस रखें।"
+                )
+            else:
+                msg = (
+                    f"Your next EMI of {inr(reminder['amount'])} is due in {reminder['days_left']} days on {reminder['due_date']}. "
+                    f"Auto-debit is active on {reminder['account']}. Please ensure sufficient balance."
+                )
+            return reply(s, sid, lang, msg, [reminder], "idle")
+        else:
+            msg = (
+                "आपके खाते में अभी कोई सक्रिय लोन या बकाया EMI नहीं है। क्या आप नए दुकान लोन के लिए पात्रता जाँचना चाहते हैं?"
+                if lang == "hi" else
+                "You do not have any active loan or pending EMI on file. Would you like to check eligibility for a new business loan?"
+            )
+            return reply(s, sid, lang, msg, [], "idle")
+
+    if nlu.has_phrase(t, ["pay emi", "pay now", "emi bharo", "emi bharna hai", "emi chukao", "bhugtan karo", "पे ईएमआई"]) and st in ("idle", "amount"):
+        u = USERS.get(s["user"], {})
+        reminder = get_emi_reminder(u, lang)
+        if reminder:
+            reminder["status"] = "paid"
+            s["emi_paid"] = True
+            audit(sid, "emi_paid", loan_id=reminder["loan_id"], amount=reminder["amount"])
+            ref = "PPB-EMI-" + uuid.uuid4().hex[:6].upper()
+            msg = (
+                f"धन्यवाद! {inr(reminder['amount'])} की EMI का भुगतान सफलतापूर्वक प्राप्त हो गया है। रसीद संदर्भ: {ref}।"
+                if lang == "hi" else
+                f"Thank you! Your EMI payment of {inr(reminder['amount'])} has been successfully processed. Receipt Ref: {ref}."
+            )
+            return reply(s, sid, lang, msg, [reminder], "idle")
+
+    if nlu.has_phrase(t, ["remind tomorrow", "remind me tomorrow", "kal yaad dilao", "kal yaad dilana", "reminder set", "रिमाइंडर सेट"]) and st == "idle":
+        audit(sid, "emi_reminder_scheduled")
+        msg = (
+            "रिमाइंडर सेट कर दिया गया है! हम देय तिथि से 1 दिन पहले सुबह 9 बजे आपको SMS और WhatsApp पर दोबारा सूचित करेंगे ताकि समय पर ऑटो-डेबिट हो सके।"
+            if lang == "hi" else
+            "Reminder scheduled! We will notify you again via SMS and WhatsApp 1 day prior to the due date so auto-debit succeeds."
+        )
+        return reply(s, sid, lang, msg, [], "idle")
+
+    is_whatsapp_reminder = (
+        nlu.has_phrase(t, ["whatsapp", "व्हाट्सएप", "व्हाट्सऐप", "वाट्सएप", "वाट्सऐप"]) and (
+            nlu.has_phrase(t, ["reminder", "रिमाइंडर", "send", "भेजो", "bhejo", "alert", "अलर्ट", "message", "मैसेज", "notification", "सूचना", "notify", "bhej", "dila"])
+            or len(nlu.tokens(t)) <= 3
+        )
+    ) or nlu.has_phrase(t, ["whatsapp reminder", "व्हाट्सएप रिमाइंडर", "send whatsapp", "whatsapp pe bhejo"])
+
+    if is_whatsapp_reminder and st in ("idle", "amount"):
+        u = USERS.get(s["user"], {})
+        due_info = notifications.get_merchant_due_info(u, lang)
+        if not due_info or s.get("emi_paid"):
+            msg = (
+                "आपके खाते में अभी कोई सक्रिय या बकाया लोन EMI नहीं है, इसलिए WhatsApp रिमाइंडर की आवश्यकता नहीं है।"
+                if lang == "hi" else
+                "You do not have any active loan or pending EMI on file to send a WhatsApp reminder for."
+            )
+            return reply(s, sid, lang, msg, [], "idle")
+
+        phone = u.get("phone", "+919876543210")
+        record = notifications.send_whatsapp_notification(
+            merchant_name=u.get("name", "Merchant"),
+            phone=phone,
+            due_info=due_info,
+            lang=lang
+        )
+        audit(sid, "whatsapp_notification_sent", phone=phone, loan_id=due_info["loan_id"], amount=due_info["amount"])
+        card = {
+            "type": "whatsapp_reminder_sent",
+            "status": "delivered",
+            "recipient_name": u.get("name", "Merchant"),
+            "phone": record["phone"],
+            "loan_id": due_info["loan_id"],
+            "amount": due_info["amount"],
+            "due_date": due_info["due_date"],
+            "days_left": due_info["days_left"],
+            "wa_link": record["wa_link"],
+            "message": record["message"],
+            "sent_at": record["sent_at"],
+        }
+        msg = (
+            f"✅ {u['name']} जी के WhatsApp ({record['phone']}) पर {inr(due_info['amount'])} की EMI का रिमाइंडर भेज दिया गया है!\n\n"
+            f"अंतिम तारीख: {due_info['due_date']} ({due_info['days_left']} दिन बाकी)। "
+            f"मर्चेंट नीचे दिए गए लिंक से सीधे संदेश खोल सकते हैं।"
+            if lang == "hi" else
+            f"✅ WhatsApp installment reminder has been sent to {u['name']} ({record['phone']}) for EMI of {inr(due_info['amount'])}!\n\n"
+            f"Due date: {due_info['due_date']} ({due_info['days_left']} days remaining). "
+            f"You can also open this message directly in WhatsApp below."
+        )
+        return reply(s, sid, lang, msg, [card], "idle")
+
+    if nlu.has_phrase(t, nlu.CRITERIA):
+        u = USERS.get(s["user"], {})
+        reasons = ["score"] if u.get("bureau", 0) < 650 else (["kyc"] if not u.get("kyc") else ["foir"])
+        guidance = alternatives.get_criteria_pass_guidance(u, reasons, lang)
+        audit(sid, "criteria_guidance_inquiry")
+        msg = (
+            "💡 बैंक लोन पात्रता और CIBIL स्कोर सुधारने के प्रमुख नियम नीचे दिए गए हैं। इनका पालन करके आप आसानी से लोन के लिए पात्र हो सकते हैं:"
+            if lang == "hi" else
+            "💡 Here is your strategic guide to elevate your CIBIL score and comfortably clear bank lending criteria:"
+        )
+        return reply(s, sid, lang, msg, [guidance], "idle")
+
+    if nlu.has_phrase(t, nlu.ALTERNATIVES):
+        u = USERS.get(s["user"], {})
+        req = s.get("amount") or 2_000_000
+        dec_data = s.get("decision") or {"eligible": True, "amount": 500_000}
+        alt_card = alternatives.get_loan_alternatives(u, req, dec_data, lang)
+        audit(sid, "loan_alternatives_inquiry")
+        msg = (
+            alt_card["stepping_stone_text"] + "\n\nनीचे दिए गए विकल्पों से आप अपनी ज़रूरत अनुसार लोन प्राप्त कर सकते हैं:"
+            if lang == "hi" else
+            alt_card["stepping_stone_text"] + "\n\nReview the alternative funding avenues outlined below:"
+        )
+        return reply(s, sid, lang, msg, [alt_card], "idle")
+
+    if nlu.has_phrase(t, nlu.INS_PROTECT) and st in ("offer", "fees", "esign", "idle"):
+        s["plan"] = "plus"
+        s["product"] = "insurance"
+        s["stage"] = "ins_consent"
+        p = PLANS["plus"]
+        audit(sid, "loan_insurance_protection_selected")
+        msg = (
+            f"उत्तम निर्णय! हमने आपके लोन के साथ '{p['name']}' (₹10 लाख स्वास्थ्य व लोन सुरक्षा, ₹12,900/साल) जोड़ दिया है। "
+            f"पॉलिसी जारी करने के लिए आपका KYC नाम व उम्र देखना होगा। क्या आप सहमत हैं?"
+            if lang == "hi" else
+            f"Great choice! We have paired your loan with '{p['name']}' (₹10 Lakh Cover at ₹12,900/yr). "
+            f"To issue the policy, I need to read your KYC name and age. Do you agree?"
+        )
+        return reply(s, sid, lang, msg, [{"type": "consent", "scope": ["KYC name", "Age"]}])
+
     if nlu.has_phrase(t, nlu.LOAN) or nlu.has_phrase(t, nlu.DUKAAN) or (amt and nlu.has_phrase(t, nlu.NEED)):
         if amt:
             s["amount"] = amt
@@ -452,6 +838,15 @@ def chat(b: ChatIn):
         txt = " ".join(h[lang] for h in hits)
         cards = [{"type": "clause", "id": h["id"], "plan": h["plan"], "title": h["title"], "text": h["en"], "hi": h["hi"]} for h in hits]
         return reply(s, sid, lang, txt, cards, "ins")
+
+    # LLM Agent Fallback for natural conversational queries and unparsed voice queries
+    u = USERS.get(s["user"], {})
+    llm_text, llm_cards, llm_stage, _ = llm_agent.generate_llm_response(s, t, lang, u)
+    if llm_text:
+        s["unknown"] = 0
+        s["stage"] = llm_stage
+        audit(sid, "llm_agent_reply", query=t)
+        return reply(s, sid, lang, llm_text, llm_cards, chip_key=llm_stage)
 
     s["unknown"] += 1
     if s["unknown"] >= 2:
@@ -787,10 +1182,26 @@ def get_kfs(sid: str):
 
 
 @app.get("/api/poll/{sid}")
-def poll_session(sid: str, turns: int = 0):
-    s = S(sid)
+def poll_session(sid: str, turns: str | int = 0):
+    try:
+        t_int = int(turns) if turns and str(turns).lower() not in ("undefined", "null", "") else 0
+    except (ValueError, TypeError):
+        t_int = 0
+    if sid not in SESSIONS:
+        return {
+            "sid": sid,
+            "session_expired": True,
+            "stage": "idle",
+            "handoff": False,
+            "agent_connected": False,
+            "total_turns": 0,
+            "new_turns": [],
+            "decision": None,
+            "ref": None,
+        }
+    s = SESSIONS[sid]
     transcript = s.get("transcript", [])
-    new_turns = transcript[turns:] if turns < len(transcript) else []
+    new_turns = transcript[t_int:] if t_int < len(transcript) else []
     return {
         "sid": sid,
         "stage": s["stage"],
@@ -801,6 +1212,11 @@ def poll_session(sid: str, turns: int = 0):
         "decision": s.get("decision"),
         "ref": s.get("ref"),
     }
+
+
+@app.get("/v1/models")
+def v1_models():
+    return {"object": "list", "data": [{"id": "saytm-voice-agent", "object": "model", "owned_by": "saytm"}]}
 
 
 @app.get("/health")

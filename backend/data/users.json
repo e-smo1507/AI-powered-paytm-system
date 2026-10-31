@@ -1,6 +1,8 @@
 {
   "sunita": {
     "name": "Sunita",
+    "phone": "+919876543210",
+    "whatsapp_opt_in": true,
     "city": "Kanpur",
     "kind": "Kirana merchant",
     "age": 34,
@@ -9,10 +11,23 @@
     "vintage_months": 26,
     "life_event": "festival_stock",
     "hint": "Diwali ke pehle inventory ke liye working capital",
-    "monthly_inflow": [82000, 79000, 91000, 88000, 76000, 84000, 97000, 93000, 89000, 101000, 95000, 90000]
+    "monthly_inflow": [82000, 79000, 91000, 88000, 76000, 84000, 97000, 93000, 89000, 101000, 95000, 90000],
+    "active_loan": {
+      "loan_id": "LN-KIRANA-8821",
+      "lender": "Paytm Payments Bank / Partner NBFC",
+      "purpose": "Kirana Business Loan",
+      "emi_amount": 4850,
+      "due_day_offset": 3,
+      "total_emis": 24,
+      "emis_paid": 8,
+      "auto_debit": true,
+      "account": "Paytm Payments Bank ...5019"
+    }
   },
   "rahul": {
     "name": "Rahul",
+    "phone": "+919812345678",
+    "whatsapp_opt_in": true,
     "city": "Noida",
     "kind": "Street-food vendor",
     "age": 41,
@@ -25,6 +40,8 @@
   },
   "meena": {
     "name": "Meena",
+    "phone": "+919833445566",
+    "whatsapp_opt_in": false,
     "city": "Jaipur",
     "kind": "New user",
     "age": 22,

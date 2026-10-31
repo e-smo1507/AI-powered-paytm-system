@@ -58,8 +58,8 @@ def parse_amount(t: str):
             val *= 1_000
         return int(val) if val >= 1_000 else None
     m = re.search(
-        r"(ek|do|teen|char|panch|paanch|chhe|che|saat|aath|nau|das|one|two|three|four|five|"
-        r"एक|दो|तीन|चार|पांच|पाँच|छह|सात|आठ|नौ|दस)\s*(lakh|lac|laakh|लाख)",
+        r"(ek|do|teen|char|panch|paanch|chhe|che|saat|aath|nau|das|bees|tees|one|two|three|four|five|twenty|thirty|"
+        r"एक|दो|तीन|चार|पांच|पाँच|छह|सात|आठ|नौ|दस|बीस|तीस)\s*(lakh|lac|laakh|लाख)",
         n,
     )
     if m:
@@ -108,3 +108,25 @@ BUY = ["buy", "kharid", "खरीद", "purchase", "lena hai", "लेना �
 PLUS = ["plus"]
 BASIC = ["basic", "बेसिक"]
 DUKAAN = ["dukaan", "दुकान", "kirana", "merchant", "dukan"]
+EMI = [
+    "emi", "ईएमआई", "installment", "किस्त", "kist", "due date", "due", "deya",
+    "reminder", "रिमाइंडर", "agla emi", "agli emi", "next emi", "kab hai",
+    "kab bharna", "pay emi", "bhugtan", "payment", "तारीख", "deya tithi",
+]
+WHATSAPP = ["whatsapp", "व्हाट्सएप", "व्हाट्सऐप", "वाट्सएप", "वाट्सऐप"]
+CRITERIA = [
+    "criteria", "criteria pass", "cibil", "cibil kaise", "score kaise", "kaise badhaye",
+    "improve cibil", "pass criteria", "eligibility kaise", "पात्रता कैसे", "सिबिल",
+    "मापदंड", "कैसे सुधारे", "bank criteria", "kaise milega loan", "loan kaise milega",
+]
+ALTERNATIVES = [
+    "alternative", "alternatives", "dusra rasta", "dusra vikalp", "doosra tareeka",
+    "vikalp", "विकल्प", "other option", "aur koi rasta", "mudra", "cibil building",
+]
+INS_PROTECT = [
+    "bima jodo", "insurance jodo", "add insurance", "protect loan", "suraksha jodo",
+    "bima samjhao", "loan ke sath bima", "suraksha", "सुरक्षा",
+]
+
+
+

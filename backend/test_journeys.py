@@ -263,3 +263,169 @@ def test_empty_request_does_not_create_handoff():
 def test_invalid_user_start():
     r = c.post("/api/start", json={"user":"unknown","lang":"hi"})
     assert r.status_code == 400
+
+
+def test_merchant_emi_reminder_proactive():
+    sid, r = start("sunita", "hi")
+    assert "EMI रिमाइंडर" in r["reply"]
+    assert any(card.get("type") == "emi_reminder" for card in r["cards"])
+    emi_card = next(card for card in r["cards"] if card.get("type") == "emi_reminder")
+    assert emi_card["amount"] == 4850
+    assert emi_card["days_left"] == 3
+    assert emi_card["status"] == "upcoming"
+
+
+def test_merchant_emi_reminder_5day():
+    from backend.app import USERS
+    original = USERS["sunita"]["active_loan"]["due_day_offset"]
+    try:
+        USERS["sunita"]["active_loan"]["due_day_offset"] = 5
+        sid, r = start("sunita", "hi")
+        assert "EMI रिमाइंडर" in r["reply"]
+        assert any(card.get("type") == "emi_reminder" for card in r["cards"])
+        emi_card = next(card for card in r["cards"] if card.get("type") == "emi_reminder")
+        assert emi_card["amount"] == 4850
+        assert emi_card["days_left"] == 5
+        assert emi_card["status"] == "upcoming"
+    finally:
+        USERS["sunita"]["active_loan"]["due_day_offset"] = original
+
+
+def test_merchant_emi_query_and_payment():
+    sid, r = start("sunita", "hi")
+    r = say(sid, "meri agli EMI kab hai?", "hi")
+    assert any(card.get("type") == "emi_reminder" for card in r["cards"])
+    assert "4,850" in r["reply"] or "4850" in r["reply"]
+
+    rem = say(sid, "kal yaad dilana", "hi")
+    assert "रिमाइंडर सेट" in rem["reply"]
+
+    pay_res = c.post("/api/emi/pay", json={"sid": sid, "loan_id": "LN-KIRANA-8821"})
+    assert pay_res.status_code == 200
+    res_data = pay_res.json()
+    assert "सफलतापूर्वक" in res_data["reply"]
+    paid_card = next(card for card in res_data["cards"] if card.get("type") == "emi_reminder")
+    assert paid_card["status"] == "paid"
+
+
+def test_merchant_without_loan_emi_query():
+    sid, r = start("meena", "en")
+    r = say(sid, "when is my next EMI due?", "en")
+    assert "do not have any active loan" in r["reply"]
+
+
+def test_poll_session_not_found_recovery():
+    SESSIONS.clear()
+    r = c.get("/api/poll/9985b0f6?turns=undefined")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["session_expired"] is True
+    assert data["sid"] == "9985b0f6"
+
+
+def test_chat_auto_revives_expired_session():
+    SESSIONS.clear()
+    r = c.post("/api/chat", json={"sid": "deadbeef", "text": "namaste", "lang": "hi"})
+    assert r.status_code == 200
+    data = r.json()
+    assert "नमस्ते" in data["reply"] or "पेटीएम" in data["reply"]
+
+
+def test_llm_agent_conversational_queries():
+    SESSIONS.clear()
+    sid, r = start("sunita", "hi")
+    r1 = say(sid, "loan ke baare me batao", "hi")
+    assert "2,00,000" in r1["reply"] or "लोन" in r1["reply"]
+    r2 = say(sid, "interest kitna lagega", "hi")
+    assert "14%" in r2["reply"]
+    r3 = say(sid, "mera credit score kaisa hai", "hi")
+    assert "740" in r3["reply"]
+
+
+def test_merchant_whatsapp_notification_endpoints():
+    r = c.get("/api/notifications/merchant/sunita")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["has_loan"] is True
+    assert data["merchant_name"] == "Sunita"
+    assert "4,850" in data["due_info"]["amount_inr"] or data["due_info"]["amount"] == 4850
+    assert "wa_link" in data["preview"]["hi"]
+    assert "https://wa.me/" in data["preview"]["hi"]["wa_link"]
+
+    send_res = c.post("/api/notifications/whatsapp/send", json={"user_id": "sunita", "lang": "hi"})
+    assert send_res.status_code == 200
+    res_data = send_res.json()
+    assert res_data["ok"] is True
+    assert res_data["notification"]["status"] == "delivered"
+    assert "wa.me" in res_data["notification"]["wa_link"]
+
+    hist_res = c.get("/api/notifications/history")
+    assert hist_res.status_code == 200
+    assert hist_res.json()["count"] >= 1
+
+
+def test_merchant_whatsapp_reminder_via_chat():
+    SESSIONS.clear()
+    sid, r = start("sunita", "hi")
+    chat_res = say(sid, "WhatsApp par reminder bhejo", "hi")
+    assert any(card.get("type") == "whatsapp_reminder_sent" for card in chat_res["cards"])
+    wa_card = next(card for card in chat_res["cards"] if card.get("type") == "whatsapp_reminder_sent")
+    assert wa_card["status"] == "delivered"
+    assert "wa.me" in wa_card["wa_link"]
+    assert wa_card["amount"] == 4850
+    assert "WhatsApp" in chat_res["reply"]
+
+
+def test_merchant_without_loan_whatsapp_reminder():
+    SESSIONS.clear()
+    sid, r = start("meena", "en")
+    chat_res = say(sid, "send whatsapp reminder", "en")
+    assert "do not have any active loan" in chat_res["reply"]
+
+
+def test_twenty_lakh_loan_alternatives_and_insurance_recommendation():
+    SESSIONS.clear()
+    sid, r = start("sunita", "hi")
+    r1 = say(sid, "Mujhe 20 lakh ka loan chahiye", "hi")
+    assert r1["stage"] == "consent"
+    r2 = say(sid, "haan", "hi")
+    assert r2["stage"] == "offer"
+    assert any(card.get("type") == "offer" for card in r2["cards"])
+    assert any(card.get("type") == "loan_alternatives" for card in r2["cards"])
+    alt_card = next(c for c in r2["cards"] if c.get("type") == "loan_alternatives")
+    assert alt_card["requested_amount"] == 2_000_000
+    assert "CIBIL" in alt_card["stepping_stone_text"] or "CIBIL" in r2["reply"]
+    assert any(card.get("type") == "loan_insurance_rec" for card in r2["cards"])
+    ins_card = next(c for c in r2["cards"] if c.get("type") == "loan_insurance_rec")
+    assert "SecureHealth" in ins_card["plan_name"]
+    assert "🛡️" in r2["reply"] or "सुरक्षा" in r2["reply"]
+
+
+def test_declined_merchant_receives_criteria_pass_guidance():
+    SESSIONS.clear()
+    sid, r = start("rahul", "hi")
+    r1 = say(sid, "Mujhe dukaan ke liye loan chahiye", "hi")
+    assert r1["stage"] == "amount"
+    r2 = say(sid, "1 lakh", "hi")
+    assert r2["stage"] == "consent"
+    r3 = say(sid, "haan", "hi")
+    assert r3["stage"] == "idle"
+    assert any(card.get("type") == "decline" for card in r3["cards"])
+    assert any(card.get("type") == "criteria_tips" for card in r3["cards"])
+    crit_card = next(c for c in r3["cards"] if c.get("type") == "criteria_tips")
+    assert any("CIBIL" in step["category"] for step in crit_card["steps"])
+    assert any(card.get("type") == "loan_alternatives" for card in r3["cards"])
+
+
+def test_merchant_adds_insurance_protection_to_loan():
+    SESSIONS.clear()
+    sid, r = start("sunita", "hi")
+    say(sid, "2 lakh ka loan", "hi")
+    say(sid, "haan", "hi")
+    ins_reply = say(sid, "बीमा सुरक्षा जोड़ें", "hi")
+    assert ins_reply["stage"] == "ins_consent"
+    assert "SecureHealth" in ins_reply["reply"] or "सुरक्षा" in ins_reply["reply"]
+
+
+
+

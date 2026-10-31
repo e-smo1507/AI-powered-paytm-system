@@ -35,6 +35,7 @@ class Decision:
     avg_inflow: int = 0
     bureau: int = 0
     foir: float = 0.0
+    requested_amount: int = 0
 
     def dict(self):
         return asdict(self)
@@ -55,7 +56,7 @@ def decide(profile: dict, amount: int, tenure: int = 36) -> Decision:
     if amount < MIN_LOAN:
         why.append("min_amount")
     if why:
-        return Decision(False, why, avg_inflow=avg, bureau=profile["bureau"], tenure=tenure)
+        return Decision(False, why, avg_inflow=avg, bureau=profile["bureau"], tenure=tenure, requested_amount=amount)
     cap = int(min(MAX_LOAN, 2.5 * avg) // 1000 * 1000)
     amt = min(amount, cap)
     rate = rate_for(profile["bureau"])
@@ -75,11 +76,12 @@ def decide(profile: dict, amount: int, tenure: int = 36) -> Decision:
         amt = int(fit // 1000 * 1000)
         e = emi(amt, rate, tenure)
         if amt < MIN_LOAN:
-            return Decision(False, ["foir"], avg_inflow=avg, bureau=profile["bureau"], tenure=tenure)
+            return Decision(False, ["foir"], avg_inflow=avg, bureau=profile["bureau"], tenure=tenure, requested_amount=amount)
     fee = round(amt * PROC_FEE_PCT)
     gst = round(fee * GST)
     tp = round(e * tenure)
     return Decision(
         True, why, cap, amt, tenure, rate, round(e), fee, gst,
         tp - amt, tp, amt - fee - gst, avg, profile["bureau"], round(e / max(avg, 1), 2),
+        requested_amount=amount,
     )

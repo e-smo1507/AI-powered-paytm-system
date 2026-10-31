@@ -255,6 +255,24 @@ function stopSpeech(){
   activeUtterance=null;
 }
 
+function pickAdminVoice(lang){
+  if(!window.speechSynthesis) return null;
+  const voices = speechSynthesis.getVoices() || [];
+  if(!voices.length) return null;
+  const prefix = lang === 'hi' ? 'hi' : 'en';
+  let v = voices.find(x => x.lang && x.lang.toLowerCase().replace('_', '-').startsWith(prefix));
+  if(v) return v;
+  if(prefix === 'hi'){
+    v = voices.find(x => /hindi|swara|kalpana|madhur/i.test(x.name));
+    if(v) return v;
+  }
+  v = voices.find(x => x.lang && x.lang.toLowerCase().includes('in'));
+  if(v) return v;
+  v = voices.find(x => /india|neerja|prabhat|heera|ravi/i.test(x.name));
+  if(v) return v;
+  return voices.find(x => x.default) || voices.find(x => x.lang && x.lang.toLowerCase().startsWith('en')) || voices[0];
+}
+
 function speakText(text,language='en',button=null){
   if(!window.speechSynthesis)return;
   if(button&&button===activeSpeechButton&&activeUtterance){
@@ -262,23 +280,36 @@ function speakText(text,language='en',button=null){
     return;
   }
   stopSpeech();
-  const utterance=new SpeechSynthesisUtterance(String(text||'').replace(/\bSaytm\b/gi,'Say, tee-em'));
-  const prefix=language==='hi'?'hi':'en';
-  utterance.lang=prefix==='hi'?'hi-IN':'en-IN';
-  const voice=speechSynthesis.getVoices().find(item=>item.lang?.toLowerCase().startsWith(prefix));
-  if(voice)utterance.voice=voice;
+  let cleanText = String(text||'').replace(/\b(?:Saytm|Paytm|Say,\s*tee-em)\b/gi, language === 'hi' ? 'पेटीएम' : 'Paytm');
+  cleanText = language === 'hi' ? cleanText.replace(/₹\s*([0-9,]+)/g, '$1 रुपये') : cleanText.replace(/₹\s*([0-9,]+)/g, '$1 rupees');
+  const utterance=new SpeechSynthesisUtterance(cleanText);
+  const voice = pickAdminVoice(language);
+  if(voice){
+    utterance.voice = voice;
+    const isHindi = voice.lang && (voice.lang.toLowerCase().startsWith('hi') || /hindi/i.test(voice.name));
+    utterance.lang = isHindi ? 'hi-IN' : (voice.lang || 'en-IN');
+  } else {
+    utterance.lang = language === 'hi' ? 'hi-IN' : 'en-IN';
+  }
   activeUtterance=utterance;
   activeSpeechButton=button;
+  window.__adminUtterance = utterance;
   if(button)setSpeakerButton(button,true);
   const clear=()=>{
     if(activeUtterance!==utterance)return;
     setSpeakerButton(activeSpeechButton,false);
     activeSpeechButton=null;
     activeUtterance=null;
+    window.__adminUtterance = null;
   };
   utterance.onend=clear;
   utterance.onerror=clear;
-  speechSynthesis.speak(utterance);
+  setTimeout(()=>{
+    try{
+      if(window.speechSynthesis.paused) window.speechSynthesis.resume();
+      window.speechSynthesis.speak(utterance);
+    }catch(e){ clear(); }
+  }, 40);
 }
 
 async function loadQueue(){
@@ -299,7 +330,10 @@ function renderConversation(session){
       <div><h2>${esc(session.profile.name)} <span style="font-weight:400;color:#758596">· ${esc(session.profile.kind)}, ${esc(session.profile.city)}</span></h2>
         <div class="session-sub">Conversation ${esc(session.sid)} · ${session.consent?'Consent granted':'No consent recorded'} · ${esc(session.stage)}${session.review_type?` · ${session.review_type==='kyc'?'KYC review pending':'Signature review pending'}`:''}</div>
       </div>
-      ${control}
+      <div style="display:flex;gap:8px;align-items:center">
+        <button type="button" class="connect" id="btn-admin-wa" style="background:#25D366;color:#fff" title="Send WhatsApp installment reminder before due date">💬 WhatsApp Reminder</button>
+        ${control}
+      </div>
     </div>
     <div class="chat" id="chat">
       ${(session.transcript||[]).map(turn=>`<div class="message ${esc(turn.role)}"><span class="message-meta">${esc(turn.agent_name||({user:session.profile.name,assistant:'Saytm assistant'}[turn.role]||turn.role))} · ${esc(turn.ts||'')}</span><span class="message-text">${esc(turn.text)}</span><button type="button" class="speaker-button" data-speak="${esc(turn.text)}" data-lang="${esc(turn.lang||session.lang||'en')}" aria-label="Read message aloud" title="Read message aloud"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7m3-10a9 9 0 0 1 0 13"></path></svg></button></div>`).join('')}
@@ -317,6 +351,20 @@ function renderConversation(session){
   });
   $('connect')?.addEventListener('click',connectToCustomer);
   $('intervene')?.addEventListener('click',interveneInChat);
+  $('btn-admin-wa')?.addEventListener('click', async () => {
+    try {
+      const res = await request('/api/notifications/whatsapp/send', {
+        method: 'POST',
+        body: JSON.stringify({ user_id: session.user, lang: session.lang || 'hi', sid: session.sid }),
+      });
+      if (res.ok) {
+        alert(`✓ WhatsApp reminder sent to ${session.profile.name} (${res.notification.phone})!\nStatus: Delivered ✓✓\nDue: ${res.notification.due_date} (EMI ₹${res.notification.amount})`);
+        openSession(session.sid);
+      }
+    } catch (err) {
+      alert('Could not send WhatsApp reminder: ' + err.message);
+    }
+  });
   if(session.agent_connected){
     $('connect')?.setAttribute('title','You have joined this conversation');
   }
